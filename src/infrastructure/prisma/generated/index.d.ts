@@ -24,15 +24,20 @@ export type User = $Result.DefaultSelection<Prisma.$UserPayload>
  */
 export type RefreshToken = $Result.DefaultSelection<Prisma.$RefreshTokenPayload>
 /**
- * Model Product
+ * Model Trip
  * 
  */
-export type Product = $Result.DefaultSelection<Prisma.$ProductPayload>
+export type Trip = $Result.DefaultSelection<Prisma.$TripPayload>
 /**
- * Model Order
+ * Model Seat
  * 
  */
-export type Order = $Result.DefaultSelection<Prisma.$OrderPayload>
+export type Seat = $Result.DefaultSelection<Prisma.$SeatPayload>
+/**
+ * Model Booking
+ * 
+ */
+export type Booking = $Result.DefaultSelection<Prisma.$BookingPayload>
 
 /**
  * Enums
@@ -46,13 +51,31 @@ export namespace $Enums {
 export type UserRole = (typeof UserRole)[keyof typeof UserRole]
 
 
-export const OrderStatus: {
+export const BusType: {
+  SEATER: 'SEATER',
+  SLEEPER: 'SLEEPER',
+  LIMOUSINE: 'LIMOUSINE'
+};
+
+export type BusType = (typeof BusType)[keyof typeof BusType]
+
+
+export const SeatStatus: {
+  AVAILABLE: 'AVAILABLE',
+  BOOKED: 'BOOKED',
+  LOCKED: 'LOCKED'
+};
+
+export type SeatStatus = (typeof SeatStatus)[keyof typeof SeatStatus]
+
+
+export const BookingStatus: {
   PENDING: 'PENDING',
-  PAID: 'PAID',
+  CONFIRMED: 'CONFIRMED',
   CANCELLED: 'CANCELLED'
 };
 
-export type OrderStatus = (typeof OrderStatus)[keyof typeof OrderStatus]
+export type BookingStatus = (typeof BookingStatus)[keyof typeof BookingStatus]
 
 }
 
@@ -60,9 +83,17 @@ export type UserRole = $Enums.UserRole
 
 export const UserRole: typeof $Enums.UserRole
 
-export type OrderStatus = $Enums.OrderStatus
+export type BusType = $Enums.BusType
 
-export const OrderStatus: typeof $Enums.OrderStatus
+export const BusType: typeof $Enums.BusType
+
+export type SeatStatus = $Enums.SeatStatus
+
+export const SeatStatus: typeof $Enums.SeatStatus
+
+export type BookingStatus = $Enums.BookingStatus
+
+export const BookingStatus: typeof $Enums.BookingStatus
 
 /**
  * ##  Prisma Client ʲˢ
@@ -206,24 +237,34 @@ export class PrismaClient<
   get refreshToken(): Prisma.RefreshTokenDelegate<ExtArgs, ClientOptions>;
 
   /**
-   * `prisma.product`: Exposes CRUD operations for the **Product** model.
+   * `prisma.trip`: Exposes CRUD operations for the **Trip** model.
     * Example usage:
     * ```ts
-    * // Fetch zero or more Products
-    * const products = await prisma.product.findMany()
+    * // Fetch zero or more Trips
+    * const trips = await prisma.trip.findMany()
     * ```
     */
-  get product(): Prisma.ProductDelegate<ExtArgs, ClientOptions>;
+  get trip(): Prisma.TripDelegate<ExtArgs, ClientOptions>;
 
   /**
-   * `prisma.order`: Exposes CRUD operations for the **Order** model.
+   * `prisma.seat`: Exposes CRUD operations for the **Seat** model.
     * Example usage:
     * ```ts
-    * // Fetch zero or more Orders
-    * const orders = await prisma.order.findMany()
+    * // Fetch zero or more Seats
+    * const seats = await prisma.seat.findMany()
     * ```
     */
-  get order(): Prisma.OrderDelegate<ExtArgs, ClientOptions>;
+  get seat(): Prisma.SeatDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.booking`: Exposes CRUD operations for the **Booking** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Bookings
+    * const bookings = await prisma.booking.findMany()
+    * ```
+    */
+  get booking(): Prisma.BookingDelegate<ExtArgs, ClientOptions>;
 }
 
 export namespace Prisma {
@@ -660,8 +701,9 @@ export namespace Prisma {
   export const ModelName: {
     User: 'User',
     RefreshToken: 'RefreshToken',
-    Product: 'Product',
-    Order: 'Order'
+    Trip: 'Trip',
+    Seat: 'Seat',
+    Booking: 'Booking'
   };
 
   export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -677,7 +719,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "user" | "refreshToken" | "product" | "order"
+      modelProps: "user" | "refreshToken" | "trip" | "seat" | "booking"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -829,151 +871,225 @@ export namespace Prisma {
           }
         }
       }
-      Product: {
-        payload: Prisma.$ProductPayload<ExtArgs>
-        fields: Prisma.ProductFieldRefs
+      Trip: {
+        payload: Prisma.$TripPayload<ExtArgs>
+        fields: Prisma.TripFieldRefs
         operations: {
           findUnique: {
-            args: Prisma.ProductFindUniqueArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$ProductPayload> | null
+            args: Prisma.TripFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TripPayload> | null
           }
           findUniqueOrThrow: {
-            args: Prisma.ProductFindUniqueOrThrowArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$ProductPayload>
+            args: Prisma.TripFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TripPayload>
           }
           findFirst: {
-            args: Prisma.ProductFindFirstArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$ProductPayload> | null
+            args: Prisma.TripFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TripPayload> | null
           }
           findFirstOrThrow: {
-            args: Prisma.ProductFindFirstOrThrowArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$ProductPayload>
+            args: Prisma.TripFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TripPayload>
           }
           findMany: {
-            args: Prisma.ProductFindManyArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$ProductPayload>[]
+            args: Prisma.TripFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TripPayload>[]
           }
           create: {
-            args: Prisma.ProductCreateArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$ProductPayload>
+            args: Prisma.TripCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TripPayload>
           }
           createMany: {
-            args: Prisma.ProductCreateManyArgs<ExtArgs>
+            args: Prisma.TripCreateManyArgs<ExtArgs>
             result: BatchPayload
           }
           createManyAndReturn: {
-            args: Prisma.ProductCreateManyAndReturnArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$ProductPayload>[]
+            args: Prisma.TripCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TripPayload>[]
           }
           delete: {
-            args: Prisma.ProductDeleteArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$ProductPayload>
+            args: Prisma.TripDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TripPayload>
           }
           update: {
-            args: Prisma.ProductUpdateArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$ProductPayload>
+            args: Prisma.TripUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TripPayload>
           }
           deleteMany: {
-            args: Prisma.ProductDeleteManyArgs<ExtArgs>
+            args: Prisma.TripDeleteManyArgs<ExtArgs>
             result: BatchPayload
           }
           updateMany: {
-            args: Prisma.ProductUpdateManyArgs<ExtArgs>
+            args: Prisma.TripUpdateManyArgs<ExtArgs>
             result: BatchPayload
           }
           updateManyAndReturn: {
-            args: Prisma.ProductUpdateManyAndReturnArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$ProductPayload>[]
+            args: Prisma.TripUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TripPayload>[]
           }
           upsert: {
-            args: Prisma.ProductUpsertArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$ProductPayload>
+            args: Prisma.TripUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TripPayload>
           }
           aggregate: {
-            args: Prisma.ProductAggregateArgs<ExtArgs>
-            result: $Utils.Optional<AggregateProduct>
+            args: Prisma.TripAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateTrip>
           }
           groupBy: {
-            args: Prisma.ProductGroupByArgs<ExtArgs>
-            result: $Utils.Optional<ProductGroupByOutputType>[]
+            args: Prisma.TripGroupByArgs<ExtArgs>
+            result: $Utils.Optional<TripGroupByOutputType>[]
           }
           count: {
-            args: Prisma.ProductCountArgs<ExtArgs>
-            result: $Utils.Optional<ProductCountAggregateOutputType> | number
+            args: Prisma.TripCountArgs<ExtArgs>
+            result: $Utils.Optional<TripCountAggregateOutputType> | number
           }
         }
       }
-      Order: {
-        payload: Prisma.$OrderPayload<ExtArgs>
-        fields: Prisma.OrderFieldRefs
+      Seat: {
+        payload: Prisma.$SeatPayload<ExtArgs>
+        fields: Prisma.SeatFieldRefs
         operations: {
           findUnique: {
-            args: Prisma.OrderFindUniqueArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$OrderPayload> | null
+            args: Prisma.SeatFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SeatPayload> | null
           }
           findUniqueOrThrow: {
-            args: Prisma.OrderFindUniqueOrThrowArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$OrderPayload>
+            args: Prisma.SeatFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SeatPayload>
           }
           findFirst: {
-            args: Prisma.OrderFindFirstArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$OrderPayload> | null
+            args: Prisma.SeatFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SeatPayload> | null
           }
           findFirstOrThrow: {
-            args: Prisma.OrderFindFirstOrThrowArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$OrderPayload>
+            args: Prisma.SeatFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SeatPayload>
           }
           findMany: {
-            args: Prisma.OrderFindManyArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$OrderPayload>[]
+            args: Prisma.SeatFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SeatPayload>[]
           }
           create: {
-            args: Prisma.OrderCreateArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$OrderPayload>
+            args: Prisma.SeatCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SeatPayload>
           }
           createMany: {
-            args: Prisma.OrderCreateManyArgs<ExtArgs>
+            args: Prisma.SeatCreateManyArgs<ExtArgs>
             result: BatchPayload
           }
           createManyAndReturn: {
-            args: Prisma.OrderCreateManyAndReturnArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$OrderPayload>[]
+            args: Prisma.SeatCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SeatPayload>[]
           }
           delete: {
-            args: Prisma.OrderDeleteArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$OrderPayload>
+            args: Prisma.SeatDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SeatPayload>
           }
           update: {
-            args: Prisma.OrderUpdateArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$OrderPayload>
+            args: Prisma.SeatUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SeatPayload>
           }
           deleteMany: {
-            args: Prisma.OrderDeleteManyArgs<ExtArgs>
+            args: Prisma.SeatDeleteManyArgs<ExtArgs>
             result: BatchPayload
           }
           updateMany: {
-            args: Prisma.OrderUpdateManyArgs<ExtArgs>
+            args: Prisma.SeatUpdateManyArgs<ExtArgs>
             result: BatchPayload
           }
           updateManyAndReturn: {
-            args: Prisma.OrderUpdateManyAndReturnArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$OrderPayload>[]
+            args: Prisma.SeatUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SeatPayload>[]
           }
           upsert: {
-            args: Prisma.OrderUpsertArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$OrderPayload>
+            args: Prisma.SeatUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SeatPayload>
           }
           aggregate: {
-            args: Prisma.OrderAggregateArgs<ExtArgs>
-            result: $Utils.Optional<AggregateOrder>
+            args: Prisma.SeatAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateSeat>
           }
           groupBy: {
-            args: Prisma.OrderGroupByArgs<ExtArgs>
-            result: $Utils.Optional<OrderGroupByOutputType>[]
+            args: Prisma.SeatGroupByArgs<ExtArgs>
+            result: $Utils.Optional<SeatGroupByOutputType>[]
           }
           count: {
-            args: Prisma.OrderCountArgs<ExtArgs>
-            result: $Utils.Optional<OrderCountAggregateOutputType> | number
+            args: Prisma.SeatCountArgs<ExtArgs>
+            result: $Utils.Optional<SeatCountAggregateOutputType> | number
+          }
+        }
+      }
+      Booking: {
+        payload: Prisma.$BookingPayload<ExtArgs>
+        fields: Prisma.BookingFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.BookingFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BookingPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.BookingFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BookingPayload>
+          }
+          findFirst: {
+            args: Prisma.BookingFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BookingPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.BookingFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BookingPayload>
+          }
+          findMany: {
+            args: Prisma.BookingFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BookingPayload>[]
+          }
+          create: {
+            args: Prisma.BookingCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BookingPayload>
+          }
+          createMany: {
+            args: Prisma.BookingCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.BookingCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BookingPayload>[]
+          }
+          delete: {
+            args: Prisma.BookingDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BookingPayload>
+          }
+          update: {
+            args: Prisma.BookingUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BookingPayload>
+          }
+          deleteMany: {
+            args: Prisma.BookingDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.BookingUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.BookingUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BookingPayload>[]
+          }
+          upsert: {
+            args: Prisma.BookingUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BookingPayload>
+          }
+          aggregate: {
+            args: Prisma.BookingAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateBooking>
+          }
+          groupBy: {
+            args: Prisma.BookingGroupByArgs<ExtArgs>
+            result: $Utils.Optional<BookingGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.BookingCountArgs<ExtArgs>
+            result: $Utils.Optional<BookingCountAggregateOutputType> | number
           }
         }
       }
@@ -1087,8 +1203,9 @@ export namespace Prisma {
   export type GlobalOmitConfig = {
     user?: UserOmit
     refreshToken?: RefreshTokenOmit
-    product?: ProductOmit
-    order?: OrderOmit
+    trip?: TripOmit
+    seat?: SeatOmit
+    booking?: BookingOmit
   }
 
   /* Types for Logging */
@@ -1170,12 +1287,12 @@ export namespace Prisma {
 
   export type UserCountOutputType = {
     refreshTokens: number
-    orders: number
+    bookings: number
   }
 
   export type UserCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     refreshTokens?: boolean | UserCountOutputTypeCountRefreshTokensArgs
-    orders?: boolean | UserCountOutputTypeCountOrdersArgs
+    bookings?: boolean | UserCountOutputTypeCountBookingsArgs
   }
 
   // Custom InputTypes
@@ -1199,8 +1316,8 @@ export namespace Prisma {
   /**
    * UserCountOutputType without action
    */
-  export type UserCountOutputTypeCountOrdersArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: OrderWhereInput
+  export type UserCountOutputTypeCountBookingsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: BookingWhereInput
   }
 
 
@@ -1236,6 +1353,77 @@ export namespace Prisma {
 
 
   /**
+   * Count Type TripCountOutputType
+   */
+
+  export type TripCountOutputType = {
+    seats: number
+    bookings: number
+  }
+
+  export type TripCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    seats?: boolean | TripCountOutputTypeCountSeatsArgs
+    bookings?: boolean | TripCountOutputTypeCountBookingsArgs
+  }
+
+  // Custom InputTypes
+  /**
+   * TripCountOutputType without action
+   */
+  export type TripCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the TripCountOutputType
+     */
+    select?: TripCountOutputTypeSelect<ExtArgs> | null
+  }
+
+  /**
+   * TripCountOutputType without action
+   */
+  export type TripCountOutputTypeCountSeatsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: SeatWhereInput
+  }
+
+  /**
+   * TripCountOutputType without action
+   */
+  export type TripCountOutputTypeCountBookingsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: BookingWhereInput
+  }
+
+
+  /**
+   * Count Type SeatCountOutputType
+   */
+
+  export type SeatCountOutputType = {
+    bookings: number
+  }
+
+  export type SeatCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    bookings?: boolean | SeatCountOutputTypeCountBookingsArgs
+  }
+
+  // Custom InputTypes
+  /**
+   * SeatCountOutputType without action
+   */
+  export type SeatCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SeatCountOutputType
+     */
+    select?: SeatCountOutputTypeSelect<ExtArgs> | null
+  }
+
+  /**
+   * SeatCountOutputType without action
+   */
+  export type SeatCountOutputTypeCountBookingsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: BookingWhereInput
+  }
+
+
+  /**
    * Models
    */
 
@@ -1251,8 +1439,10 @@ export namespace Prisma {
 
   export type UserMinAggregateOutputType = {
     id: string | null
+    name: string | null
     email: string | null
     passwordHash: string | null
+    phone: string | null
     role: $Enums.UserRole | null
     createdAt: Date | null
     updatedAt: Date | null
@@ -1260,8 +1450,10 @@ export namespace Prisma {
 
   export type UserMaxAggregateOutputType = {
     id: string | null
+    name: string | null
     email: string | null
     passwordHash: string | null
+    phone: string | null
     role: $Enums.UserRole | null
     createdAt: Date | null
     updatedAt: Date | null
@@ -1269,8 +1461,10 @@ export namespace Prisma {
 
   export type UserCountAggregateOutputType = {
     id: number
+    name: number
     email: number
     passwordHash: number
+    phone: number
     role: number
     createdAt: number
     updatedAt: number
@@ -1280,8 +1474,10 @@ export namespace Prisma {
 
   export type UserMinAggregateInputType = {
     id?: true
+    name?: true
     email?: true
     passwordHash?: true
+    phone?: true
     role?: true
     createdAt?: true
     updatedAt?: true
@@ -1289,8 +1485,10 @@ export namespace Prisma {
 
   export type UserMaxAggregateInputType = {
     id?: true
+    name?: true
     email?: true
     passwordHash?: true
+    phone?: true
     role?: true
     createdAt?: true
     updatedAt?: true
@@ -1298,8 +1496,10 @@ export namespace Prisma {
 
   export type UserCountAggregateInputType = {
     id?: true
+    name?: true
     email?: true
     passwordHash?: true
+    phone?: true
     role?: true
     createdAt?: true
     updatedAt?: true
@@ -1380,8 +1580,10 @@ export namespace Prisma {
 
   export type UserGroupByOutputType = {
     id: string
+    name: string
     email: string
     passwordHash: string
+    phone: string
     role: $Enums.UserRole
     createdAt: Date
     updatedAt: Date
@@ -1406,20 +1608,24 @@ export namespace Prisma {
 
   export type UserSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
+    name?: boolean
     email?: boolean
     passwordHash?: boolean
+    phone?: boolean
     role?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     refreshTokens?: boolean | User$refreshTokensArgs<ExtArgs>
-    orders?: boolean | User$ordersArgs<ExtArgs>
+    bookings?: boolean | User$bookingsArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["user"]>
 
   export type UserSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
+    name?: boolean
     email?: boolean
     passwordHash?: boolean
+    phone?: boolean
     role?: boolean
     createdAt?: boolean
     updatedAt?: boolean
@@ -1427,8 +1633,10 @@ export namespace Prisma {
 
   export type UserSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
+    name?: boolean
     email?: boolean
     passwordHash?: boolean
+    phone?: boolean
     role?: boolean
     createdAt?: boolean
     updatedAt?: boolean
@@ -1436,17 +1644,19 @@ export namespace Prisma {
 
   export type UserSelectScalar = {
     id?: boolean
+    name?: boolean
     email?: boolean
     passwordHash?: boolean
+    phone?: boolean
     role?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }
 
-  export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "email" | "passwordHash" | "role" | "createdAt" | "updatedAt", ExtArgs["result"]["user"]>
+  export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "email" | "passwordHash" | "phone" | "role" | "createdAt" | "updatedAt", ExtArgs["result"]["user"]>
   export type UserInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     refreshTokens?: boolean | User$refreshTokensArgs<ExtArgs>
-    orders?: boolean | User$ordersArgs<ExtArgs>
+    bookings?: boolean | User$bookingsArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type UserIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
@@ -1456,12 +1666,14 @@ export namespace Prisma {
     name: "User"
     objects: {
       refreshTokens: Prisma.$RefreshTokenPayload<ExtArgs>[]
-      orders: Prisma.$OrderPayload<ExtArgs>[]
+      bookings: Prisma.$BookingPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
+      name: string
       email: string
       passwordHash: string
+      phone: string
       role: $Enums.UserRole
       createdAt: Date
       updatedAt: Date
@@ -1860,7 +2072,7 @@ export namespace Prisma {
   export interface Prisma__UserClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     refreshTokens<T extends User$refreshTokensArgs<ExtArgs> = {}>(args?: Subset<T, User$refreshTokensArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$RefreshTokenPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-    orders<T extends User$ordersArgs<ExtArgs> = {}>(args?: Subset<T, User$ordersArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$OrderPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    bookings<T extends User$bookingsArgs<ExtArgs> = {}>(args?: Subset<T, User$bookingsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$BookingPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1891,8 +2103,10 @@ export namespace Prisma {
    */
   interface UserFieldRefs {
     readonly id: FieldRef<"User", 'String'>
+    readonly name: FieldRef<"User", 'String'>
     readonly email: FieldRef<"User", 'String'>
     readonly passwordHash: FieldRef<"User", 'String'>
+    readonly phone: FieldRef<"User", 'String'>
     readonly role: FieldRef<"User", 'UserRole'>
     readonly createdAt: FieldRef<"User", 'DateTime'>
     readonly updatedAt: FieldRef<"User", 'DateTime'>
@@ -2313,27 +2527,27 @@ export namespace Prisma {
   }
 
   /**
-   * User.orders
+   * User.bookings
    */
-  export type User$ordersArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type User$bookingsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the Order
+     * Select specific fields to fetch from the Booking
      */
-    select?: OrderSelect<ExtArgs> | null
+    select?: BookingSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the Order
+     * Omit specific fields from the Booking
      */
-    omit?: OrderOmit<ExtArgs> | null
+    omit?: BookingOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: OrderInclude<ExtArgs> | null
-    where?: OrderWhereInput
-    orderBy?: OrderOrderByWithRelationInput | OrderOrderByWithRelationInput[]
-    cursor?: OrderWhereUniqueInput
+    include?: BookingInclude<ExtArgs> | null
+    where?: BookingWhereInput
+    orderBy?: BookingOrderByWithRelationInput | BookingOrderByWithRelationInput[]
+    cursor?: BookingWhereUniqueInput
     take?: number
     skip?: number
-    distinct?: OrderScalarFieldEnum | OrderScalarFieldEnum[]
+    distinct?: BookingScalarFieldEnum | BookingScalarFieldEnum[]
   }
 
   /**
@@ -3502,382 +3716,423 @@ export namespace Prisma {
 
 
   /**
-   * Model Product
+   * Model Trip
    */
 
-  export type AggregateProduct = {
-    _count: ProductCountAggregateOutputType | null
-    _avg: ProductAvgAggregateOutputType | null
-    _sum: ProductSumAggregateOutputType | null
-    _min: ProductMinAggregateOutputType | null
-    _max: ProductMaxAggregateOutputType | null
+  export type AggregateTrip = {
+    _count: TripCountAggregateOutputType | null
+    _avg: TripAvgAggregateOutputType | null
+    _sum: TripSumAggregateOutputType | null
+    _min: TripMinAggregateOutputType | null
+    _max: TripMaxAggregateOutputType | null
   }
 
-  export type ProductAvgAggregateOutputType = {
-    priceCents: number | null
+  export type TripAvgAggregateOutputType = {
+    priceVnd: number | null
+    totalSeats: number | null
   }
 
-  export type ProductSumAggregateOutputType = {
-    priceCents: number | null
+  export type TripSumAggregateOutputType = {
+    priceVnd: number | null
+    totalSeats: number | null
   }
 
-  export type ProductMinAggregateOutputType = {
+  export type TripMinAggregateOutputType = {
     id: string | null
-    name: string | null
-    description: string | null
-    priceCents: number | null
-    createdAt: Date | null
-    updatedAt: Date | null
+    operatorName: string | null
+    origin: string | null
+    destination: string | null
+    departureTime: Date | null
+    priceVnd: number | null
+    totalSeats: number | null
+    busType: $Enums.BusType | null
   }
 
-  export type ProductMaxAggregateOutputType = {
+  export type TripMaxAggregateOutputType = {
     id: string | null
-    name: string | null
-    description: string | null
-    priceCents: number | null
-    createdAt: Date | null
-    updatedAt: Date | null
+    operatorName: string | null
+    origin: string | null
+    destination: string | null
+    departureTime: Date | null
+    priceVnd: number | null
+    totalSeats: number | null
+    busType: $Enums.BusType | null
   }
 
-  export type ProductCountAggregateOutputType = {
+  export type TripCountAggregateOutputType = {
     id: number
-    name: number
-    description: number
-    priceCents: number
-    createdAt: number
-    updatedAt: number
+    operatorName: number
+    origin: number
+    destination: number
+    departureTime: number
+    priceVnd: number
+    totalSeats: number
+    busType: number
     _all: number
   }
 
 
-  export type ProductAvgAggregateInputType = {
-    priceCents?: true
+  export type TripAvgAggregateInputType = {
+    priceVnd?: true
+    totalSeats?: true
   }
 
-  export type ProductSumAggregateInputType = {
-    priceCents?: true
+  export type TripSumAggregateInputType = {
+    priceVnd?: true
+    totalSeats?: true
   }
 
-  export type ProductMinAggregateInputType = {
+  export type TripMinAggregateInputType = {
     id?: true
-    name?: true
-    description?: true
-    priceCents?: true
-    createdAt?: true
-    updatedAt?: true
+    operatorName?: true
+    origin?: true
+    destination?: true
+    departureTime?: true
+    priceVnd?: true
+    totalSeats?: true
+    busType?: true
   }
 
-  export type ProductMaxAggregateInputType = {
+  export type TripMaxAggregateInputType = {
     id?: true
-    name?: true
-    description?: true
-    priceCents?: true
-    createdAt?: true
-    updatedAt?: true
+    operatorName?: true
+    origin?: true
+    destination?: true
+    departureTime?: true
+    priceVnd?: true
+    totalSeats?: true
+    busType?: true
   }
 
-  export type ProductCountAggregateInputType = {
+  export type TripCountAggregateInputType = {
     id?: true
-    name?: true
-    description?: true
-    priceCents?: true
-    createdAt?: true
-    updatedAt?: true
+    operatorName?: true
+    origin?: true
+    destination?: true
+    departureTime?: true
+    priceVnd?: true
+    totalSeats?: true
+    busType?: true
     _all?: true
   }
 
-  export type ProductAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type TripAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Filter which Product to aggregate.
+     * Filter which Trip to aggregate.
      */
-    where?: ProductWhereInput
+    where?: TripWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
      * 
-     * Determine the order of Products to fetch.
+     * Determine the order of Trips to fetch.
      */
-    orderBy?: ProductOrderByWithRelationInput | ProductOrderByWithRelationInput[]
+    orderBy?: TripOrderByWithRelationInput | TripOrderByWithRelationInput[]
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
      * 
      * Sets the start position
      */
-    cursor?: ProductWhereUniqueInput
+    cursor?: TripWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Take `±n` Products from the position of the cursor.
+     * Take `±n` Trips from the position of the cursor.
      */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Skip the first `n` Products.
+     * Skip the first `n` Trips.
      */
     skip?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      * 
-     * Count returned Products
+     * Count returned Trips
     **/
-    _count?: true | ProductCountAggregateInputType
+    _count?: true | TripCountAggregateInputType
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      * 
      * Select which fields to average
     **/
-    _avg?: ProductAvgAggregateInputType
+    _avg?: TripAvgAggregateInputType
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      * 
      * Select which fields to sum
     **/
-    _sum?: ProductSumAggregateInputType
+    _sum?: TripSumAggregateInputType
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      * 
      * Select which fields to find the minimum value
     **/
-    _min?: ProductMinAggregateInputType
+    _min?: TripMinAggregateInputType
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      * 
      * Select which fields to find the maximum value
     **/
-    _max?: ProductMaxAggregateInputType
+    _max?: TripMaxAggregateInputType
   }
 
-  export type GetProductAggregateType<T extends ProductAggregateArgs> = {
-        [P in keyof T & keyof AggregateProduct]: P extends '_count' | 'count'
+  export type GetTripAggregateType<T extends TripAggregateArgs> = {
+        [P in keyof T & keyof AggregateTrip]: P extends '_count' | 'count'
       ? T[P] extends true
         ? number
-        : GetScalarType<T[P], AggregateProduct[P]>
-      : GetScalarType<T[P], AggregateProduct[P]>
+        : GetScalarType<T[P], AggregateTrip[P]>
+      : GetScalarType<T[P], AggregateTrip[P]>
   }
 
 
 
 
-  export type ProductGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: ProductWhereInput
-    orderBy?: ProductOrderByWithAggregationInput | ProductOrderByWithAggregationInput[]
-    by: ProductScalarFieldEnum[] | ProductScalarFieldEnum
-    having?: ProductScalarWhereWithAggregatesInput
+  export type TripGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: TripWhereInput
+    orderBy?: TripOrderByWithAggregationInput | TripOrderByWithAggregationInput[]
+    by: TripScalarFieldEnum[] | TripScalarFieldEnum
+    having?: TripScalarWhereWithAggregatesInput
     take?: number
     skip?: number
-    _count?: ProductCountAggregateInputType | true
-    _avg?: ProductAvgAggregateInputType
-    _sum?: ProductSumAggregateInputType
-    _min?: ProductMinAggregateInputType
-    _max?: ProductMaxAggregateInputType
+    _count?: TripCountAggregateInputType | true
+    _avg?: TripAvgAggregateInputType
+    _sum?: TripSumAggregateInputType
+    _min?: TripMinAggregateInputType
+    _max?: TripMaxAggregateInputType
   }
 
-  export type ProductGroupByOutputType = {
+  export type TripGroupByOutputType = {
     id: string
-    name: string
-    description: string | null
-    priceCents: number
-    createdAt: Date
-    updatedAt: Date
-    _count: ProductCountAggregateOutputType | null
-    _avg: ProductAvgAggregateOutputType | null
-    _sum: ProductSumAggregateOutputType | null
-    _min: ProductMinAggregateOutputType | null
-    _max: ProductMaxAggregateOutputType | null
+    operatorName: string
+    origin: string
+    destination: string
+    departureTime: Date
+    priceVnd: number
+    totalSeats: number
+    busType: $Enums.BusType
+    _count: TripCountAggregateOutputType | null
+    _avg: TripAvgAggregateOutputType | null
+    _sum: TripSumAggregateOutputType | null
+    _min: TripMinAggregateOutputType | null
+    _max: TripMaxAggregateOutputType | null
   }
 
-  type GetProductGroupByPayload<T extends ProductGroupByArgs> = Prisma.PrismaPromise<
+  type GetTripGroupByPayload<T extends TripGroupByArgs> = Prisma.PrismaPromise<
     Array<
-      PickEnumerable<ProductGroupByOutputType, T['by']> &
+      PickEnumerable<TripGroupByOutputType, T['by']> &
         {
-          [P in ((keyof T) & (keyof ProductGroupByOutputType))]: P extends '_count'
+          [P in ((keyof T) & (keyof TripGroupByOutputType))]: P extends '_count'
             ? T[P] extends boolean
               ? number
-              : GetScalarType<T[P], ProductGroupByOutputType[P]>
-            : GetScalarType<T[P], ProductGroupByOutputType[P]>
+              : GetScalarType<T[P], TripGroupByOutputType[P]>
+            : GetScalarType<T[P], TripGroupByOutputType[P]>
         }
       >
     >
 
 
-  export type ProductSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+  export type TripSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
-    name?: boolean
-    description?: boolean
-    priceCents?: boolean
-    createdAt?: boolean
-    updatedAt?: boolean
-  }, ExtArgs["result"]["product"]>
+    operatorName?: boolean
+    origin?: boolean
+    destination?: boolean
+    departureTime?: boolean
+    priceVnd?: boolean
+    totalSeats?: boolean
+    busType?: boolean
+    seats?: boolean | Trip$seatsArgs<ExtArgs>
+    bookings?: boolean | Trip$bookingsArgs<ExtArgs>
+    _count?: boolean | TripCountOutputTypeDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["trip"]>
 
-  export type ProductSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+  export type TripSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
-    name?: boolean
-    description?: boolean
-    priceCents?: boolean
-    createdAt?: boolean
-    updatedAt?: boolean
-  }, ExtArgs["result"]["product"]>
+    operatorName?: boolean
+    origin?: boolean
+    destination?: boolean
+    departureTime?: boolean
+    priceVnd?: boolean
+    totalSeats?: boolean
+    busType?: boolean
+  }, ExtArgs["result"]["trip"]>
 
-  export type ProductSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+  export type TripSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
-    name?: boolean
-    description?: boolean
-    priceCents?: boolean
-    createdAt?: boolean
-    updatedAt?: boolean
-  }, ExtArgs["result"]["product"]>
+    operatorName?: boolean
+    origin?: boolean
+    destination?: boolean
+    departureTime?: boolean
+    priceVnd?: boolean
+    totalSeats?: boolean
+    busType?: boolean
+  }, ExtArgs["result"]["trip"]>
 
-  export type ProductSelectScalar = {
+  export type TripSelectScalar = {
     id?: boolean
-    name?: boolean
-    description?: boolean
-    priceCents?: boolean
-    createdAt?: boolean
-    updatedAt?: boolean
+    operatorName?: boolean
+    origin?: boolean
+    destination?: boolean
+    departureTime?: boolean
+    priceVnd?: boolean
+    totalSeats?: boolean
+    busType?: boolean
   }
 
-  export type ProductOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "description" | "priceCents" | "createdAt" | "updatedAt", ExtArgs["result"]["product"]>
+  export type TripOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "operatorName" | "origin" | "destination" | "departureTime" | "priceVnd" | "totalSeats" | "busType", ExtArgs["result"]["trip"]>
+  export type TripInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    seats?: boolean | Trip$seatsArgs<ExtArgs>
+    bookings?: boolean | Trip$bookingsArgs<ExtArgs>
+    _count?: boolean | TripCountOutputTypeDefaultArgs<ExtArgs>
+  }
+  export type TripIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
+  export type TripIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
 
-  export type $ProductPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    name: "Product"
-    objects: {}
+  export type $TripPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "Trip"
+    objects: {
+      seats: Prisma.$SeatPayload<ExtArgs>[]
+      bookings: Prisma.$BookingPayload<ExtArgs>[]
+    }
     scalars: $Extensions.GetPayloadResult<{
       id: string
-      name: string
-      description: string | null
-      priceCents: number
-      createdAt: Date
-      updatedAt: Date
-    }, ExtArgs["result"]["product"]>
+      operatorName: string
+      origin: string
+      destination: string
+      departureTime: Date
+      priceVnd: number
+      totalSeats: number
+      busType: $Enums.BusType
+    }, ExtArgs["result"]["trip"]>
     composites: {}
   }
 
-  type ProductGetPayload<S extends boolean | null | undefined | ProductDefaultArgs> = $Result.GetResult<Prisma.$ProductPayload, S>
+  type TripGetPayload<S extends boolean | null | undefined | TripDefaultArgs> = $Result.GetResult<Prisma.$TripPayload, S>
 
-  type ProductCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
-    Omit<ProductFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
-      select?: ProductCountAggregateInputType | true
+  type TripCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<TripFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: TripCountAggregateInputType | true
     }
 
-  export interface ProductDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
-    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['Product'], meta: { name: 'Product' } }
+  export interface TripDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['Trip'], meta: { name: 'Trip' } }
     /**
-     * Find zero or one Product that matches the filter.
-     * @param {ProductFindUniqueArgs} args - Arguments to find a Product
+     * Find zero or one Trip that matches the filter.
+     * @param {TripFindUniqueArgs} args - Arguments to find a Trip
      * @example
-     * // Get one Product
-     * const product = await prisma.product.findUnique({
+     * // Get one Trip
+     * const trip = await prisma.trip.findUnique({
      *   where: {
      *     // ... provide filter here
      *   }
      * })
      */
-    findUnique<T extends ProductFindUniqueArgs>(args: SelectSubset<T, ProductFindUniqueArgs<ExtArgs>>): Prisma__ProductClient<$Result.GetResult<Prisma.$ProductPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    findUnique<T extends TripFindUniqueArgs>(args: SelectSubset<T, TripFindUniqueArgs<ExtArgs>>): Prisma__TripClient<$Result.GetResult<Prisma.$TripPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
 
     /**
-     * Find one Product that matches the filter or throw an error with `error.code='P2025'`
+     * Find one Trip that matches the filter or throw an error with `error.code='P2025'`
      * if no matches were found.
-     * @param {ProductFindUniqueOrThrowArgs} args - Arguments to find a Product
+     * @param {TripFindUniqueOrThrowArgs} args - Arguments to find a Trip
      * @example
-     * // Get one Product
-     * const product = await prisma.product.findUniqueOrThrow({
+     * // Get one Trip
+     * const trip = await prisma.trip.findUniqueOrThrow({
      *   where: {
      *     // ... provide filter here
      *   }
      * })
      */
-    findUniqueOrThrow<T extends ProductFindUniqueOrThrowArgs>(args: SelectSubset<T, ProductFindUniqueOrThrowArgs<ExtArgs>>): Prisma__ProductClient<$Result.GetResult<Prisma.$ProductPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+    findUniqueOrThrow<T extends TripFindUniqueOrThrowArgs>(args: SelectSubset<T, TripFindUniqueOrThrowArgs<ExtArgs>>): Prisma__TripClient<$Result.GetResult<Prisma.$TripPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
 
     /**
-     * Find the first Product that matches the filter.
+     * Find the first Trip that matches the filter.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {ProductFindFirstArgs} args - Arguments to find a Product
+     * @param {TripFindFirstArgs} args - Arguments to find a Trip
      * @example
-     * // Get one Product
-     * const product = await prisma.product.findFirst({
+     * // Get one Trip
+     * const trip = await prisma.trip.findFirst({
      *   where: {
      *     // ... provide filter here
      *   }
      * })
      */
-    findFirst<T extends ProductFindFirstArgs>(args?: SelectSubset<T, ProductFindFirstArgs<ExtArgs>>): Prisma__ProductClient<$Result.GetResult<Prisma.$ProductPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    findFirst<T extends TripFindFirstArgs>(args?: SelectSubset<T, TripFindFirstArgs<ExtArgs>>): Prisma__TripClient<$Result.GetResult<Prisma.$TripPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
 
     /**
-     * Find the first Product that matches the filter or
+     * Find the first Trip that matches the filter or
      * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {ProductFindFirstOrThrowArgs} args - Arguments to find a Product
+     * @param {TripFindFirstOrThrowArgs} args - Arguments to find a Trip
      * @example
-     * // Get one Product
-     * const product = await prisma.product.findFirstOrThrow({
+     * // Get one Trip
+     * const trip = await prisma.trip.findFirstOrThrow({
      *   where: {
      *     // ... provide filter here
      *   }
      * })
      */
-    findFirstOrThrow<T extends ProductFindFirstOrThrowArgs>(args?: SelectSubset<T, ProductFindFirstOrThrowArgs<ExtArgs>>): Prisma__ProductClient<$Result.GetResult<Prisma.$ProductPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+    findFirstOrThrow<T extends TripFindFirstOrThrowArgs>(args?: SelectSubset<T, TripFindFirstOrThrowArgs<ExtArgs>>): Prisma__TripClient<$Result.GetResult<Prisma.$TripPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
 
     /**
-     * Find zero or more Products that matches the filter.
+     * Find zero or more Trips that matches the filter.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {ProductFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @param {TripFindManyArgs} args - Arguments to filter and select certain fields only.
      * @example
-     * // Get all Products
-     * const products = await prisma.product.findMany()
+     * // Get all Trips
+     * const trips = await prisma.trip.findMany()
      * 
-     * // Get first 10 Products
-     * const products = await prisma.product.findMany({ take: 10 })
+     * // Get first 10 Trips
+     * const trips = await prisma.trip.findMany({ take: 10 })
      * 
      * // Only select the `id`
-     * const productWithIdOnly = await prisma.product.findMany({ select: { id: true } })
+     * const tripWithIdOnly = await prisma.trip.findMany({ select: { id: true } })
      * 
      */
-    findMany<T extends ProductFindManyArgs>(args?: SelectSubset<T, ProductFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ProductPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+    findMany<T extends TripFindManyArgs>(args?: SelectSubset<T, TripFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TripPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
 
     /**
-     * Create a Product.
-     * @param {ProductCreateArgs} args - Arguments to create a Product.
+     * Create a Trip.
+     * @param {TripCreateArgs} args - Arguments to create a Trip.
      * @example
-     * // Create one Product
-     * const Product = await prisma.product.create({
+     * // Create one Trip
+     * const Trip = await prisma.trip.create({
      *   data: {
-     *     // ... data to create a Product
+     *     // ... data to create a Trip
      *   }
      * })
      * 
      */
-    create<T extends ProductCreateArgs>(args: SelectSubset<T, ProductCreateArgs<ExtArgs>>): Prisma__ProductClient<$Result.GetResult<Prisma.$ProductPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+    create<T extends TripCreateArgs>(args: SelectSubset<T, TripCreateArgs<ExtArgs>>): Prisma__TripClient<$Result.GetResult<Prisma.$TripPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
 
     /**
-     * Create many Products.
-     * @param {ProductCreateManyArgs} args - Arguments to create many Products.
+     * Create many Trips.
+     * @param {TripCreateManyArgs} args - Arguments to create many Trips.
      * @example
-     * // Create many Products
-     * const product = await prisma.product.createMany({
+     * // Create many Trips
+     * const trip = await prisma.trip.createMany({
      *   data: [
      *     // ... provide data here
      *   ]
      * })
      *     
      */
-    createMany<T extends ProductCreateManyArgs>(args?: SelectSubset<T, ProductCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+    createMany<T extends TripCreateManyArgs>(args?: SelectSubset<T, TripCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
 
     /**
-     * Create many Products and returns the data saved in the database.
-     * @param {ProductCreateManyAndReturnArgs} args - Arguments to create many Products.
+     * Create many Trips and returns the data saved in the database.
+     * @param {TripCreateManyAndReturnArgs} args - Arguments to create many Trips.
      * @example
-     * // Create many Products
-     * const product = await prisma.product.createManyAndReturn({
+     * // Create many Trips
+     * const trip = await prisma.trip.createManyAndReturn({
      *   data: [
      *     // ... provide data here
      *   ]
      * })
      * 
-     * // Create many Products and only return the `id`
-     * const productWithIdOnly = await prisma.product.createManyAndReturn({
+     * // Create many Trips and only return the `id`
+     * const tripWithIdOnly = await prisma.trip.createManyAndReturn({
      *   select: { id: true },
      *   data: [
      *     // ... provide data here
@@ -3887,28 +4142,28 @@ export namespace Prisma {
      * Read more here: https://pris.ly/d/null-undefined
      * 
      */
-    createManyAndReturn<T extends ProductCreateManyAndReturnArgs>(args?: SelectSubset<T, ProductCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ProductPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+    createManyAndReturn<T extends TripCreateManyAndReturnArgs>(args?: SelectSubset<T, TripCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TripPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
 
     /**
-     * Delete a Product.
-     * @param {ProductDeleteArgs} args - Arguments to delete one Product.
+     * Delete a Trip.
+     * @param {TripDeleteArgs} args - Arguments to delete one Trip.
      * @example
-     * // Delete one Product
-     * const Product = await prisma.product.delete({
+     * // Delete one Trip
+     * const Trip = await prisma.trip.delete({
      *   where: {
-     *     // ... filter to delete one Product
+     *     // ... filter to delete one Trip
      *   }
      * })
      * 
      */
-    delete<T extends ProductDeleteArgs>(args: SelectSubset<T, ProductDeleteArgs<ExtArgs>>): Prisma__ProductClient<$Result.GetResult<Prisma.$ProductPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+    delete<T extends TripDeleteArgs>(args: SelectSubset<T, TripDeleteArgs<ExtArgs>>): Prisma__TripClient<$Result.GetResult<Prisma.$TripPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
 
     /**
-     * Update one Product.
-     * @param {ProductUpdateArgs} args - Arguments to update one Product.
+     * Update one Trip.
+     * @param {TripUpdateArgs} args - Arguments to update one Trip.
      * @example
-     * // Update one Product
-     * const product = await prisma.product.update({
+     * // Update one Trip
+     * const trip = await prisma.trip.update({
      *   where: {
      *     // ... provide filter here
      *   },
@@ -3918,30 +4173,30 @@ export namespace Prisma {
      * })
      * 
      */
-    update<T extends ProductUpdateArgs>(args: SelectSubset<T, ProductUpdateArgs<ExtArgs>>): Prisma__ProductClient<$Result.GetResult<Prisma.$ProductPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+    update<T extends TripUpdateArgs>(args: SelectSubset<T, TripUpdateArgs<ExtArgs>>): Prisma__TripClient<$Result.GetResult<Prisma.$TripPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
 
     /**
-     * Delete zero or more Products.
-     * @param {ProductDeleteManyArgs} args - Arguments to filter Products to delete.
+     * Delete zero or more Trips.
+     * @param {TripDeleteManyArgs} args - Arguments to filter Trips to delete.
      * @example
-     * // Delete a few Products
-     * const { count } = await prisma.product.deleteMany({
+     * // Delete a few Trips
+     * const { count } = await prisma.trip.deleteMany({
      *   where: {
      *     // ... provide filter here
      *   }
      * })
      * 
      */
-    deleteMany<T extends ProductDeleteManyArgs>(args?: SelectSubset<T, ProductDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+    deleteMany<T extends TripDeleteManyArgs>(args?: SelectSubset<T, TripDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
 
     /**
-     * Update zero or more Products.
+     * Update zero or more Trips.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {ProductUpdateManyArgs} args - Arguments to update one or more rows.
+     * @param {TripUpdateManyArgs} args - Arguments to update one or more rows.
      * @example
-     * // Update many Products
-     * const product = await prisma.product.updateMany({
+     * // Update many Trips
+     * const trip = await prisma.trip.updateMany({
      *   where: {
      *     // ... provide filter here
      *   },
@@ -3951,14 +4206,14 @@ export namespace Prisma {
      * })
      * 
      */
-    updateMany<T extends ProductUpdateManyArgs>(args: SelectSubset<T, ProductUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+    updateMany<T extends TripUpdateManyArgs>(args: SelectSubset<T, TripUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
 
     /**
-     * Update zero or more Products and returns the data updated in the database.
-     * @param {ProductUpdateManyAndReturnArgs} args - Arguments to update many Products.
+     * Update zero or more Trips and returns the data updated in the database.
+     * @param {TripUpdateManyAndReturnArgs} args - Arguments to update many Trips.
      * @example
-     * // Update many Products
-     * const product = await prisma.product.updateManyAndReturn({
+     * // Update many Trips
+     * const trip = await prisma.trip.updateManyAndReturn({
      *   where: {
      *     // ... provide filter here
      *   },
@@ -3967,8 +4222,8 @@ export namespace Prisma {
      *   ]
      * })
      * 
-     * // Update zero or more Products and only return the `id`
-     * const productWithIdOnly = await prisma.product.updateManyAndReturn({
+     * // Update zero or more Trips and only return the `id`
+     * const tripWithIdOnly = await prisma.trip.updateManyAndReturn({
      *   select: { id: true },
      *   where: {
      *     // ... provide filter here
@@ -3981,56 +4236,56 @@ export namespace Prisma {
      * Read more here: https://pris.ly/d/null-undefined
      * 
      */
-    updateManyAndReturn<T extends ProductUpdateManyAndReturnArgs>(args: SelectSubset<T, ProductUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ProductPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+    updateManyAndReturn<T extends TripUpdateManyAndReturnArgs>(args: SelectSubset<T, TripUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TripPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
 
     /**
-     * Create or update one Product.
-     * @param {ProductUpsertArgs} args - Arguments to update or create a Product.
+     * Create or update one Trip.
+     * @param {TripUpsertArgs} args - Arguments to update or create a Trip.
      * @example
-     * // Update or create a Product
-     * const product = await prisma.product.upsert({
+     * // Update or create a Trip
+     * const trip = await prisma.trip.upsert({
      *   create: {
-     *     // ... data to create a Product
+     *     // ... data to create a Trip
      *   },
      *   update: {
      *     // ... in case it already exists, update
      *   },
      *   where: {
-     *     // ... the filter for the Product we want to update
+     *     // ... the filter for the Trip we want to update
      *   }
      * })
      */
-    upsert<T extends ProductUpsertArgs>(args: SelectSubset<T, ProductUpsertArgs<ExtArgs>>): Prisma__ProductClient<$Result.GetResult<Prisma.$ProductPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+    upsert<T extends TripUpsertArgs>(args: SelectSubset<T, TripUpsertArgs<ExtArgs>>): Prisma__TripClient<$Result.GetResult<Prisma.$TripPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
 
 
     /**
-     * Count the number of Products.
+     * Count the number of Trips.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {ProductCountArgs} args - Arguments to filter Products to count.
+     * @param {TripCountArgs} args - Arguments to filter Trips to count.
      * @example
-     * // Count the number of Products
-     * const count = await prisma.product.count({
+     * // Count the number of Trips
+     * const count = await prisma.trip.count({
      *   where: {
-     *     // ... the filter for the Products we want to count
+     *     // ... the filter for the Trips we want to count
      *   }
      * })
     **/
-    count<T extends ProductCountArgs>(
-      args?: Subset<T, ProductCountArgs>,
+    count<T extends TripCountArgs>(
+      args?: Subset<T, TripCountArgs>,
     ): Prisma.PrismaPromise<
       T extends $Utils.Record<'select', any>
         ? T['select'] extends true
           ? number
-          : GetScalarType<T['select'], ProductCountAggregateOutputType>
+          : GetScalarType<T['select'], TripCountAggregateOutputType>
         : number
     >
 
     /**
-     * Allows you to perform aggregations operations on a Product.
+     * Allows you to perform aggregations operations on a Trip.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {ProductAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @param {TripAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
      * @example
      * // Ordered by age ascending
      * // Where email contains prisma.io
@@ -4050,13 +4305,13 @@ export namespace Prisma {
      *   take: 10,
      * })
     **/
-    aggregate<T extends ProductAggregateArgs>(args: Subset<T, ProductAggregateArgs>): Prisma.PrismaPromise<GetProductAggregateType<T>>
+    aggregate<T extends TripAggregateArgs>(args: Subset<T, TripAggregateArgs>): Prisma.PrismaPromise<GetTripAggregateType<T>>
 
     /**
-     * Group by Product.
+     * Group by Trip.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {ProductGroupByArgs} args - Group by arguments.
+     * @param {TripGroupByArgs} args - Group by arguments.
      * @example
      * // Group by city, order by createdAt, get count
      * const result = await prisma.user.groupBy({
@@ -4071,14 +4326,14 @@ export namespace Prisma {
      * 
     **/
     groupBy<
-      T extends ProductGroupByArgs,
+      T extends TripGroupByArgs,
       HasSelectOrTake extends Or<
         Extends<'skip', Keys<T>>,
         Extends<'take', Keys<T>>
       >,
       OrderByArg extends True extends HasSelectOrTake
-        ? { orderBy: ProductGroupByArgs['orderBy'] }
-        : { orderBy?: ProductGroupByArgs['orderBy'] },
+        ? { orderBy: TripGroupByArgs['orderBy'] }
+        : { orderBy?: TripGroupByArgs['orderBy'] },
       OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
       ByFields extends MaybeTupleToUnion<T['by']>,
       ByValid extends Has<ByFields, OrderFields>,
@@ -4127,21 +4382,23 @@ export namespace Prisma {
             ? never
             : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
         }[OrderFields]
-    >(args: SubsetIntersection<T, ProductGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetProductGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+    >(args: SubsetIntersection<T, TripGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetTripGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
   /**
-   * Fields of the Product model
+   * Fields of the Trip model
    */
-  readonly fields: ProductFieldRefs;
+  readonly fields: TripFieldRefs;
   }
 
   /**
-   * The delegate class that acts as a "Promise-like" for Product.
+   * The delegate class that acts as a "Promise-like" for Trip.
    * Why is this prefixed with `Prisma__`?
    * Because we want to prevent naming conflicts as mentioned in
    * https://github.com/prisma/prisma-client-js/issues/707
    */
-  export interface Prisma__ProductClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+  export interface Prisma__TripClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
+    seats<T extends Trip$seatsArgs<ExtArgs> = {}>(args?: Subset<T, Trip$seatsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SeatPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    bookings<T extends Trip$bookingsArgs<ExtArgs> = {}>(args?: Subset<T, Trip$bookingsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$BookingPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -4168,731 +4425,814 @@ export namespace Prisma {
 
 
   /**
-   * Fields of the Product model
+   * Fields of the Trip model
    */
-  interface ProductFieldRefs {
-    readonly id: FieldRef<"Product", 'String'>
-    readonly name: FieldRef<"Product", 'String'>
-    readonly description: FieldRef<"Product", 'String'>
-    readonly priceCents: FieldRef<"Product", 'Int'>
-    readonly createdAt: FieldRef<"Product", 'DateTime'>
-    readonly updatedAt: FieldRef<"Product", 'DateTime'>
+  interface TripFieldRefs {
+    readonly id: FieldRef<"Trip", 'String'>
+    readonly operatorName: FieldRef<"Trip", 'String'>
+    readonly origin: FieldRef<"Trip", 'String'>
+    readonly destination: FieldRef<"Trip", 'String'>
+    readonly departureTime: FieldRef<"Trip", 'DateTime'>
+    readonly priceVnd: FieldRef<"Trip", 'Int'>
+    readonly totalSeats: FieldRef<"Trip", 'Int'>
+    readonly busType: FieldRef<"Trip", 'BusType'>
   }
     
 
   // Custom InputTypes
   /**
-   * Product findUnique
+   * Trip findUnique
    */
-  export type ProductFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type TripFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the Product
+     * Select specific fields to fetch from the Trip
      */
-    select?: ProductSelect<ExtArgs> | null
+    select?: TripSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the Product
+     * Omit specific fields from the Trip
      */
-    omit?: ProductOmit<ExtArgs> | null
+    omit?: TripOmit<ExtArgs> | null
     /**
-     * Filter, which Product to fetch.
+     * Choose, which related nodes to fetch as well
      */
-    where: ProductWhereUniqueInput
+    include?: TripInclude<ExtArgs> | null
+    /**
+     * Filter, which Trip to fetch.
+     */
+    where: TripWhereUniqueInput
   }
 
   /**
-   * Product findUniqueOrThrow
+   * Trip findUniqueOrThrow
    */
-  export type ProductFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type TripFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the Product
+     * Select specific fields to fetch from the Trip
      */
-    select?: ProductSelect<ExtArgs> | null
+    select?: TripSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the Product
+     * Omit specific fields from the Trip
      */
-    omit?: ProductOmit<ExtArgs> | null
+    omit?: TripOmit<ExtArgs> | null
     /**
-     * Filter, which Product to fetch.
+     * Choose, which related nodes to fetch as well
      */
-    where: ProductWhereUniqueInput
+    include?: TripInclude<ExtArgs> | null
+    /**
+     * Filter, which Trip to fetch.
+     */
+    where: TripWhereUniqueInput
   }
 
   /**
-   * Product findFirst
+   * Trip findFirst
    */
-  export type ProductFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type TripFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the Product
+     * Select specific fields to fetch from the Trip
      */
-    select?: ProductSelect<ExtArgs> | null
+    select?: TripSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the Product
+     * Omit specific fields from the Trip
      */
-    omit?: ProductOmit<ExtArgs> | null
+    omit?: TripOmit<ExtArgs> | null
     /**
-     * Filter, which Product to fetch.
+     * Choose, which related nodes to fetch as well
      */
-    where?: ProductWhereInput
+    include?: TripInclude<ExtArgs> | null
+    /**
+     * Filter, which Trip to fetch.
+     */
+    where?: TripWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
      * 
-     * Determine the order of Products to fetch.
+     * Determine the order of Trips to fetch.
      */
-    orderBy?: ProductOrderByWithRelationInput | ProductOrderByWithRelationInput[]
+    orderBy?: TripOrderByWithRelationInput | TripOrderByWithRelationInput[]
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
      * 
-     * Sets the position for searching for Products.
+     * Sets the position for searching for Trips.
      */
-    cursor?: ProductWhereUniqueInput
+    cursor?: TripWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Take `±n` Products from the position of the cursor.
+     * Take `±n` Trips from the position of the cursor.
      */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Skip the first `n` Products.
+     * Skip the first `n` Trips.
      */
     skip?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
      * 
-     * Filter by unique combinations of Products.
+     * Filter by unique combinations of Trips.
      */
-    distinct?: ProductScalarFieldEnum | ProductScalarFieldEnum[]
+    distinct?: TripScalarFieldEnum | TripScalarFieldEnum[]
   }
 
   /**
-   * Product findFirstOrThrow
+   * Trip findFirstOrThrow
    */
-  export type ProductFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type TripFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the Product
+     * Select specific fields to fetch from the Trip
      */
-    select?: ProductSelect<ExtArgs> | null
+    select?: TripSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the Product
+     * Omit specific fields from the Trip
      */
-    omit?: ProductOmit<ExtArgs> | null
+    omit?: TripOmit<ExtArgs> | null
     /**
-     * Filter, which Product to fetch.
+     * Choose, which related nodes to fetch as well
      */
-    where?: ProductWhereInput
+    include?: TripInclude<ExtArgs> | null
+    /**
+     * Filter, which Trip to fetch.
+     */
+    where?: TripWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
      * 
-     * Determine the order of Products to fetch.
+     * Determine the order of Trips to fetch.
      */
-    orderBy?: ProductOrderByWithRelationInput | ProductOrderByWithRelationInput[]
+    orderBy?: TripOrderByWithRelationInput | TripOrderByWithRelationInput[]
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
      * 
-     * Sets the position for searching for Products.
+     * Sets the position for searching for Trips.
      */
-    cursor?: ProductWhereUniqueInput
+    cursor?: TripWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Take `±n` Products from the position of the cursor.
+     * Take `±n` Trips from the position of the cursor.
      */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Skip the first `n` Products.
+     * Skip the first `n` Trips.
      */
     skip?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
      * 
-     * Filter by unique combinations of Products.
+     * Filter by unique combinations of Trips.
      */
-    distinct?: ProductScalarFieldEnum | ProductScalarFieldEnum[]
+    distinct?: TripScalarFieldEnum | TripScalarFieldEnum[]
   }
 
   /**
-   * Product findMany
+   * Trip findMany
    */
-  export type ProductFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type TripFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the Product
+     * Select specific fields to fetch from the Trip
      */
-    select?: ProductSelect<ExtArgs> | null
+    select?: TripSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the Product
+     * Omit specific fields from the Trip
      */
-    omit?: ProductOmit<ExtArgs> | null
+    omit?: TripOmit<ExtArgs> | null
     /**
-     * Filter, which Products to fetch.
+     * Choose, which related nodes to fetch as well
      */
-    where?: ProductWhereInput
+    include?: TripInclude<ExtArgs> | null
+    /**
+     * Filter, which Trips to fetch.
+     */
+    where?: TripWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
      * 
-     * Determine the order of Products to fetch.
+     * Determine the order of Trips to fetch.
      */
-    orderBy?: ProductOrderByWithRelationInput | ProductOrderByWithRelationInput[]
+    orderBy?: TripOrderByWithRelationInput | TripOrderByWithRelationInput[]
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
      * 
-     * Sets the position for listing Products.
+     * Sets the position for listing Trips.
      */
-    cursor?: ProductWhereUniqueInput
+    cursor?: TripWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Take `±n` Products from the position of the cursor.
+     * Take `±n` Trips from the position of the cursor.
      */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Skip the first `n` Products.
+     * Skip the first `n` Trips.
      */
     skip?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
      * 
-     * Filter by unique combinations of Products.
+     * Filter by unique combinations of Trips.
      */
-    distinct?: ProductScalarFieldEnum | ProductScalarFieldEnum[]
+    distinct?: TripScalarFieldEnum | TripScalarFieldEnum[]
   }
 
   /**
-   * Product create
+   * Trip create
    */
-  export type ProductCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type TripCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the Product
+     * Select specific fields to fetch from the Trip
      */
-    select?: ProductSelect<ExtArgs> | null
+    select?: TripSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the Product
+     * Omit specific fields from the Trip
      */
-    omit?: ProductOmit<ExtArgs> | null
+    omit?: TripOmit<ExtArgs> | null
     /**
-     * The data needed to create a Product.
+     * Choose, which related nodes to fetch as well
      */
-    data: XOR<ProductCreateInput, ProductUncheckedCreateInput>
+    include?: TripInclude<ExtArgs> | null
+    /**
+     * The data needed to create a Trip.
+     */
+    data: XOR<TripCreateInput, TripUncheckedCreateInput>
   }
 
   /**
-   * Product createMany
+   * Trip createMany
    */
-  export type ProductCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type TripCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * The data used to create many Products.
+     * The data used to create many Trips.
      */
-    data: ProductCreateManyInput | ProductCreateManyInput[]
+    data: TripCreateManyInput | TripCreateManyInput[]
     skipDuplicates?: boolean
   }
 
   /**
-   * Product createManyAndReturn
+   * Trip createManyAndReturn
    */
-  export type ProductCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type TripCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the Product
+     * Select specific fields to fetch from the Trip
      */
-    select?: ProductSelectCreateManyAndReturn<ExtArgs> | null
+    select?: TripSelectCreateManyAndReturn<ExtArgs> | null
     /**
-     * Omit specific fields from the Product
+     * Omit specific fields from the Trip
      */
-    omit?: ProductOmit<ExtArgs> | null
+    omit?: TripOmit<ExtArgs> | null
     /**
-     * The data used to create many Products.
+     * The data used to create many Trips.
      */
-    data: ProductCreateManyInput | ProductCreateManyInput[]
+    data: TripCreateManyInput | TripCreateManyInput[]
     skipDuplicates?: boolean
   }
 
   /**
-   * Product update
+   * Trip update
    */
-  export type ProductUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type TripUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the Product
+     * Select specific fields to fetch from the Trip
      */
-    select?: ProductSelect<ExtArgs> | null
+    select?: TripSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the Product
+     * Omit specific fields from the Trip
      */
-    omit?: ProductOmit<ExtArgs> | null
+    omit?: TripOmit<ExtArgs> | null
     /**
-     * The data needed to update a Product.
+     * Choose, which related nodes to fetch as well
      */
-    data: XOR<ProductUpdateInput, ProductUncheckedUpdateInput>
+    include?: TripInclude<ExtArgs> | null
     /**
-     * Choose, which Product to update.
+     * The data needed to update a Trip.
      */
-    where: ProductWhereUniqueInput
+    data: XOR<TripUpdateInput, TripUncheckedUpdateInput>
+    /**
+     * Choose, which Trip to update.
+     */
+    where: TripWhereUniqueInput
   }
 
   /**
-   * Product updateMany
+   * Trip updateMany
    */
-  export type ProductUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type TripUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * The data used to update Products.
+     * The data used to update Trips.
      */
-    data: XOR<ProductUpdateManyMutationInput, ProductUncheckedUpdateManyInput>
+    data: XOR<TripUpdateManyMutationInput, TripUncheckedUpdateManyInput>
     /**
-     * Filter which Products to update
+     * Filter which Trips to update
      */
-    where?: ProductWhereInput
+    where?: TripWhereInput
     /**
-     * Limit how many Products to update.
+     * Limit how many Trips to update.
      */
     limit?: number
   }
 
   /**
-   * Product updateManyAndReturn
+   * Trip updateManyAndReturn
    */
-  export type ProductUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type TripUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the Product
+     * Select specific fields to fetch from the Trip
      */
-    select?: ProductSelectUpdateManyAndReturn<ExtArgs> | null
+    select?: TripSelectUpdateManyAndReturn<ExtArgs> | null
     /**
-     * Omit specific fields from the Product
+     * Omit specific fields from the Trip
      */
-    omit?: ProductOmit<ExtArgs> | null
+    omit?: TripOmit<ExtArgs> | null
     /**
-     * The data used to update Products.
+     * The data used to update Trips.
      */
-    data: XOR<ProductUpdateManyMutationInput, ProductUncheckedUpdateManyInput>
+    data: XOR<TripUpdateManyMutationInput, TripUncheckedUpdateManyInput>
     /**
-     * Filter which Products to update
+     * Filter which Trips to update
      */
-    where?: ProductWhereInput
+    where?: TripWhereInput
     /**
-     * Limit how many Products to update.
+     * Limit how many Trips to update.
      */
     limit?: number
   }
 
   /**
-   * Product upsert
+   * Trip upsert
    */
-  export type ProductUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type TripUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the Product
+     * Select specific fields to fetch from the Trip
      */
-    select?: ProductSelect<ExtArgs> | null
+    select?: TripSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the Product
+     * Omit specific fields from the Trip
      */
-    omit?: ProductOmit<ExtArgs> | null
+    omit?: TripOmit<ExtArgs> | null
     /**
-     * The filter to search for the Product to update in case it exists.
+     * Choose, which related nodes to fetch as well
      */
-    where: ProductWhereUniqueInput
+    include?: TripInclude<ExtArgs> | null
     /**
-     * In case the Product found by the `where` argument doesn't exist, create a new Product with this data.
+     * The filter to search for the Trip to update in case it exists.
      */
-    create: XOR<ProductCreateInput, ProductUncheckedCreateInput>
+    where: TripWhereUniqueInput
     /**
-     * In case the Product was found with the provided `where` argument, update it with this data.
+     * In case the Trip found by the `where` argument doesn't exist, create a new Trip with this data.
      */
-    update: XOR<ProductUpdateInput, ProductUncheckedUpdateInput>
+    create: XOR<TripCreateInput, TripUncheckedCreateInput>
+    /**
+     * In case the Trip was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<TripUpdateInput, TripUncheckedUpdateInput>
   }
 
   /**
-   * Product delete
+   * Trip delete
    */
-  export type ProductDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type TripDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the Product
+     * Select specific fields to fetch from the Trip
      */
-    select?: ProductSelect<ExtArgs> | null
+    select?: TripSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the Product
+     * Omit specific fields from the Trip
      */
-    omit?: ProductOmit<ExtArgs> | null
+    omit?: TripOmit<ExtArgs> | null
     /**
-     * Filter which Product to delete.
+     * Choose, which related nodes to fetch as well
      */
-    where: ProductWhereUniqueInput
+    include?: TripInclude<ExtArgs> | null
+    /**
+     * Filter which Trip to delete.
+     */
+    where: TripWhereUniqueInput
   }
 
   /**
-   * Product deleteMany
+   * Trip deleteMany
    */
-  export type ProductDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type TripDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Filter which Products to delete
+     * Filter which Trips to delete
      */
-    where?: ProductWhereInput
+    where?: TripWhereInput
     /**
-     * Limit how many Products to delete.
+     * Limit how many Trips to delete.
      */
     limit?: number
   }
 
   /**
-   * Product without action
+   * Trip.seats
    */
-  export type ProductDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type Trip$seatsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the Product
+     * Select specific fields to fetch from the Seat
      */
-    select?: ProductSelect<ExtArgs> | null
+    select?: SeatSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the Product
+     * Omit specific fields from the Seat
      */
-    omit?: ProductOmit<ExtArgs> | null
+    omit?: SeatOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SeatInclude<ExtArgs> | null
+    where?: SeatWhereInput
+    orderBy?: SeatOrderByWithRelationInput | SeatOrderByWithRelationInput[]
+    cursor?: SeatWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: SeatScalarFieldEnum | SeatScalarFieldEnum[]
+  }
+
+  /**
+   * Trip.bookings
+   */
+  export type Trip$bookingsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Booking
+     */
+    select?: BookingSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Booking
+     */
+    omit?: BookingOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BookingInclude<ExtArgs> | null
+    where?: BookingWhereInput
+    orderBy?: BookingOrderByWithRelationInput | BookingOrderByWithRelationInput[]
+    cursor?: BookingWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: BookingScalarFieldEnum | BookingScalarFieldEnum[]
+  }
+
+  /**
+   * Trip without action
+   */
+  export type TripDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Trip
+     */
+    select?: TripSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Trip
+     */
+    omit?: TripOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TripInclude<ExtArgs> | null
   }
 
 
   /**
-   * Model Order
+   * Model Seat
    */
 
-  export type AggregateOrder = {
-    _count: OrderCountAggregateOutputType | null
-    _min: OrderMinAggregateOutputType | null
-    _max: OrderMaxAggregateOutputType | null
+  export type AggregateSeat = {
+    _count: SeatCountAggregateOutputType | null
+    _min: SeatMinAggregateOutputType | null
+    _max: SeatMaxAggregateOutputType | null
   }
 
-  export type OrderMinAggregateOutputType = {
+  export type SeatMinAggregateOutputType = {
     id: string | null
-    userId: string | null
-    status: $Enums.OrderStatus | null
-    createdAt: Date | null
-    updatedAt: Date | null
+    tripId: string | null
+    seatNumber: string | null
+    status: $Enums.SeatStatus | null
   }
 
-  export type OrderMaxAggregateOutputType = {
+  export type SeatMaxAggregateOutputType = {
     id: string | null
-    userId: string | null
-    status: $Enums.OrderStatus | null
-    createdAt: Date | null
-    updatedAt: Date | null
+    tripId: string | null
+    seatNumber: string | null
+    status: $Enums.SeatStatus | null
   }
 
-  export type OrderCountAggregateOutputType = {
+  export type SeatCountAggregateOutputType = {
     id: number
-    userId: number
+    tripId: number
+    seatNumber: number
     status: number
-    createdAt: number
-    updatedAt: number
     _all: number
   }
 
 
-  export type OrderMinAggregateInputType = {
+  export type SeatMinAggregateInputType = {
     id?: true
-    userId?: true
+    tripId?: true
+    seatNumber?: true
     status?: true
-    createdAt?: true
-    updatedAt?: true
   }
 
-  export type OrderMaxAggregateInputType = {
+  export type SeatMaxAggregateInputType = {
     id?: true
-    userId?: true
+    tripId?: true
+    seatNumber?: true
     status?: true
-    createdAt?: true
-    updatedAt?: true
   }
 
-  export type OrderCountAggregateInputType = {
+  export type SeatCountAggregateInputType = {
     id?: true
-    userId?: true
+    tripId?: true
+    seatNumber?: true
     status?: true
-    createdAt?: true
-    updatedAt?: true
     _all?: true
   }
 
-  export type OrderAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type SeatAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Filter which Order to aggregate.
+     * Filter which Seat to aggregate.
      */
-    where?: OrderWhereInput
+    where?: SeatWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
      * 
-     * Determine the order of Orders to fetch.
+     * Determine the order of Seats to fetch.
      */
-    orderBy?: OrderOrderByWithRelationInput | OrderOrderByWithRelationInput[]
+    orderBy?: SeatOrderByWithRelationInput | SeatOrderByWithRelationInput[]
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
      * 
      * Sets the start position
      */
-    cursor?: OrderWhereUniqueInput
+    cursor?: SeatWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Take `±n` Orders from the position of the cursor.
+     * Take `±n` Seats from the position of the cursor.
      */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Skip the first `n` Orders.
+     * Skip the first `n` Seats.
      */
     skip?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      * 
-     * Count returned Orders
+     * Count returned Seats
     **/
-    _count?: true | OrderCountAggregateInputType
+    _count?: true | SeatCountAggregateInputType
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      * 
      * Select which fields to find the minimum value
     **/
-    _min?: OrderMinAggregateInputType
+    _min?: SeatMinAggregateInputType
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      * 
      * Select which fields to find the maximum value
     **/
-    _max?: OrderMaxAggregateInputType
+    _max?: SeatMaxAggregateInputType
   }
 
-  export type GetOrderAggregateType<T extends OrderAggregateArgs> = {
-        [P in keyof T & keyof AggregateOrder]: P extends '_count' | 'count'
+  export type GetSeatAggregateType<T extends SeatAggregateArgs> = {
+        [P in keyof T & keyof AggregateSeat]: P extends '_count' | 'count'
       ? T[P] extends true
         ? number
-        : GetScalarType<T[P], AggregateOrder[P]>
-      : GetScalarType<T[P], AggregateOrder[P]>
+        : GetScalarType<T[P], AggregateSeat[P]>
+      : GetScalarType<T[P], AggregateSeat[P]>
   }
 
 
 
 
-  export type OrderGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: OrderWhereInput
-    orderBy?: OrderOrderByWithAggregationInput | OrderOrderByWithAggregationInput[]
-    by: OrderScalarFieldEnum[] | OrderScalarFieldEnum
-    having?: OrderScalarWhereWithAggregatesInput
+  export type SeatGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: SeatWhereInput
+    orderBy?: SeatOrderByWithAggregationInput | SeatOrderByWithAggregationInput[]
+    by: SeatScalarFieldEnum[] | SeatScalarFieldEnum
+    having?: SeatScalarWhereWithAggregatesInput
     take?: number
     skip?: number
-    _count?: OrderCountAggregateInputType | true
-    _min?: OrderMinAggregateInputType
-    _max?: OrderMaxAggregateInputType
+    _count?: SeatCountAggregateInputType | true
+    _min?: SeatMinAggregateInputType
+    _max?: SeatMaxAggregateInputType
   }
 
-  export type OrderGroupByOutputType = {
+  export type SeatGroupByOutputType = {
     id: string
-    userId: string
-    status: $Enums.OrderStatus
-    createdAt: Date
-    updatedAt: Date
-    _count: OrderCountAggregateOutputType | null
-    _min: OrderMinAggregateOutputType | null
-    _max: OrderMaxAggregateOutputType | null
+    tripId: string
+    seatNumber: string
+    status: $Enums.SeatStatus
+    _count: SeatCountAggregateOutputType | null
+    _min: SeatMinAggregateOutputType | null
+    _max: SeatMaxAggregateOutputType | null
   }
 
-  type GetOrderGroupByPayload<T extends OrderGroupByArgs> = Prisma.PrismaPromise<
+  type GetSeatGroupByPayload<T extends SeatGroupByArgs> = Prisma.PrismaPromise<
     Array<
-      PickEnumerable<OrderGroupByOutputType, T['by']> &
+      PickEnumerable<SeatGroupByOutputType, T['by']> &
         {
-          [P in ((keyof T) & (keyof OrderGroupByOutputType))]: P extends '_count'
+          [P in ((keyof T) & (keyof SeatGroupByOutputType))]: P extends '_count'
             ? T[P] extends boolean
               ? number
-              : GetScalarType<T[P], OrderGroupByOutputType[P]>
-            : GetScalarType<T[P], OrderGroupByOutputType[P]>
+              : GetScalarType<T[P], SeatGroupByOutputType[P]>
+            : GetScalarType<T[P], SeatGroupByOutputType[P]>
         }
       >
     >
 
 
-  export type OrderSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+  export type SeatSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
-    userId?: boolean
+    tripId?: boolean
+    seatNumber?: boolean
     status?: boolean
-    createdAt?: boolean
-    updatedAt?: boolean
-    user?: boolean | UserDefaultArgs<ExtArgs>
-  }, ExtArgs["result"]["order"]>
+    trip?: boolean | TripDefaultArgs<ExtArgs>
+    bookings?: boolean | Seat$bookingsArgs<ExtArgs>
+    _count?: boolean | SeatCountOutputTypeDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["seat"]>
 
-  export type OrderSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+  export type SeatSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
-    userId?: boolean
+    tripId?: boolean
+    seatNumber?: boolean
     status?: boolean
-    createdAt?: boolean
-    updatedAt?: boolean
-    user?: boolean | UserDefaultArgs<ExtArgs>
-  }, ExtArgs["result"]["order"]>
+    trip?: boolean | TripDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["seat"]>
 
-  export type OrderSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+  export type SeatSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
-    userId?: boolean
+    tripId?: boolean
+    seatNumber?: boolean
     status?: boolean
-    createdAt?: boolean
-    updatedAt?: boolean
-    user?: boolean | UserDefaultArgs<ExtArgs>
-  }, ExtArgs["result"]["order"]>
+    trip?: boolean | TripDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["seat"]>
 
-  export type OrderSelectScalar = {
+  export type SeatSelectScalar = {
     id?: boolean
-    userId?: boolean
+    tripId?: boolean
+    seatNumber?: boolean
     status?: boolean
-    createdAt?: boolean
-    updatedAt?: boolean
   }
 
-  export type OrderOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userId" | "status" | "createdAt" | "updatedAt", ExtArgs["result"]["order"]>
-  export type OrderInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    user?: boolean | UserDefaultArgs<ExtArgs>
+  export type SeatOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "tripId" | "seatNumber" | "status", ExtArgs["result"]["seat"]>
+  export type SeatInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    trip?: boolean | TripDefaultArgs<ExtArgs>
+    bookings?: boolean | Seat$bookingsArgs<ExtArgs>
+    _count?: boolean | SeatCountOutputTypeDefaultArgs<ExtArgs>
   }
-  export type OrderIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    user?: boolean | UserDefaultArgs<ExtArgs>
+  export type SeatIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    trip?: boolean | TripDefaultArgs<ExtArgs>
   }
-  export type OrderIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    user?: boolean | UserDefaultArgs<ExtArgs>
+  export type SeatIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    trip?: boolean | TripDefaultArgs<ExtArgs>
   }
 
-  export type $OrderPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    name: "Order"
+  export type $SeatPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "Seat"
     objects: {
-      user: Prisma.$UserPayload<ExtArgs>
+      trip: Prisma.$TripPayload<ExtArgs>
+      bookings: Prisma.$BookingPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
-      userId: string
-      status: $Enums.OrderStatus
-      createdAt: Date
-      updatedAt: Date
-    }, ExtArgs["result"]["order"]>
+      tripId: string
+      seatNumber: string
+      status: $Enums.SeatStatus
+    }, ExtArgs["result"]["seat"]>
     composites: {}
   }
 
-  type OrderGetPayload<S extends boolean | null | undefined | OrderDefaultArgs> = $Result.GetResult<Prisma.$OrderPayload, S>
+  type SeatGetPayload<S extends boolean | null | undefined | SeatDefaultArgs> = $Result.GetResult<Prisma.$SeatPayload, S>
 
-  type OrderCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
-    Omit<OrderFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
-      select?: OrderCountAggregateInputType | true
+  type SeatCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<SeatFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: SeatCountAggregateInputType | true
     }
 
-  export interface OrderDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
-    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['Order'], meta: { name: 'Order' } }
+  export interface SeatDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['Seat'], meta: { name: 'Seat' } }
     /**
-     * Find zero or one Order that matches the filter.
-     * @param {OrderFindUniqueArgs} args - Arguments to find a Order
+     * Find zero or one Seat that matches the filter.
+     * @param {SeatFindUniqueArgs} args - Arguments to find a Seat
      * @example
-     * // Get one Order
-     * const order = await prisma.order.findUnique({
+     * // Get one Seat
+     * const seat = await prisma.seat.findUnique({
      *   where: {
      *     // ... provide filter here
      *   }
      * })
      */
-    findUnique<T extends OrderFindUniqueArgs>(args: SelectSubset<T, OrderFindUniqueArgs<ExtArgs>>): Prisma__OrderClient<$Result.GetResult<Prisma.$OrderPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    findUnique<T extends SeatFindUniqueArgs>(args: SelectSubset<T, SeatFindUniqueArgs<ExtArgs>>): Prisma__SeatClient<$Result.GetResult<Prisma.$SeatPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
 
     /**
-     * Find one Order that matches the filter or throw an error with `error.code='P2025'`
+     * Find one Seat that matches the filter or throw an error with `error.code='P2025'`
      * if no matches were found.
-     * @param {OrderFindUniqueOrThrowArgs} args - Arguments to find a Order
+     * @param {SeatFindUniqueOrThrowArgs} args - Arguments to find a Seat
      * @example
-     * // Get one Order
-     * const order = await prisma.order.findUniqueOrThrow({
+     * // Get one Seat
+     * const seat = await prisma.seat.findUniqueOrThrow({
      *   where: {
      *     // ... provide filter here
      *   }
      * })
      */
-    findUniqueOrThrow<T extends OrderFindUniqueOrThrowArgs>(args: SelectSubset<T, OrderFindUniqueOrThrowArgs<ExtArgs>>): Prisma__OrderClient<$Result.GetResult<Prisma.$OrderPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+    findUniqueOrThrow<T extends SeatFindUniqueOrThrowArgs>(args: SelectSubset<T, SeatFindUniqueOrThrowArgs<ExtArgs>>): Prisma__SeatClient<$Result.GetResult<Prisma.$SeatPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
 
     /**
-     * Find the first Order that matches the filter.
+     * Find the first Seat that matches the filter.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {OrderFindFirstArgs} args - Arguments to find a Order
+     * @param {SeatFindFirstArgs} args - Arguments to find a Seat
      * @example
-     * // Get one Order
-     * const order = await prisma.order.findFirst({
+     * // Get one Seat
+     * const seat = await prisma.seat.findFirst({
      *   where: {
      *     // ... provide filter here
      *   }
      * })
      */
-    findFirst<T extends OrderFindFirstArgs>(args?: SelectSubset<T, OrderFindFirstArgs<ExtArgs>>): Prisma__OrderClient<$Result.GetResult<Prisma.$OrderPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    findFirst<T extends SeatFindFirstArgs>(args?: SelectSubset<T, SeatFindFirstArgs<ExtArgs>>): Prisma__SeatClient<$Result.GetResult<Prisma.$SeatPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
 
     /**
-     * Find the first Order that matches the filter or
+     * Find the first Seat that matches the filter or
      * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {OrderFindFirstOrThrowArgs} args - Arguments to find a Order
+     * @param {SeatFindFirstOrThrowArgs} args - Arguments to find a Seat
      * @example
-     * // Get one Order
-     * const order = await prisma.order.findFirstOrThrow({
+     * // Get one Seat
+     * const seat = await prisma.seat.findFirstOrThrow({
      *   where: {
      *     // ... provide filter here
      *   }
      * })
      */
-    findFirstOrThrow<T extends OrderFindFirstOrThrowArgs>(args?: SelectSubset<T, OrderFindFirstOrThrowArgs<ExtArgs>>): Prisma__OrderClient<$Result.GetResult<Prisma.$OrderPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+    findFirstOrThrow<T extends SeatFindFirstOrThrowArgs>(args?: SelectSubset<T, SeatFindFirstOrThrowArgs<ExtArgs>>): Prisma__SeatClient<$Result.GetResult<Prisma.$SeatPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
 
     /**
-     * Find zero or more Orders that matches the filter.
+     * Find zero or more Seats that matches the filter.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {OrderFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @param {SeatFindManyArgs} args - Arguments to filter and select certain fields only.
      * @example
-     * // Get all Orders
-     * const orders = await prisma.order.findMany()
+     * // Get all Seats
+     * const seats = await prisma.seat.findMany()
      * 
-     * // Get first 10 Orders
-     * const orders = await prisma.order.findMany({ take: 10 })
+     * // Get first 10 Seats
+     * const seats = await prisma.seat.findMany({ take: 10 })
      * 
      * // Only select the `id`
-     * const orderWithIdOnly = await prisma.order.findMany({ select: { id: true } })
+     * const seatWithIdOnly = await prisma.seat.findMany({ select: { id: true } })
      * 
      */
-    findMany<T extends OrderFindManyArgs>(args?: SelectSubset<T, OrderFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$OrderPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+    findMany<T extends SeatFindManyArgs>(args?: SelectSubset<T, SeatFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SeatPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
 
     /**
-     * Create a Order.
-     * @param {OrderCreateArgs} args - Arguments to create a Order.
+     * Create a Seat.
+     * @param {SeatCreateArgs} args - Arguments to create a Seat.
      * @example
-     * // Create one Order
-     * const Order = await prisma.order.create({
+     * // Create one Seat
+     * const Seat = await prisma.seat.create({
      *   data: {
-     *     // ... data to create a Order
+     *     // ... data to create a Seat
      *   }
      * })
      * 
      */
-    create<T extends OrderCreateArgs>(args: SelectSubset<T, OrderCreateArgs<ExtArgs>>): Prisma__OrderClient<$Result.GetResult<Prisma.$OrderPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+    create<T extends SeatCreateArgs>(args: SelectSubset<T, SeatCreateArgs<ExtArgs>>): Prisma__SeatClient<$Result.GetResult<Prisma.$SeatPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
 
     /**
-     * Create many Orders.
-     * @param {OrderCreateManyArgs} args - Arguments to create many Orders.
+     * Create many Seats.
+     * @param {SeatCreateManyArgs} args - Arguments to create many Seats.
      * @example
-     * // Create many Orders
-     * const order = await prisma.order.createMany({
+     * // Create many Seats
+     * const seat = await prisma.seat.createMany({
      *   data: [
      *     // ... provide data here
      *   ]
      * })
      *     
      */
-    createMany<T extends OrderCreateManyArgs>(args?: SelectSubset<T, OrderCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+    createMany<T extends SeatCreateManyArgs>(args?: SelectSubset<T, SeatCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
 
     /**
-     * Create many Orders and returns the data saved in the database.
-     * @param {OrderCreateManyAndReturnArgs} args - Arguments to create many Orders.
+     * Create many Seats and returns the data saved in the database.
+     * @param {SeatCreateManyAndReturnArgs} args - Arguments to create many Seats.
      * @example
-     * // Create many Orders
-     * const order = await prisma.order.createManyAndReturn({
+     * // Create many Seats
+     * const seat = await prisma.seat.createManyAndReturn({
      *   data: [
      *     // ... provide data here
      *   ]
      * })
      * 
-     * // Create many Orders and only return the `id`
-     * const orderWithIdOnly = await prisma.order.createManyAndReturn({
+     * // Create many Seats and only return the `id`
+     * const seatWithIdOnly = await prisma.seat.createManyAndReturn({
      *   select: { id: true },
      *   data: [
      *     // ... provide data here
@@ -4902,28 +5242,28 @@ export namespace Prisma {
      * Read more here: https://pris.ly/d/null-undefined
      * 
      */
-    createManyAndReturn<T extends OrderCreateManyAndReturnArgs>(args?: SelectSubset<T, OrderCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$OrderPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+    createManyAndReturn<T extends SeatCreateManyAndReturnArgs>(args?: SelectSubset<T, SeatCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SeatPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
 
     /**
-     * Delete a Order.
-     * @param {OrderDeleteArgs} args - Arguments to delete one Order.
+     * Delete a Seat.
+     * @param {SeatDeleteArgs} args - Arguments to delete one Seat.
      * @example
-     * // Delete one Order
-     * const Order = await prisma.order.delete({
+     * // Delete one Seat
+     * const Seat = await prisma.seat.delete({
      *   where: {
-     *     // ... filter to delete one Order
+     *     // ... filter to delete one Seat
      *   }
      * })
      * 
      */
-    delete<T extends OrderDeleteArgs>(args: SelectSubset<T, OrderDeleteArgs<ExtArgs>>): Prisma__OrderClient<$Result.GetResult<Prisma.$OrderPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+    delete<T extends SeatDeleteArgs>(args: SelectSubset<T, SeatDeleteArgs<ExtArgs>>): Prisma__SeatClient<$Result.GetResult<Prisma.$SeatPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
 
     /**
-     * Update one Order.
-     * @param {OrderUpdateArgs} args - Arguments to update one Order.
+     * Update one Seat.
+     * @param {SeatUpdateArgs} args - Arguments to update one Seat.
      * @example
-     * // Update one Order
-     * const order = await prisma.order.update({
+     * // Update one Seat
+     * const seat = await prisma.seat.update({
      *   where: {
      *     // ... provide filter here
      *   },
@@ -4933,30 +5273,30 @@ export namespace Prisma {
      * })
      * 
      */
-    update<T extends OrderUpdateArgs>(args: SelectSubset<T, OrderUpdateArgs<ExtArgs>>): Prisma__OrderClient<$Result.GetResult<Prisma.$OrderPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+    update<T extends SeatUpdateArgs>(args: SelectSubset<T, SeatUpdateArgs<ExtArgs>>): Prisma__SeatClient<$Result.GetResult<Prisma.$SeatPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
 
     /**
-     * Delete zero or more Orders.
-     * @param {OrderDeleteManyArgs} args - Arguments to filter Orders to delete.
+     * Delete zero or more Seats.
+     * @param {SeatDeleteManyArgs} args - Arguments to filter Seats to delete.
      * @example
-     * // Delete a few Orders
-     * const { count } = await prisma.order.deleteMany({
+     * // Delete a few Seats
+     * const { count } = await prisma.seat.deleteMany({
      *   where: {
      *     // ... provide filter here
      *   }
      * })
      * 
      */
-    deleteMany<T extends OrderDeleteManyArgs>(args?: SelectSubset<T, OrderDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+    deleteMany<T extends SeatDeleteManyArgs>(args?: SelectSubset<T, SeatDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
 
     /**
-     * Update zero or more Orders.
+     * Update zero or more Seats.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {OrderUpdateManyArgs} args - Arguments to update one or more rows.
+     * @param {SeatUpdateManyArgs} args - Arguments to update one or more rows.
      * @example
-     * // Update many Orders
-     * const order = await prisma.order.updateMany({
+     * // Update many Seats
+     * const seat = await prisma.seat.updateMany({
      *   where: {
      *     // ... provide filter here
      *   },
@@ -4966,14 +5306,14 @@ export namespace Prisma {
      * })
      * 
      */
-    updateMany<T extends OrderUpdateManyArgs>(args: SelectSubset<T, OrderUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+    updateMany<T extends SeatUpdateManyArgs>(args: SelectSubset<T, SeatUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
 
     /**
-     * Update zero or more Orders and returns the data updated in the database.
-     * @param {OrderUpdateManyAndReturnArgs} args - Arguments to update many Orders.
+     * Update zero or more Seats and returns the data updated in the database.
+     * @param {SeatUpdateManyAndReturnArgs} args - Arguments to update many Seats.
      * @example
-     * // Update many Orders
-     * const order = await prisma.order.updateManyAndReturn({
+     * // Update many Seats
+     * const seat = await prisma.seat.updateManyAndReturn({
      *   where: {
      *     // ... provide filter here
      *   },
@@ -4982,8 +5322,8 @@ export namespace Prisma {
      *   ]
      * })
      * 
-     * // Update zero or more Orders and only return the `id`
-     * const orderWithIdOnly = await prisma.order.updateManyAndReturn({
+     * // Update zero or more Seats and only return the `id`
+     * const seatWithIdOnly = await prisma.seat.updateManyAndReturn({
      *   select: { id: true },
      *   where: {
      *     // ... provide filter here
@@ -4996,56 +5336,56 @@ export namespace Prisma {
      * Read more here: https://pris.ly/d/null-undefined
      * 
      */
-    updateManyAndReturn<T extends OrderUpdateManyAndReturnArgs>(args: SelectSubset<T, OrderUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$OrderPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+    updateManyAndReturn<T extends SeatUpdateManyAndReturnArgs>(args: SelectSubset<T, SeatUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SeatPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
 
     /**
-     * Create or update one Order.
-     * @param {OrderUpsertArgs} args - Arguments to update or create a Order.
+     * Create or update one Seat.
+     * @param {SeatUpsertArgs} args - Arguments to update or create a Seat.
      * @example
-     * // Update or create a Order
-     * const order = await prisma.order.upsert({
+     * // Update or create a Seat
+     * const seat = await prisma.seat.upsert({
      *   create: {
-     *     // ... data to create a Order
+     *     // ... data to create a Seat
      *   },
      *   update: {
      *     // ... in case it already exists, update
      *   },
      *   where: {
-     *     // ... the filter for the Order we want to update
+     *     // ... the filter for the Seat we want to update
      *   }
      * })
      */
-    upsert<T extends OrderUpsertArgs>(args: SelectSubset<T, OrderUpsertArgs<ExtArgs>>): Prisma__OrderClient<$Result.GetResult<Prisma.$OrderPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+    upsert<T extends SeatUpsertArgs>(args: SelectSubset<T, SeatUpsertArgs<ExtArgs>>): Prisma__SeatClient<$Result.GetResult<Prisma.$SeatPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
 
 
     /**
-     * Count the number of Orders.
+     * Count the number of Seats.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {OrderCountArgs} args - Arguments to filter Orders to count.
+     * @param {SeatCountArgs} args - Arguments to filter Seats to count.
      * @example
-     * // Count the number of Orders
-     * const count = await prisma.order.count({
+     * // Count the number of Seats
+     * const count = await prisma.seat.count({
      *   where: {
-     *     // ... the filter for the Orders we want to count
+     *     // ... the filter for the Seats we want to count
      *   }
      * })
     **/
-    count<T extends OrderCountArgs>(
-      args?: Subset<T, OrderCountArgs>,
+    count<T extends SeatCountArgs>(
+      args?: Subset<T, SeatCountArgs>,
     ): Prisma.PrismaPromise<
       T extends $Utils.Record<'select', any>
         ? T['select'] extends true
           ? number
-          : GetScalarType<T['select'], OrderCountAggregateOutputType>
+          : GetScalarType<T['select'], SeatCountAggregateOutputType>
         : number
     >
 
     /**
-     * Allows you to perform aggregations operations on a Order.
+     * Allows you to perform aggregations operations on a Seat.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {OrderAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @param {SeatAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
      * @example
      * // Ordered by age ascending
      * // Where email contains prisma.io
@@ -5065,13 +5405,13 @@ export namespace Prisma {
      *   take: 10,
      * })
     **/
-    aggregate<T extends OrderAggregateArgs>(args: Subset<T, OrderAggregateArgs>): Prisma.PrismaPromise<GetOrderAggregateType<T>>
+    aggregate<T extends SeatAggregateArgs>(args: Subset<T, SeatAggregateArgs>): Prisma.PrismaPromise<GetSeatAggregateType<T>>
 
     /**
-     * Group by Order.
+     * Group by Seat.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {OrderGroupByArgs} args - Group by arguments.
+     * @param {SeatGroupByArgs} args - Group by arguments.
      * @example
      * // Group by city, order by createdAt, get count
      * const result = await prisma.user.groupBy({
@@ -5086,14 +5426,14 @@ export namespace Prisma {
      * 
     **/
     groupBy<
-      T extends OrderGroupByArgs,
+      T extends SeatGroupByArgs,
       HasSelectOrTake extends Or<
         Extends<'skip', Keys<T>>,
         Extends<'take', Keys<T>>
       >,
       OrderByArg extends True extends HasSelectOrTake
-        ? { orderBy: OrderGroupByArgs['orderBy'] }
-        : { orderBy?: OrderGroupByArgs['orderBy'] },
+        ? { orderBy: SeatGroupByArgs['orderBy'] }
+        : { orderBy?: SeatGroupByArgs['orderBy'] },
       OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
       ByFields extends MaybeTupleToUnion<T['by']>,
       ByValid extends Has<ByFields, OrderFields>,
@@ -5142,22 +5482,23 @@ export namespace Prisma {
             ? never
             : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
         }[OrderFields]
-    >(args: SubsetIntersection<T, OrderGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetOrderGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+    >(args: SubsetIntersection<T, SeatGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetSeatGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
   /**
-   * Fields of the Order model
+   * Fields of the Seat model
    */
-  readonly fields: OrderFieldRefs;
+  readonly fields: SeatFieldRefs;
   }
 
   /**
-   * The delegate class that acts as a "Promise-like" for Order.
+   * The delegate class that acts as a "Promise-like" for Seat.
    * Why is this prefixed with `Prisma__`?
    * Because we want to prevent naming conflicts as mentioned in
    * https://github.com/prisma/prisma-client-js/issues/707
    */
-  export interface Prisma__OrderClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+  export interface Prisma__SeatClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
-    user<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    trip<T extends TripDefaultArgs<ExtArgs> = {}>(args?: Subset<T, TripDefaultArgs<ExtArgs>>): Prisma__TripClient<$Result.GetResult<Prisma.$TripPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    bookings<T extends Seat$bookingsArgs<ExtArgs> = {}>(args?: Subset<T, Seat$bookingsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$BookingPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -5184,430 +5525,1592 @@ export namespace Prisma {
 
 
   /**
-   * Fields of the Order model
+   * Fields of the Seat model
    */
-  interface OrderFieldRefs {
-    readonly id: FieldRef<"Order", 'String'>
-    readonly userId: FieldRef<"Order", 'String'>
-    readonly status: FieldRef<"Order", 'OrderStatus'>
-    readonly createdAt: FieldRef<"Order", 'DateTime'>
-    readonly updatedAt: FieldRef<"Order", 'DateTime'>
+  interface SeatFieldRefs {
+    readonly id: FieldRef<"Seat", 'String'>
+    readonly tripId: FieldRef<"Seat", 'String'>
+    readonly seatNumber: FieldRef<"Seat", 'String'>
+    readonly status: FieldRef<"Seat", 'SeatStatus'>
   }
     
 
   // Custom InputTypes
   /**
-   * Order findUnique
+   * Seat findUnique
    */
-  export type OrderFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type SeatFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the Order
+     * Select specific fields to fetch from the Seat
      */
-    select?: OrderSelect<ExtArgs> | null
+    select?: SeatSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the Order
+     * Omit specific fields from the Seat
      */
-    omit?: OrderOmit<ExtArgs> | null
+    omit?: SeatOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: OrderInclude<ExtArgs> | null
+    include?: SeatInclude<ExtArgs> | null
     /**
-     * Filter, which Order to fetch.
+     * Filter, which Seat to fetch.
      */
-    where: OrderWhereUniqueInput
+    where: SeatWhereUniqueInput
   }
 
   /**
-   * Order findUniqueOrThrow
+   * Seat findUniqueOrThrow
    */
-  export type OrderFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type SeatFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the Order
+     * Select specific fields to fetch from the Seat
      */
-    select?: OrderSelect<ExtArgs> | null
+    select?: SeatSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the Order
+     * Omit specific fields from the Seat
      */
-    omit?: OrderOmit<ExtArgs> | null
+    omit?: SeatOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: OrderInclude<ExtArgs> | null
+    include?: SeatInclude<ExtArgs> | null
     /**
-     * Filter, which Order to fetch.
+     * Filter, which Seat to fetch.
      */
-    where: OrderWhereUniqueInput
+    where: SeatWhereUniqueInput
   }
 
   /**
-   * Order findFirst
+   * Seat findFirst
    */
-  export type OrderFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type SeatFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the Order
+     * Select specific fields to fetch from the Seat
      */
-    select?: OrderSelect<ExtArgs> | null
+    select?: SeatSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the Order
+     * Omit specific fields from the Seat
      */
-    omit?: OrderOmit<ExtArgs> | null
+    omit?: SeatOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: OrderInclude<ExtArgs> | null
+    include?: SeatInclude<ExtArgs> | null
     /**
-     * Filter, which Order to fetch.
+     * Filter, which Seat to fetch.
      */
-    where?: OrderWhereInput
+    where?: SeatWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
      * 
-     * Determine the order of Orders to fetch.
+     * Determine the order of Seats to fetch.
      */
-    orderBy?: OrderOrderByWithRelationInput | OrderOrderByWithRelationInput[]
+    orderBy?: SeatOrderByWithRelationInput | SeatOrderByWithRelationInput[]
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
      * 
-     * Sets the position for searching for Orders.
+     * Sets the position for searching for Seats.
      */
-    cursor?: OrderWhereUniqueInput
+    cursor?: SeatWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Take `±n` Orders from the position of the cursor.
+     * Take `±n` Seats from the position of the cursor.
      */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Skip the first `n` Orders.
+     * Skip the first `n` Seats.
      */
     skip?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
      * 
-     * Filter by unique combinations of Orders.
+     * Filter by unique combinations of Seats.
      */
-    distinct?: OrderScalarFieldEnum | OrderScalarFieldEnum[]
+    distinct?: SeatScalarFieldEnum | SeatScalarFieldEnum[]
   }
 
   /**
-   * Order findFirstOrThrow
+   * Seat findFirstOrThrow
    */
-  export type OrderFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type SeatFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the Order
+     * Select specific fields to fetch from the Seat
      */
-    select?: OrderSelect<ExtArgs> | null
+    select?: SeatSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the Order
+     * Omit specific fields from the Seat
      */
-    omit?: OrderOmit<ExtArgs> | null
+    omit?: SeatOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: OrderInclude<ExtArgs> | null
+    include?: SeatInclude<ExtArgs> | null
     /**
-     * Filter, which Order to fetch.
+     * Filter, which Seat to fetch.
      */
-    where?: OrderWhereInput
+    where?: SeatWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
      * 
-     * Determine the order of Orders to fetch.
+     * Determine the order of Seats to fetch.
      */
-    orderBy?: OrderOrderByWithRelationInput | OrderOrderByWithRelationInput[]
+    orderBy?: SeatOrderByWithRelationInput | SeatOrderByWithRelationInput[]
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
      * 
-     * Sets the position for searching for Orders.
+     * Sets the position for searching for Seats.
      */
-    cursor?: OrderWhereUniqueInput
+    cursor?: SeatWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Take `±n` Orders from the position of the cursor.
+     * Take `±n` Seats from the position of the cursor.
      */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Skip the first `n` Orders.
+     * Skip the first `n` Seats.
      */
     skip?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
      * 
-     * Filter by unique combinations of Orders.
+     * Filter by unique combinations of Seats.
      */
-    distinct?: OrderScalarFieldEnum | OrderScalarFieldEnum[]
+    distinct?: SeatScalarFieldEnum | SeatScalarFieldEnum[]
   }
 
   /**
-   * Order findMany
+   * Seat findMany
    */
-  export type OrderFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type SeatFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the Order
+     * Select specific fields to fetch from the Seat
      */
-    select?: OrderSelect<ExtArgs> | null
+    select?: SeatSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the Order
+     * Omit specific fields from the Seat
      */
-    omit?: OrderOmit<ExtArgs> | null
+    omit?: SeatOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: OrderInclude<ExtArgs> | null
+    include?: SeatInclude<ExtArgs> | null
     /**
-     * Filter, which Orders to fetch.
+     * Filter, which Seats to fetch.
      */
-    where?: OrderWhereInput
+    where?: SeatWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
      * 
-     * Determine the order of Orders to fetch.
+     * Determine the order of Seats to fetch.
      */
-    orderBy?: OrderOrderByWithRelationInput | OrderOrderByWithRelationInput[]
+    orderBy?: SeatOrderByWithRelationInput | SeatOrderByWithRelationInput[]
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
      * 
-     * Sets the position for listing Orders.
+     * Sets the position for listing Seats.
      */
-    cursor?: OrderWhereUniqueInput
+    cursor?: SeatWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Take `±n` Orders from the position of the cursor.
+     * Take `±n` Seats from the position of the cursor.
      */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Skip the first `n` Orders.
+     * Skip the first `n` Seats.
      */
     skip?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
      * 
-     * Filter by unique combinations of Orders.
+     * Filter by unique combinations of Seats.
      */
-    distinct?: OrderScalarFieldEnum | OrderScalarFieldEnum[]
+    distinct?: SeatScalarFieldEnum | SeatScalarFieldEnum[]
   }
 
   /**
-   * Order create
+   * Seat create
    */
-  export type OrderCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type SeatCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the Order
+     * Select specific fields to fetch from the Seat
      */
-    select?: OrderSelect<ExtArgs> | null
+    select?: SeatSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the Order
+     * Omit specific fields from the Seat
      */
-    omit?: OrderOmit<ExtArgs> | null
+    omit?: SeatOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: OrderInclude<ExtArgs> | null
+    include?: SeatInclude<ExtArgs> | null
     /**
-     * The data needed to create a Order.
+     * The data needed to create a Seat.
      */
-    data: XOR<OrderCreateInput, OrderUncheckedCreateInput>
+    data: XOR<SeatCreateInput, SeatUncheckedCreateInput>
   }
 
   /**
-   * Order createMany
+   * Seat createMany
    */
-  export type OrderCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type SeatCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * The data used to create many Orders.
+     * The data used to create many Seats.
      */
-    data: OrderCreateManyInput | OrderCreateManyInput[]
+    data: SeatCreateManyInput | SeatCreateManyInput[]
     skipDuplicates?: boolean
   }
 
   /**
-   * Order createManyAndReturn
+   * Seat createManyAndReturn
    */
-  export type OrderCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type SeatCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the Order
+     * Select specific fields to fetch from the Seat
      */
-    select?: OrderSelectCreateManyAndReturn<ExtArgs> | null
+    select?: SeatSelectCreateManyAndReturn<ExtArgs> | null
     /**
-     * Omit specific fields from the Order
+     * Omit specific fields from the Seat
      */
-    omit?: OrderOmit<ExtArgs> | null
+    omit?: SeatOmit<ExtArgs> | null
     /**
-     * The data used to create many Orders.
+     * The data used to create many Seats.
      */
-    data: OrderCreateManyInput | OrderCreateManyInput[]
+    data: SeatCreateManyInput | SeatCreateManyInput[]
     skipDuplicates?: boolean
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: OrderIncludeCreateManyAndReturn<ExtArgs> | null
+    include?: SeatIncludeCreateManyAndReturn<ExtArgs> | null
   }
 
   /**
-   * Order update
+   * Seat update
    */
-  export type OrderUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type SeatUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the Order
+     * Select specific fields to fetch from the Seat
      */
-    select?: OrderSelect<ExtArgs> | null
+    select?: SeatSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the Order
+     * Omit specific fields from the Seat
      */
-    omit?: OrderOmit<ExtArgs> | null
+    omit?: SeatOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: OrderInclude<ExtArgs> | null
+    include?: SeatInclude<ExtArgs> | null
     /**
-     * The data needed to update a Order.
+     * The data needed to update a Seat.
      */
-    data: XOR<OrderUpdateInput, OrderUncheckedUpdateInput>
+    data: XOR<SeatUpdateInput, SeatUncheckedUpdateInput>
     /**
-     * Choose, which Order to update.
+     * Choose, which Seat to update.
      */
-    where: OrderWhereUniqueInput
+    where: SeatWhereUniqueInput
   }
 
   /**
-   * Order updateMany
+   * Seat updateMany
    */
-  export type OrderUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type SeatUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * The data used to update Orders.
+     * The data used to update Seats.
      */
-    data: XOR<OrderUpdateManyMutationInput, OrderUncheckedUpdateManyInput>
+    data: XOR<SeatUpdateManyMutationInput, SeatUncheckedUpdateManyInput>
     /**
-     * Filter which Orders to update
+     * Filter which Seats to update
      */
-    where?: OrderWhereInput
+    where?: SeatWhereInput
     /**
-     * Limit how many Orders to update.
+     * Limit how many Seats to update.
      */
     limit?: number
   }
 
   /**
-   * Order updateManyAndReturn
+   * Seat updateManyAndReturn
    */
-  export type OrderUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type SeatUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the Order
+     * Select specific fields to fetch from the Seat
      */
-    select?: OrderSelectUpdateManyAndReturn<ExtArgs> | null
+    select?: SeatSelectUpdateManyAndReturn<ExtArgs> | null
     /**
-     * Omit specific fields from the Order
+     * Omit specific fields from the Seat
      */
-    omit?: OrderOmit<ExtArgs> | null
+    omit?: SeatOmit<ExtArgs> | null
     /**
-     * The data used to update Orders.
+     * The data used to update Seats.
      */
-    data: XOR<OrderUpdateManyMutationInput, OrderUncheckedUpdateManyInput>
+    data: XOR<SeatUpdateManyMutationInput, SeatUncheckedUpdateManyInput>
     /**
-     * Filter which Orders to update
+     * Filter which Seats to update
      */
-    where?: OrderWhereInput
+    where?: SeatWhereInput
     /**
-     * Limit how many Orders to update.
+     * Limit how many Seats to update.
      */
     limit?: number
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: OrderIncludeUpdateManyAndReturn<ExtArgs> | null
+    include?: SeatIncludeUpdateManyAndReturn<ExtArgs> | null
   }
 
   /**
-   * Order upsert
+   * Seat upsert
    */
-  export type OrderUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type SeatUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the Order
+     * Select specific fields to fetch from the Seat
      */
-    select?: OrderSelect<ExtArgs> | null
+    select?: SeatSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the Order
+     * Omit specific fields from the Seat
      */
-    omit?: OrderOmit<ExtArgs> | null
+    omit?: SeatOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: OrderInclude<ExtArgs> | null
+    include?: SeatInclude<ExtArgs> | null
     /**
-     * The filter to search for the Order to update in case it exists.
+     * The filter to search for the Seat to update in case it exists.
      */
-    where: OrderWhereUniqueInput
+    where: SeatWhereUniqueInput
     /**
-     * In case the Order found by the `where` argument doesn't exist, create a new Order with this data.
+     * In case the Seat found by the `where` argument doesn't exist, create a new Seat with this data.
      */
-    create: XOR<OrderCreateInput, OrderUncheckedCreateInput>
+    create: XOR<SeatCreateInput, SeatUncheckedCreateInput>
     /**
-     * In case the Order was found with the provided `where` argument, update it with this data.
+     * In case the Seat was found with the provided `where` argument, update it with this data.
      */
-    update: XOR<OrderUpdateInput, OrderUncheckedUpdateInput>
+    update: XOR<SeatUpdateInput, SeatUncheckedUpdateInput>
   }
 
   /**
-   * Order delete
+   * Seat delete
    */
-  export type OrderDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type SeatDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the Order
+     * Select specific fields to fetch from the Seat
      */
-    select?: OrderSelect<ExtArgs> | null
+    select?: SeatSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the Order
+     * Omit specific fields from the Seat
      */
-    omit?: OrderOmit<ExtArgs> | null
+    omit?: SeatOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: OrderInclude<ExtArgs> | null
+    include?: SeatInclude<ExtArgs> | null
     /**
-     * Filter which Order to delete.
+     * Filter which Seat to delete.
      */
-    where: OrderWhereUniqueInput
+    where: SeatWhereUniqueInput
   }
 
   /**
-   * Order deleteMany
+   * Seat deleteMany
    */
-  export type OrderDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type SeatDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Filter which Orders to delete
+     * Filter which Seats to delete
      */
-    where?: OrderWhereInput
+    where?: SeatWhereInput
     /**
-     * Limit how many Orders to delete.
+     * Limit how many Seats to delete.
      */
     limit?: number
   }
 
   /**
-   * Order without action
+   * Seat.bookings
    */
-  export type OrderDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type Seat$bookingsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the Order
+     * Select specific fields to fetch from the Booking
      */
-    select?: OrderSelect<ExtArgs> | null
+    select?: BookingSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the Order
+     * Omit specific fields from the Booking
      */
-    omit?: OrderOmit<ExtArgs> | null
+    omit?: BookingOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: OrderInclude<ExtArgs> | null
+    include?: BookingInclude<ExtArgs> | null
+    where?: BookingWhereInput
+    orderBy?: BookingOrderByWithRelationInput | BookingOrderByWithRelationInput[]
+    cursor?: BookingWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: BookingScalarFieldEnum | BookingScalarFieldEnum[]
+  }
+
+  /**
+   * Seat without action
+   */
+  export type SeatDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Seat
+     */
+    select?: SeatSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Seat
+     */
+    omit?: SeatOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SeatInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model Booking
+   */
+
+  export type AggregateBooking = {
+    _count: BookingCountAggregateOutputType | null
+    _avg: BookingAvgAggregateOutputType | null
+    _sum: BookingSumAggregateOutputType | null
+    _min: BookingMinAggregateOutputType | null
+    _max: BookingMaxAggregateOutputType | null
+  }
+
+  export type BookingAvgAggregateOutputType = {
+    totalPrice: number | null
+  }
+
+  export type BookingSumAggregateOutputType = {
+    totalPrice: number | null
+  }
+
+  export type BookingMinAggregateOutputType = {
+    id: string | null
+    userId: string | null
+    tripId: string | null
+    seatId: string | null
+    status: $Enums.BookingStatus | null
+    totalPrice: number | null
+    bookedAt: Date | null
+  }
+
+  export type BookingMaxAggregateOutputType = {
+    id: string | null
+    userId: string | null
+    tripId: string | null
+    seatId: string | null
+    status: $Enums.BookingStatus | null
+    totalPrice: number | null
+    bookedAt: Date | null
+  }
+
+  export type BookingCountAggregateOutputType = {
+    id: number
+    userId: number
+    tripId: number
+    seatId: number
+    status: number
+    totalPrice: number
+    bookedAt: number
+    _all: number
+  }
+
+
+  export type BookingAvgAggregateInputType = {
+    totalPrice?: true
+  }
+
+  export type BookingSumAggregateInputType = {
+    totalPrice?: true
+  }
+
+  export type BookingMinAggregateInputType = {
+    id?: true
+    userId?: true
+    tripId?: true
+    seatId?: true
+    status?: true
+    totalPrice?: true
+    bookedAt?: true
+  }
+
+  export type BookingMaxAggregateInputType = {
+    id?: true
+    userId?: true
+    tripId?: true
+    seatId?: true
+    status?: true
+    totalPrice?: true
+    bookedAt?: true
+  }
+
+  export type BookingCountAggregateInputType = {
+    id?: true
+    userId?: true
+    tripId?: true
+    seatId?: true
+    status?: true
+    totalPrice?: true
+    bookedAt?: true
+    _all?: true
+  }
+
+  export type BookingAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Booking to aggregate.
+     */
+    where?: BookingWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Bookings to fetch.
+     */
+    orderBy?: BookingOrderByWithRelationInput | BookingOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: BookingWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Bookings from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Bookings.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned Bookings
+    **/
+    _count?: true | BookingCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: BookingAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: BookingSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: BookingMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: BookingMaxAggregateInputType
+  }
+
+  export type GetBookingAggregateType<T extends BookingAggregateArgs> = {
+        [P in keyof T & keyof AggregateBooking]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateBooking[P]>
+      : GetScalarType<T[P], AggregateBooking[P]>
+  }
+
+
+
+
+  export type BookingGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: BookingWhereInput
+    orderBy?: BookingOrderByWithAggregationInput | BookingOrderByWithAggregationInput[]
+    by: BookingScalarFieldEnum[] | BookingScalarFieldEnum
+    having?: BookingScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: BookingCountAggregateInputType | true
+    _avg?: BookingAvgAggregateInputType
+    _sum?: BookingSumAggregateInputType
+    _min?: BookingMinAggregateInputType
+    _max?: BookingMaxAggregateInputType
+  }
+
+  export type BookingGroupByOutputType = {
+    id: string
+    userId: string
+    tripId: string
+    seatId: string
+    status: $Enums.BookingStatus
+    totalPrice: number
+    bookedAt: Date
+    _count: BookingCountAggregateOutputType | null
+    _avg: BookingAvgAggregateOutputType | null
+    _sum: BookingSumAggregateOutputType | null
+    _min: BookingMinAggregateOutputType | null
+    _max: BookingMaxAggregateOutputType | null
+  }
+
+  type GetBookingGroupByPayload<T extends BookingGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<BookingGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof BookingGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], BookingGroupByOutputType[P]>
+            : GetScalarType<T[P], BookingGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type BookingSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    userId?: boolean
+    tripId?: boolean
+    seatId?: boolean
+    status?: boolean
+    totalPrice?: boolean
+    bookedAt?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+    trip?: boolean | TripDefaultArgs<ExtArgs>
+    seat?: boolean | SeatDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["booking"]>
+
+  export type BookingSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    userId?: boolean
+    tripId?: boolean
+    seatId?: boolean
+    status?: boolean
+    totalPrice?: boolean
+    bookedAt?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+    trip?: boolean | TripDefaultArgs<ExtArgs>
+    seat?: boolean | SeatDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["booking"]>
+
+  export type BookingSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    userId?: boolean
+    tripId?: boolean
+    seatId?: boolean
+    status?: boolean
+    totalPrice?: boolean
+    bookedAt?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+    trip?: boolean | TripDefaultArgs<ExtArgs>
+    seat?: boolean | SeatDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["booking"]>
+
+  export type BookingSelectScalar = {
+    id?: boolean
+    userId?: boolean
+    tripId?: boolean
+    seatId?: boolean
+    status?: boolean
+    totalPrice?: boolean
+    bookedAt?: boolean
+  }
+
+  export type BookingOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userId" | "tripId" | "seatId" | "status" | "totalPrice" | "bookedAt", ExtArgs["result"]["booking"]>
+  export type BookingInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+    trip?: boolean | TripDefaultArgs<ExtArgs>
+    seat?: boolean | SeatDefaultArgs<ExtArgs>
+  }
+  export type BookingIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+    trip?: boolean | TripDefaultArgs<ExtArgs>
+    seat?: boolean | SeatDefaultArgs<ExtArgs>
+  }
+  export type BookingIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+    trip?: boolean | TripDefaultArgs<ExtArgs>
+    seat?: boolean | SeatDefaultArgs<ExtArgs>
+  }
+
+  export type $BookingPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "Booking"
+    objects: {
+      user: Prisma.$UserPayload<ExtArgs>
+      trip: Prisma.$TripPayload<ExtArgs>
+      seat: Prisma.$SeatPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      userId: string
+      tripId: string
+      seatId: string
+      status: $Enums.BookingStatus
+      totalPrice: number
+      bookedAt: Date
+    }, ExtArgs["result"]["booking"]>
+    composites: {}
+  }
+
+  type BookingGetPayload<S extends boolean | null | undefined | BookingDefaultArgs> = $Result.GetResult<Prisma.$BookingPayload, S>
+
+  type BookingCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<BookingFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: BookingCountAggregateInputType | true
+    }
+
+  export interface BookingDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['Booking'], meta: { name: 'Booking' } }
+    /**
+     * Find zero or one Booking that matches the filter.
+     * @param {BookingFindUniqueArgs} args - Arguments to find a Booking
+     * @example
+     * // Get one Booking
+     * const booking = await prisma.booking.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends BookingFindUniqueArgs>(args: SelectSubset<T, BookingFindUniqueArgs<ExtArgs>>): Prisma__BookingClient<$Result.GetResult<Prisma.$BookingPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one Booking that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {BookingFindUniqueOrThrowArgs} args - Arguments to find a Booking
+     * @example
+     * // Get one Booking
+     * const booking = await prisma.booking.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends BookingFindUniqueOrThrowArgs>(args: SelectSubset<T, BookingFindUniqueOrThrowArgs<ExtArgs>>): Prisma__BookingClient<$Result.GetResult<Prisma.$BookingPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Booking that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {BookingFindFirstArgs} args - Arguments to find a Booking
+     * @example
+     * // Get one Booking
+     * const booking = await prisma.booking.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends BookingFindFirstArgs>(args?: SelectSubset<T, BookingFindFirstArgs<ExtArgs>>): Prisma__BookingClient<$Result.GetResult<Prisma.$BookingPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Booking that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {BookingFindFirstOrThrowArgs} args - Arguments to find a Booking
+     * @example
+     * // Get one Booking
+     * const booking = await prisma.booking.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends BookingFindFirstOrThrowArgs>(args?: SelectSubset<T, BookingFindFirstOrThrowArgs<ExtArgs>>): Prisma__BookingClient<$Result.GetResult<Prisma.$BookingPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more Bookings that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {BookingFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all Bookings
+     * const bookings = await prisma.booking.findMany()
+     * 
+     * // Get first 10 Bookings
+     * const bookings = await prisma.booking.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const bookingWithIdOnly = await prisma.booking.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends BookingFindManyArgs>(args?: SelectSubset<T, BookingFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$BookingPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a Booking.
+     * @param {BookingCreateArgs} args - Arguments to create a Booking.
+     * @example
+     * // Create one Booking
+     * const Booking = await prisma.booking.create({
+     *   data: {
+     *     // ... data to create a Booking
+     *   }
+     * })
+     * 
+     */
+    create<T extends BookingCreateArgs>(args: SelectSubset<T, BookingCreateArgs<ExtArgs>>): Prisma__BookingClient<$Result.GetResult<Prisma.$BookingPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many Bookings.
+     * @param {BookingCreateManyArgs} args - Arguments to create many Bookings.
+     * @example
+     * // Create many Bookings
+     * const booking = await prisma.booking.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends BookingCreateManyArgs>(args?: SelectSubset<T, BookingCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many Bookings and returns the data saved in the database.
+     * @param {BookingCreateManyAndReturnArgs} args - Arguments to create many Bookings.
+     * @example
+     * // Create many Bookings
+     * const booking = await prisma.booking.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many Bookings and only return the `id`
+     * const bookingWithIdOnly = await prisma.booking.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends BookingCreateManyAndReturnArgs>(args?: SelectSubset<T, BookingCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$BookingPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a Booking.
+     * @param {BookingDeleteArgs} args - Arguments to delete one Booking.
+     * @example
+     * // Delete one Booking
+     * const Booking = await prisma.booking.delete({
+     *   where: {
+     *     // ... filter to delete one Booking
+     *   }
+     * })
+     * 
+     */
+    delete<T extends BookingDeleteArgs>(args: SelectSubset<T, BookingDeleteArgs<ExtArgs>>): Prisma__BookingClient<$Result.GetResult<Prisma.$BookingPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one Booking.
+     * @param {BookingUpdateArgs} args - Arguments to update one Booking.
+     * @example
+     * // Update one Booking
+     * const booking = await prisma.booking.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends BookingUpdateArgs>(args: SelectSubset<T, BookingUpdateArgs<ExtArgs>>): Prisma__BookingClient<$Result.GetResult<Prisma.$BookingPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more Bookings.
+     * @param {BookingDeleteManyArgs} args - Arguments to filter Bookings to delete.
+     * @example
+     * // Delete a few Bookings
+     * const { count } = await prisma.booking.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends BookingDeleteManyArgs>(args?: SelectSubset<T, BookingDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Bookings.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {BookingUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many Bookings
+     * const booking = await prisma.booking.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends BookingUpdateManyArgs>(args: SelectSubset<T, BookingUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Bookings and returns the data updated in the database.
+     * @param {BookingUpdateManyAndReturnArgs} args - Arguments to update many Bookings.
+     * @example
+     * // Update many Bookings
+     * const booking = await prisma.booking.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more Bookings and only return the `id`
+     * const bookingWithIdOnly = await prisma.booking.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends BookingUpdateManyAndReturnArgs>(args: SelectSubset<T, BookingUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$BookingPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one Booking.
+     * @param {BookingUpsertArgs} args - Arguments to update or create a Booking.
+     * @example
+     * // Update or create a Booking
+     * const booking = await prisma.booking.upsert({
+     *   create: {
+     *     // ... data to create a Booking
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the Booking we want to update
+     *   }
+     * })
+     */
+    upsert<T extends BookingUpsertArgs>(args: SelectSubset<T, BookingUpsertArgs<ExtArgs>>): Prisma__BookingClient<$Result.GetResult<Prisma.$BookingPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of Bookings.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {BookingCountArgs} args - Arguments to filter Bookings to count.
+     * @example
+     * // Count the number of Bookings
+     * const count = await prisma.booking.count({
+     *   where: {
+     *     // ... the filter for the Bookings we want to count
+     *   }
+     * })
+    **/
+    count<T extends BookingCountArgs>(
+      args?: Subset<T, BookingCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], BookingCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a Booking.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {BookingAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends BookingAggregateArgs>(args: Subset<T, BookingAggregateArgs>): Prisma.PrismaPromise<GetBookingAggregateType<T>>
+
+    /**
+     * Group by Booking.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {BookingGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends BookingGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: BookingGroupByArgs['orderBy'] }
+        : { orderBy?: BookingGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, BookingGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetBookingGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the Booking model
+   */
+  readonly fields: BookingFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for Booking.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__BookingClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    user<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    trip<T extends TripDefaultArgs<ExtArgs> = {}>(args?: Subset<T, TripDefaultArgs<ExtArgs>>): Prisma__TripClient<$Result.GetResult<Prisma.$TripPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    seat<T extends SeatDefaultArgs<ExtArgs> = {}>(args?: Subset<T, SeatDefaultArgs<ExtArgs>>): Prisma__SeatClient<$Result.GetResult<Prisma.$SeatPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the Booking model
+   */
+  interface BookingFieldRefs {
+    readonly id: FieldRef<"Booking", 'String'>
+    readonly userId: FieldRef<"Booking", 'String'>
+    readonly tripId: FieldRef<"Booking", 'String'>
+    readonly seatId: FieldRef<"Booking", 'String'>
+    readonly status: FieldRef<"Booking", 'BookingStatus'>
+    readonly totalPrice: FieldRef<"Booking", 'Int'>
+    readonly bookedAt: FieldRef<"Booking", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * Booking findUnique
+   */
+  export type BookingFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Booking
+     */
+    select?: BookingSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Booking
+     */
+    omit?: BookingOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BookingInclude<ExtArgs> | null
+    /**
+     * Filter, which Booking to fetch.
+     */
+    where: BookingWhereUniqueInput
+  }
+
+  /**
+   * Booking findUniqueOrThrow
+   */
+  export type BookingFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Booking
+     */
+    select?: BookingSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Booking
+     */
+    omit?: BookingOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BookingInclude<ExtArgs> | null
+    /**
+     * Filter, which Booking to fetch.
+     */
+    where: BookingWhereUniqueInput
+  }
+
+  /**
+   * Booking findFirst
+   */
+  export type BookingFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Booking
+     */
+    select?: BookingSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Booking
+     */
+    omit?: BookingOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BookingInclude<ExtArgs> | null
+    /**
+     * Filter, which Booking to fetch.
+     */
+    where?: BookingWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Bookings to fetch.
+     */
+    orderBy?: BookingOrderByWithRelationInput | BookingOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Bookings.
+     */
+    cursor?: BookingWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Bookings from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Bookings.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Bookings.
+     */
+    distinct?: BookingScalarFieldEnum | BookingScalarFieldEnum[]
+  }
+
+  /**
+   * Booking findFirstOrThrow
+   */
+  export type BookingFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Booking
+     */
+    select?: BookingSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Booking
+     */
+    omit?: BookingOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BookingInclude<ExtArgs> | null
+    /**
+     * Filter, which Booking to fetch.
+     */
+    where?: BookingWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Bookings to fetch.
+     */
+    orderBy?: BookingOrderByWithRelationInput | BookingOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Bookings.
+     */
+    cursor?: BookingWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Bookings from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Bookings.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Bookings.
+     */
+    distinct?: BookingScalarFieldEnum | BookingScalarFieldEnum[]
+  }
+
+  /**
+   * Booking findMany
+   */
+  export type BookingFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Booking
+     */
+    select?: BookingSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Booking
+     */
+    omit?: BookingOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BookingInclude<ExtArgs> | null
+    /**
+     * Filter, which Bookings to fetch.
+     */
+    where?: BookingWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Bookings to fetch.
+     */
+    orderBy?: BookingOrderByWithRelationInput | BookingOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing Bookings.
+     */
+    cursor?: BookingWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Bookings from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Bookings.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Bookings.
+     */
+    distinct?: BookingScalarFieldEnum | BookingScalarFieldEnum[]
+  }
+
+  /**
+   * Booking create
+   */
+  export type BookingCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Booking
+     */
+    select?: BookingSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Booking
+     */
+    omit?: BookingOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BookingInclude<ExtArgs> | null
+    /**
+     * The data needed to create a Booking.
+     */
+    data: XOR<BookingCreateInput, BookingUncheckedCreateInput>
+  }
+
+  /**
+   * Booking createMany
+   */
+  export type BookingCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many Bookings.
+     */
+    data: BookingCreateManyInput | BookingCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * Booking createManyAndReturn
+   */
+  export type BookingCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Booking
+     */
+    select?: BookingSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Booking
+     */
+    omit?: BookingOmit<ExtArgs> | null
+    /**
+     * The data used to create many Bookings.
+     */
+    data: BookingCreateManyInput | BookingCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BookingIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * Booking update
+   */
+  export type BookingUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Booking
+     */
+    select?: BookingSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Booking
+     */
+    omit?: BookingOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BookingInclude<ExtArgs> | null
+    /**
+     * The data needed to update a Booking.
+     */
+    data: XOR<BookingUpdateInput, BookingUncheckedUpdateInput>
+    /**
+     * Choose, which Booking to update.
+     */
+    where: BookingWhereUniqueInput
+  }
+
+  /**
+   * Booking updateMany
+   */
+  export type BookingUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update Bookings.
+     */
+    data: XOR<BookingUpdateManyMutationInput, BookingUncheckedUpdateManyInput>
+    /**
+     * Filter which Bookings to update
+     */
+    where?: BookingWhereInput
+    /**
+     * Limit how many Bookings to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * Booking updateManyAndReturn
+   */
+  export type BookingUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Booking
+     */
+    select?: BookingSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Booking
+     */
+    omit?: BookingOmit<ExtArgs> | null
+    /**
+     * The data used to update Bookings.
+     */
+    data: XOR<BookingUpdateManyMutationInput, BookingUncheckedUpdateManyInput>
+    /**
+     * Filter which Bookings to update
+     */
+    where?: BookingWhereInput
+    /**
+     * Limit how many Bookings to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BookingIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * Booking upsert
+   */
+  export type BookingUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Booking
+     */
+    select?: BookingSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Booking
+     */
+    omit?: BookingOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BookingInclude<ExtArgs> | null
+    /**
+     * The filter to search for the Booking to update in case it exists.
+     */
+    where: BookingWhereUniqueInput
+    /**
+     * In case the Booking found by the `where` argument doesn't exist, create a new Booking with this data.
+     */
+    create: XOR<BookingCreateInput, BookingUncheckedCreateInput>
+    /**
+     * In case the Booking was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<BookingUpdateInput, BookingUncheckedUpdateInput>
+  }
+
+  /**
+   * Booking delete
+   */
+  export type BookingDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Booking
+     */
+    select?: BookingSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Booking
+     */
+    omit?: BookingOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BookingInclude<ExtArgs> | null
+    /**
+     * Filter which Booking to delete.
+     */
+    where: BookingWhereUniqueInput
+  }
+
+  /**
+   * Booking deleteMany
+   */
+  export type BookingDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Bookings to delete
+     */
+    where?: BookingWhereInput
+    /**
+     * Limit how many Bookings to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * Booking without action
+   */
+  export type BookingDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Booking
+     */
+    select?: BookingSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Booking
+     */
+    omit?: BookingOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BookingInclude<ExtArgs> | null
   }
 
 
@@ -5627,8 +7130,10 @@ export namespace Prisma {
 
   export const UserScalarFieldEnum: {
     id: 'id',
+    name: 'name',
     email: 'email',
     passwordHash: 'passwordHash',
+    phone: 'phone',
     role: 'role',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt'
@@ -5650,27 +7155,41 @@ export namespace Prisma {
   export type RefreshTokenScalarFieldEnum = (typeof RefreshTokenScalarFieldEnum)[keyof typeof RefreshTokenScalarFieldEnum]
 
 
-  export const ProductScalarFieldEnum: {
+  export const TripScalarFieldEnum: {
     id: 'id',
-    name: 'name',
-    description: 'description',
-    priceCents: 'priceCents',
-    createdAt: 'createdAt',
-    updatedAt: 'updatedAt'
+    operatorName: 'operatorName',
+    origin: 'origin',
+    destination: 'destination',
+    departureTime: 'departureTime',
+    priceVnd: 'priceVnd',
+    totalSeats: 'totalSeats',
+    busType: 'busType'
   };
 
-  export type ProductScalarFieldEnum = (typeof ProductScalarFieldEnum)[keyof typeof ProductScalarFieldEnum]
+  export type TripScalarFieldEnum = (typeof TripScalarFieldEnum)[keyof typeof TripScalarFieldEnum]
 
 
-  export const OrderScalarFieldEnum: {
+  export const SeatScalarFieldEnum: {
+    id: 'id',
+    tripId: 'tripId',
+    seatNumber: 'seatNumber',
+    status: 'status'
+  };
+
+  export type SeatScalarFieldEnum = (typeof SeatScalarFieldEnum)[keyof typeof SeatScalarFieldEnum]
+
+
+  export const BookingScalarFieldEnum: {
     id: 'id',
     userId: 'userId',
+    tripId: 'tripId',
+    seatId: 'seatId',
     status: 'status',
-    createdAt: 'createdAt',
-    updatedAt: 'updatedAt'
+    totalPrice: 'totalPrice',
+    bookedAt: 'bookedAt'
   };
 
-  export type OrderScalarFieldEnum = (typeof OrderScalarFieldEnum)[keyof typeof OrderScalarFieldEnum]
+  export type BookingScalarFieldEnum = (typeof BookingScalarFieldEnum)[keyof typeof BookingScalarFieldEnum]
 
 
   export const SortOrder: {
@@ -5759,16 +7278,44 @@ export namespace Prisma {
 
 
   /**
-   * Reference to a field of type 'OrderStatus'
+   * Reference to a field of type 'BusType'
    */
-  export type EnumOrderStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'OrderStatus'>
+  export type EnumBusTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'BusType'>
     
 
 
   /**
-   * Reference to a field of type 'OrderStatus[]'
+   * Reference to a field of type 'BusType[]'
    */
-  export type ListEnumOrderStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'OrderStatus[]'>
+  export type ListEnumBusTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'BusType[]'>
+    
+
+
+  /**
+   * Reference to a field of type 'SeatStatus'
+   */
+  export type EnumSeatStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'SeatStatus'>
+    
+
+
+  /**
+   * Reference to a field of type 'SeatStatus[]'
+   */
+  export type ListEnumSeatStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'SeatStatus[]'>
+    
+
+
+  /**
+   * Reference to a field of type 'BookingStatus'
+   */
+  export type EnumBookingStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'BookingStatus'>
+    
+
+
+  /**
+   * Reference to a field of type 'BookingStatus[]'
+   */
+  export type ListEnumBookingStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'BookingStatus[]'>
     
 
 
@@ -5793,25 +7340,29 @@ export namespace Prisma {
     AND?: UserWhereInput | UserWhereInput[]
     OR?: UserWhereInput[]
     NOT?: UserWhereInput | UserWhereInput[]
-    id?: StringFilter<"User"> | string
+    id?: UuidFilter<"User"> | string
+    name?: StringFilter<"User"> | string
     email?: StringFilter<"User"> | string
     passwordHash?: StringFilter<"User"> | string
+    phone?: StringFilter<"User"> | string
     role?: EnumUserRoleFilter<"User"> | $Enums.UserRole
     createdAt?: DateTimeFilter<"User"> | Date | string
     updatedAt?: DateTimeFilter<"User"> | Date | string
     refreshTokens?: RefreshTokenListRelationFilter
-    orders?: OrderListRelationFilter
+    bookings?: BookingListRelationFilter
   }
 
   export type UserOrderByWithRelationInput = {
     id?: SortOrder
+    name?: SortOrder
     email?: SortOrder
     passwordHash?: SortOrder
+    phone?: SortOrder
     role?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     refreshTokens?: RefreshTokenOrderByRelationAggregateInput
-    orders?: OrderOrderByRelationAggregateInput
+    bookings?: BookingOrderByRelationAggregateInput
   }
 
   export type UserWhereUniqueInput = Prisma.AtLeast<{
@@ -5820,18 +7371,22 @@ export namespace Prisma {
     AND?: UserWhereInput | UserWhereInput[]
     OR?: UserWhereInput[]
     NOT?: UserWhereInput | UserWhereInput[]
+    name?: StringFilter<"User"> | string
     passwordHash?: StringFilter<"User"> | string
+    phone?: StringFilter<"User"> | string
     role?: EnumUserRoleFilter<"User"> | $Enums.UserRole
     createdAt?: DateTimeFilter<"User"> | Date | string
     updatedAt?: DateTimeFilter<"User"> | Date | string
     refreshTokens?: RefreshTokenListRelationFilter
-    orders?: OrderListRelationFilter
+    bookings?: BookingListRelationFilter
   }, "id" | "email">
 
   export type UserOrderByWithAggregationInput = {
     id?: SortOrder
+    name?: SortOrder
     email?: SortOrder
     passwordHash?: SortOrder
+    phone?: SortOrder
     role?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -5844,9 +7399,11 @@ export namespace Prisma {
     AND?: UserScalarWhereWithAggregatesInput | UserScalarWhereWithAggregatesInput[]
     OR?: UserScalarWhereWithAggregatesInput[]
     NOT?: UserScalarWhereWithAggregatesInput | UserScalarWhereWithAggregatesInput[]
-    id?: StringWithAggregatesFilter<"User"> | string
+    id?: UuidWithAggregatesFilter<"User"> | string
+    name?: StringWithAggregatesFilter<"User"> | string
     email?: StringWithAggregatesFilter<"User"> | string
     passwordHash?: StringWithAggregatesFilter<"User"> | string
+    phone?: StringWithAggregatesFilter<"User"> | string
     role?: EnumUserRoleWithAggregatesFilter<"User"> | $Enums.UserRole
     createdAt?: DateTimeWithAggregatesFilter<"User"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"User"> | Date | string
@@ -5856,11 +7413,11 @@ export namespace Prisma {
     AND?: RefreshTokenWhereInput | RefreshTokenWhereInput[]
     OR?: RefreshTokenWhereInput[]
     NOT?: RefreshTokenWhereInput | RefreshTokenWhereInput[]
-    id?: StringFilter<"RefreshToken"> | string
-    userId?: StringFilter<"RefreshToken"> | string
+    id?: UuidFilter<"RefreshToken"> | string
+    userId?: UuidFilter<"RefreshToken"> | string
     tokenHash?: StringFilter<"RefreshToken"> | string
     revokedAt?: DateTimeNullableFilter<"RefreshToken"> | Date | string | null
-    replacedById?: StringNullableFilter<"RefreshToken"> | string | null
+    replacedById?: UuidNullableFilter<"RefreshToken"> | string | null
     createdAt?: DateTimeFilter<"RefreshToken"> | Date | string
     expiresAt?: DateTimeFilter<"RefreshToken"> | Date | string
     user?: XOR<UserScalarRelationFilter, UserWhereInput>
@@ -5886,10 +7443,10 @@ export namespace Prisma {
     AND?: RefreshTokenWhereInput | RefreshTokenWhereInput[]
     OR?: RefreshTokenWhereInput[]
     NOT?: RefreshTokenWhereInput | RefreshTokenWhereInput[]
-    userId?: StringFilter<"RefreshToken"> | string
+    userId?: UuidFilter<"RefreshToken"> | string
     tokenHash?: StringFilter<"RefreshToken"> | string
     revokedAt?: DateTimeNullableFilter<"RefreshToken"> | Date | string | null
-    replacedById?: StringNullableFilter<"RefreshToken"> | string | null
+    replacedById?: UuidNullableFilter<"RefreshToken"> | string | null
     createdAt?: DateTimeFilter<"RefreshToken"> | Date | string
     expiresAt?: DateTimeFilter<"RefreshToken"> | Date | string
     user?: XOR<UserScalarRelationFilter, UserWhereInput>
@@ -5914,177 +7471,275 @@ export namespace Prisma {
     AND?: RefreshTokenScalarWhereWithAggregatesInput | RefreshTokenScalarWhereWithAggregatesInput[]
     OR?: RefreshTokenScalarWhereWithAggregatesInput[]
     NOT?: RefreshTokenScalarWhereWithAggregatesInput | RefreshTokenScalarWhereWithAggregatesInput[]
-    id?: StringWithAggregatesFilter<"RefreshToken"> | string
-    userId?: StringWithAggregatesFilter<"RefreshToken"> | string
+    id?: UuidWithAggregatesFilter<"RefreshToken"> | string
+    userId?: UuidWithAggregatesFilter<"RefreshToken"> | string
     tokenHash?: StringWithAggregatesFilter<"RefreshToken"> | string
     revokedAt?: DateTimeNullableWithAggregatesFilter<"RefreshToken"> | Date | string | null
-    replacedById?: StringNullableWithAggregatesFilter<"RefreshToken"> | string | null
+    replacedById?: UuidNullableWithAggregatesFilter<"RefreshToken"> | string | null
     createdAt?: DateTimeWithAggregatesFilter<"RefreshToken"> | Date | string
     expiresAt?: DateTimeWithAggregatesFilter<"RefreshToken"> | Date | string
   }
 
-  export type ProductWhereInput = {
-    AND?: ProductWhereInput | ProductWhereInput[]
-    OR?: ProductWhereInput[]
-    NOT?: ProductWhereInput | ProductWhereInput[]
-    id?: StringFilter<"Product"> | string
-    name?: StringFilter<"Product"> | string
-    description?: StringNullableFilter<"Product"> | string | null
-    priceCents?: IntFilter<"Product"> | number
-    createdAt?: DateTimeFilter<"Product"> | Date | string
-    updatedAt?: DateTimeFilter<"Product"> | Date | string
+  export type TripWhereInput = {
+    AND?: TripWhereInput | TripWhereInput[]
+    OR?: TripWhereInput[]
+    NOT?: TripWhereInput | TripWhereInput[]
+    id?: UuidFilter<"Trip"> | string
+    operatorName?: StringFilter<"Trip"> | string
+    origin?: StringFilter<"Trip"> | string
+    destination?: StringFilter<"Trip"> | string
+    departureTime?: DateTimeFilter<"Trip"> | Date | string
+    priceVnd?: IntFilter<"Trip"> | number
+    totalSeats?: IntFilter<"Trip"> | number
+    busType?: EnumBusTypeFilter<"Trip"> | $Enums.BusType
+    seats?: SeatListRelationFilter
+    bookings?: BookingListRelationFilter
   }
 
-  export type ProductOrderByWithRelationInput = {
+  export type TripOrderByWithRelationInput = {
     id?: SortOrder
-    name?: SortOrder
-    description?: SortOrderInput | SortOrder
-    priceCents?: SortOrder
-    createdAt?: SortOrder
-    updatedAt?: SortOrder
+    operatorName?: SortOrder
+    origin?: SortOrder
+    destination?: SortOrder
+    departureTime?: SortOrder
+    priceVnd?: SortOrder
+    totalSeats?: SortOrder
+    busType?: SortOrder
+    seats?: SeatOrderByRelationAggregateInput
+    bookings?: BookingOrderByRelationAggregateInput
   }
 
-  export type ProductWhereUniqueInput = Prisma.AtLeast<{
+  export type TripWhereUniqueInput = Prisma.AtLeast<{
     id?: string
-    AND?: ProductWhereInput | ProductWhereInput[]
-    OR?: ProductWhereInput[]
-    NOT?: ProductWhereInput | ProductWhereInput[]
-    name?: StringFilter<"Product"> | string
-    description?: StringNullableFilter<"Product"> | string | null
-    priceCents?: IntFilter<"Product"> | number
-    createdAt?: DateTimeFilter<"Product"> | Date | string
-    updatedAt?: DateTimeFilter<"Product"> | Date | string
+    AND?: TripWhereInput | TripWhereInput[]
+    OR?: TripWhereInput[]
+    NOT?: TripWhereInput | TripWhereInput[]
+    operatorName?: StringFilter<"Trip"> | string
+    origin?: StringFilter<"Trip"> | string
+    destination?: StringFilter<"Trip"> | string
+    departureTime?: DateTimeFilter<"Trip"> | Date | string
+    priceVnd?: IntFilter<"Trip"> | number
+    totalSeats?: IntFilter<"Trip"> | number
+    busType?: EnumBusTypeFilter<"Trip"> | $Enums.BusType
+    seats?: SeatListRelationFilter
+    bookings?: BookingListRelationFilter
   }, "id">
 
-  export type ProductOrderByWithAggregationInput = {
+  export type TripOrderByWithAggregationInput = {
     id?: SortOrder
-    name?: SortOrder
-    description?: SortOrderInput | SortOrder
-    priceCents?: SortOrder
-    createdAt?: SortOrder
-    updatedAt?: SortOrder
-    _count?: ProductCountOrderByAggregateInput
-    _avg?: ProductAvgOrderByAggregateInput
-    _max?: ProductMaxOrderByAggregateInput
-    _min?: ProductMinOrderByAggregateInput
-    _sum?: ProductSumOrderByAggregateInput
+    operatorName?: SortOrder
+    origin?: SortOrder
+    destination?: SortOrder
+    departureTime?: SortOrder
+    priceVnd?: SortOrder
+    totalSeats?: SortOrder
+    busType?: SortOrder
+    _count?: TripCountOrderByAggregateInput
+    _avg?: TripAvgOrderByAggregateInput
+    _max?: TripMaxOrderByAggregateInput
+    _min?: TripMinOrderByAggregateInput
+    _sum?: TripSumOrderByAggregateInput
   }
 
-  export type ProductScalarWhereWithAggregatesInput = {
-    AND?: ProductScalarWhereWithAggregatesInput | ProductScalarWhereWithAggregatesInput[]
-    OR?: ProductScalarWhereWithAggregatesInput[]
-    NOT?: ProductScalarWhereWithAggregatesInput | ProductScalarWhereWithAggregatesInput[]
-    id?: StringWithAggregatesFilter<"Product"> | string
-    name?: StringWithAggregatesFilter<"Product"> | string
-    description?: StringNullableWithAggregatesFilter<"Product"> | string | null
-    priceCents?: IntWithAggregatesFilter<"Product"> | number
-    createdAt?: DateTimeWithAggregatesFilter<"Product"> | Date | string
-    updatedAt?: DateTimeWithAggregatesFilter<"Product"> | Date | string
+  export type TripScalarWhereWithAggregatesInput = {
+    AND?: TripScalarWhereWithAggregatesInput | TripScalarWhereWithAggregatesInput[]
+    OR?: TripScalarWhereWithAggregatesInput[]
+    NOT?: TripScalarWhereWithAggregatesInput | TripScalarWhereWithAggregatesInput[]
+    id?: UuidWithAggregatesFilter<"Trip"> | string
+    operatorName?: StringWithAggregatesFilter<"Trip"> | string
+    origin?: StringWithAggregatesFilter<"Trip"> | string
+    destination?: StringWithAggregatesFilter<"Trip"> | string
+    departureTime?: DateTimeWithAggregatesFilter<"Trip"> | Date | string
+    priceVnd?: IntWithAggregatesFilter<"Trip"> | number
+    totalSeats?: IntWithAggregatesFilter<"Trip"> | number
+    busType?: EnumBusTypeWithAggregatesFilter<"Trip"> | $Enums.BusType
   }
 
-  export type OrderWhereInput = {
-    AND?: OrderWhereInput | OrderWhereInput[]
-    OR?: OrderWhereInput[]
-    NOT?: OrderWhereInput | OrderWhereInput[]
-    id?: StringFilter<"Order"> | string
-    userId?: StringFilter<"Order"> | string
-    status?: EnumOrderStatusFilter<"Order"> | $Enums.OrderStatus
-    createdAt?: DateTimeFilter<"Order"> | Date | string
-    updatedAt?: DateTimeFilter<"Order"> | Date | string
+  export type SeatWhereInput = {
+    AND?: SeatWhereInput | SeatWhereInput[]
+    OR?: SeatWhereInput[]
+    NOT?: SeatWhereInput | SeatWhereInput[]
+    id?: UuidFilter<"Seat"> | string
+    tripId?: UuidFilter<"Seat"> | string
+    seatNumber?: StringFilter<"Seat"> | string
+    status?: EnumSeatStatusFilter<"Seat"> | $Enums.SeatStatus
+    trip?: XOR<TripScalarRelationFilter, TripWhereInput>
+    bookings?: BookingListRelationFilter
+  }
+
+  export type SeatOrderByWithRelationInput = {
+    id?: SortOrder
+    tripId?: SortOrder
+    seatNumber?: SortOrder
+    status?: SortOrder
+    trip?: TripOrderByWithRelationInput
+    bookings?: BookingOrderByRelationAggregateInput
+  }
+
+  export type SeatWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    tripId_seatNumber?: SeatTripIdSeatNumberCompoundUniqueInput
+    AND?: SeatWhereInput | SeatWhereInput[]
+    OR?: SeatWhereInput[]
+    NOT?: SeatWhereInput | SeatWhereInput[]
+    tripId?: UuidFilter<"Seat"> | string
+    seatNumber?: StringFilter<"Seat"> | string
+    status?: EnumSeatStatusFilter<"Seat"> | $Enums.SeatStatus
+    trip?: XOR<TripScalarRelationFilter, TripWhereInput>
+    bookings?: BookingListRelationFilter
+  }, "id" | "tripId_seatNumber">
+
+  export type SeatOrderByWithAggregationInput = {
+    id?: SortOrder
+    tripId?: SortOrder
+    seatNumber?: SortOrder
+    status?: SortOrder
+    _count?: SeatCountOrderByAggregateInput
+    _max?: SeatMaxOrderByAggregateInput
+    _min?: SeatMinOrderByAggregateInput
+  }
+
+  export type SeatScalarWhereWithAggregatesInput = {
+    AND?: SeatScalarWhereWithAggregatesInput | SeatScalarWhereWithAggregatesInput[]
+    OR?: SeatScalarWhereWithAggregatesInput[]
+    NOT?: SeatScalarWhereWithAggregatesInput | SeatScalarWhereWithAggregatesInput[]
+    id?: UuidWithAggregatesFilter<"Seat"> | string
+    tripId?: UuidWithAggregatesFilter<"Seat"> | string
+    seatNumber?: StringWithAggregatesFilter<"Seat"> | string
+    status?: EnumSeatStatusWithAggregatesFilter<"Seat"> | $Enums.SeatStatus
+  }
+
+  export type BookingWhereInput = {
+    AND?: BookingWhereInput | BookingWhereInput[]
+    OR?: BookingWhereInput[]
+    NOT?: BookingWhereInput | BookingWhereInput[]
+    id?: UuidFilter<"Booking"> | string
+    userId?: UuidFilter<"Booking"> | string
+    tripId?: UuidFilter<"Booking"> | string
+    seatId?: UuidFilter<"Booking"> | string
+    status?: EnumBookingStatusFilter<"Booking"> | $Enums.BookingStatus
+    totalPrice?: IntFilter<"Booking"> | number
+    bookedAt?: DateTimeFilter<"Booking"> | Date | string
     user?: XOR<UserScalarRelationFilter, UserWhereInput>
+    trip?: XOR<TripScalarRelationFilter, TripWhereInput>
+    seat?: XOR<SeatScalarRelationFilter, SeatWhereInput>
   }
 
-  export type OrderOrderByWithRelationInput = {
+  export type BookingOrderByWithRelationInput = {
     id?: SortOrder
     userId?: SortOrder
+    tripId?: SortOrder
+    seatId?: SortOrder
     status?: SortOrder
-    createdAt?: SortOrder
-    updatedAt?: SortOrder
+    totalPrice?: SortOrder
+    bookedAt?: SortOrder
     user?: UserOrderByWithRelationInput
+    trip?: TripOrderByWithRelationInput
+    seat?: SeatOrderByWithRelationInput
   }
 
-  export type OrderWhereUniqueInput = Prisma.AtLeast<{
+  export type BookingWhereUniqueInput = Prisma.AtLeast<{
     id?: string
-    AND?: OrderWhereInput | OrderWhereInput[]
-    OR?: OrderWhereInput[]
-    NOT?: OrderWhereInput | OrderWhereInput[]
-    userId?: StringFilter<"Order"> | string
-    status?: EnumOrderStatusFilter<"Order"> | $Enums.OrderStatus
-    createdAt?: DateTimeFilter<"Order"> | Date | string
-    updatedAt?: DateTimeFilter<"Order"> | Date | string
+    AND?: BookingWhereInput | BookingWhereInput[]
+    OR?: BookingWhereInput[]
+    NOT?: BookingWhereInput | BookingWhereInput[]
+    userId?: UuidFilter<"Booking"> | string
+    tripId?: UuidFilter<"Booking"> | string
+    seatId?: UuidFilter<"Booking"> | string
+    status?: EnumBookingStatusFilter<"Booking"> | $Enums.BookingStatus
+    totalPrice?: IntFilter<"Booking"> | number
+    bookedAt?: DateTimeFilter<"Booking"> | Date | string
     user?: XOR<UserScalarRelationFilter, UserWhereInput>
+    trip?: XOR<TripScalarRelationFilter, TripWhereInput>
+    seat?: XOR<SeatScalarRelationFilter, SeatWhereInput>
   }, "id">
 
-  export type OrderOrderByWithAggregationInput = {
+  export type BookingOrderByWithAggregationInput = {
     id?: SortOrder
     userId?: SortOrder
+    tripId?: SortOrder
+    seatId?: SortOrder
     status?: SortOrder
-    createdAt?: SortOrder
-    updatedAt?: SortOrder
-    _count?: OrderCountOrderByAggregateInput
-    _max?: OrderMaxOrderByAggregateInput
-    _min?: OrderMinOrderByAggregateInput
+    totalPrice?: SortOrder
+    bookedAt?: SortOrder
+    _count?: BookingCountOrderByAggregateInput
+    _avg?: BookingAvgOrderByAggregateInput
+    _max?: BookingMaxOrderByAggregateInput
+    _min?: BookingMinOrderByAggregateInput
+    _sum?: BookingSumOrderByAggregateInput
   }
 
-  export type OrderScalarWhereWithAggregatesInput = {
-    AND?: OrderScalarWhereWithAggregatesInput | OrderScalarWhereWithAggregatesInput[]
-    OR?: OrderScalarWhereWithAggregatesInput[]
-    NOT?: OrderScalarWhereWithAggregatesInput | OrderScalarWhereWithAggregatesInput[]
-    id?: StringWithAggregatesFilter<"Order"> | string
-    userId?: StringWithAggregatesFilter<"Order"> | string
-    status?: EnumOrderStatusWithAggregatesFilter<"Order"> | $Enums.OrderStatus
-    createdAt?: DateTimeWithAggregatesFilter<"Order"> | Date | string
-    updatedAt?: DateTimeWithAggregatesFilter<"Order"> | Date | string
+  export type BookingScalarWhereWithAggregatesInput = {
+    AND?: BookingScalarWhereWithAggregatesInput | BookingScalarWhereWithAggregatesInput[]
+    OR?: BookingScalarWhereWithAggregatesInput[]
+    NOT?: BookingScalarWhereWithAggregatesInput | BookingScalarWhereWithAggregatesInput[]
+    id?: UuidWithAggregatesFilter<"Booking"> | string
+    userId?: UuidWithAggregatesFilter<"Booking"> | string
+    tripId?: UuidWithAggregatesFilter<"Booking"> | string
+    seatId?: UuidWithAggregatesFilter<"Booking"> | string
+    status?: EnumBookingStatusWithAggregatesFilter<"Booking"> | $Enums.BookingStatus
+    totalPrice?: IntWithAggregatesFilter<"Booking"> | number
+    bookedAt?: DateTimeWithAggregatesFilter<"Booking"> | Date | string
   }
 
   export type UserCreateInput = {
     id?: string
+    name: string
     email: string
     passwordHash: string
+    phone: string
     role?: $Enums.UserRole
     createdAt?: Date | string
     updatedAt?: Date | string
     refreshTokens?: RefreshTokenCreateNestedManyWithoutUserInput
-    orders?: OrderCreateNestedManyWithoutUserInput
+    bookings?: BookingCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateInput = {
     id?: string
+    name: string
     email: string
     passwordHash: string
+    phone: string
     role?: $Enums.UserRole
     createdAt?: Date | string
     updatedAt?: Date | string
     refreshTokens?: RefreshTokenUncheckedCreateNestedManyWithoutUserInput
-    orders?: OrderUncheckedCreateNestedManyWithoutUserInput
+    bookings?: BookingUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
     passwordHash?: StringFieldUpdateOperationsInput | string
+    phone?: StringFieldUpdateOperationsInput | string
     role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     refreshTokens?: RefreshTokenUpdateManyWithoutUserNestedInput
-    orders?: OrderUpdateManyWithoutUserNestedInput
+    bookings?: BookingUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
     passwordHash?: StringFieldUpdateOperationsInput | string
+    phone?: StringFieldUpdateOperationsInput | string
     role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     refreshTokens?: RefreshTokenUncheckedUpdateManyWithoutUserNestedInput
-    orders?: OrderUncheckedUpdateManyWithoutUserNestedInput
+    bookings?: BookingUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateManyInput = {
     id?: string
+    name: string
     email: string
     passwordHash: string
+    phone: string
     role?: $Enums.UserRole
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -6092,8 +7747,10 @@ export namespace Prisma {
 
   export type UserUpdateManyMutationInput = {
     id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
     passwordHash?: StringFieldUpdateOperationsInput | string
+    phone?: StringFieldUpdateOperationsInput | string
     role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -6101,8 +7758,10 @@ export namespace Prisma {
 
   export type UserUncheckedUpdateManyInput = {
     id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
     passwordHash?: StringFieldUpdateOperationsInput | string
+    phone?: StringFieldUpdateOperationsInput | string
     role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -6180,122 +7839,220 @@ export namespace Prisma {
     expiresAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
-  export type ProductCreateInput = {
+  export type TripCreateInput = {
     id?: string
-    name: string
-    description?: string | null
-    priceCents: number
-    createdAt?: Date | string
-    updatedAt?: Date | string
+    operatorName: string
+    origin: string
+    destination: string
+    departureTime: Date | string
+    priceVnd: number
+    totalSeats: number
+    busType: $Enums.BusType
+    seats?: SeatCreateNestedManyWithoutTripInput
+    bookings?: BookingCreateNestedManyWithoutTripInput
   }
 
-  export type ProductUncheckedCreateInput = {
+  export type TripUncheckedCreateInput = {
     id?: string
-    name: string
-    description?: string | null
-    priceCents: number
-    createdAt?: Date | string
-    updatedAt?: Date | string
+    operatorName: string
+    origin: string
+    destination: string
+    departureTime: Date | string
+    priceVnd: number
+    totalSeats: number
+    busType: $Enums.BusType
+    seats?: SeatUncheckedCreateNestedManyWithoutTripInput
+    bookings?: BookingUncheckedCreateNestedManyWithoutTripInput
   }
 
-  export type ProductUpdateInput = {
+  export type TripUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
-    name?: StringFieldUpdateOperationsInput | string
-    description?: NullableStringFieldUpdateOperationsInput | string | null
-    priceCents?: IntFieldUpdateOperationsInput | number
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    operatorName?: StringFieldUpdateOperationsInput | string
+    origin?: StringFieldUpdateOperationsInput | string
+    destination?: StringFieldUpdateOperationsInput | string
+    departureTime?: DateTimeFieldUpdateOperationsInput | Date | string
+    priceVnd?: IntFieldUpdateOperationsInput | number
+    totalSeats?: IntFieldUpdateOperationsInput | number
+    busType?: EnumBusTypeFieldUpdateOperationsInput | $Enums.BusType
+    seats?: SeatUpdateManyWithoutTripNestedInput
+    bookings?: BookingUpdateManyWithoutTripNestedInput
   }
 
-  export type ProductUncheckedUpdateInput = {
+  export type TripUncheckedUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
-    name?: StringFieldUpdateOperationsInput | string
-    description?: NullableStringFieldUpdateOperationsInput | string | null
-    priceCents?: IntFieldUpdateOperationsInput | number
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    operatorName?: StringFieldUpdateOperationsInput | string
+    origin?: StringFieldUpdateOperationsInput | string
+    destination?: StringFieldUpdateOperationsInput | string
+    departureTime?: DateTimeFieldUpdateOperationsInput | Date | string
+    priceVnd?: IntFieldUpdateOperationsInput | number
+    totalSeats?: IntFieldUpdateOperationsInput | number
+    busType?: EnumBusTypeFieldUpdateOperationsInput | $Enums.BusType
+    seats?: SeatUncheckedUpdateManyWithoutTripNestedInput
+    bookings?: BookingUncheckedUpdateManyWithoutTripNestedInput
   }
 
-  export type ProductCreateManyInput = {
+  export type TripCreateManyInput = {
     id?: string
-    name: string
-    description?: string | null
-    priceCents: number
-    createdAt?: Date | string
-    updatedAt?: Date | string
+    operatorName: string
+    origin: string
+    destination: string
+    departureTime: Date | string
+    priceVnd: number
+    totalSeats: number
+    busType: $Enums.BusType
   }
 
-  export type ProductUpdateManyMutationInput = {
+  export type TripUpdateManyMutationInput = {
     id?: StringFieldUpdateOperationsInput | string
-    name?: StringFieldUpdateOperationsInput | string
-    description?: NullableStringFieldUpdateOperationsInput | string | null
-    priceCents?: IntFieldUpdateOperationsInput | number
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    operatorName?: StringFieldUpdateOperationsInput | string
+    origin?: StringFieldUpdateOperationsInput | string
+    destination?: StringFieldUpdateOperationsInput | string
+    departureTime?: DateTimeFieldUpdateOperationsInput | Date | string
+    priceVnd?: IntFieldUpdateOperationsInput | number
+    totalSeats?: IntFieldUpdateOperationsInput | number
+    busType?: EnumBusTypeFieldUpdateOperationsInput | $Enums.BusType
   }
 
-  export type ProductUncheckedUpdateManyInput = {
+  export type TripUncheckedUpdateManyInput = {
     id?: StringFieldUpdateOperationsInput | string
-    name?: StringFieldUpdateOperationsInput | string
-    description?: NullableStringFieldUpdateOperationsInput | string | null
-    priceCents?: IntFieldUpdateOperationsInput | number
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    operatorName?: StringFieldUpdateOperationsInput | string
+    origin?: StringFieldUpdateOperationsInput | string
+    destination?: StringFieldUpdateOperationsInput | string
+    departureTime?: DateTimeFieldUpdateOperationsInput | Date | string
+    priceVnd?: IntFieldUpdateOperationsInput | number
+    totalSeats?: IntFieldUpdateOperationsInput | number
+    busType?: EnumBusTypeFieldUpdateOperationsInput | $Enums.BusType
   }
 
-  export type OrderCreateInput = {
+  export type SeatCreateInput = {
     id?: string
-    status?: $Enums.OrderStatus
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    user: UserCreateNestedOneWithoutOrdersInput
+    seatNumber: string
+    status?: $Enums.SeatStatus
+    trip: TripCreateNestedOneWithoutSeatsInput
+    bookings?: BookingCreateNestedManyWithoutSeatInput
   }
 
-  export type OrderUncheckedCreateInput = {
+  export type SeatUncheckedCreateInput = {
+    id?: string
+    tripId: string
+    seatNumber: string
+    status?: $Enums.SeatStatus
+    bookings?: BookingUncheckedCreateNestedManyWithoutSeatInput
+  }
+
+  export type SeatUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    seatNumber?: StringFieldUpdateOperationsInput | string
+    status?: EnumSeatStatusFieldUpdateOperationsInput | $Enums.SeatStatus
+    trip?: TripUpdateOneRequiredWithoutSeatsNestedInput
+    bookings?: BookingUpdateManyWithoutSeatNestedInput
+  }
+
+  export type SeatUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tripId?: StringFieldUpdateOperationsInput | string
+    seatNumber?: StringFieldUpdateOperationsInput | string
+    status?: EnumSeatStatusFieldUpdateOperationsInput | $Enums.SeatStatus
+    bookings?: BookingUncheckedUpdateManyWithoutSeatNestedInput
+  }
+
+  export type SeatCreateManyInput = {
+    id?: string
+    tripId: string
+    seatNumber: string
+    status?: $Enums.SeatStatus
+  }
+
+  export type SeatUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    seatNumber?: StringFieldUpdateOperationsInput | string
+    status?: EnumSeatStatusFieldUpdateOperationsInput | $Enums.SeatStatus
+  }
+
+  export type SeatUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tripId?: StringFieldUpdateOperationsInput | string
+    seatNumber?: StringFieldUpdateOperationsInput | string
+    status?: EnumSeatStatusFieldUpdateOperationsInput | $Enums.SeatStatus
+  }
+
+  export type BookingCreateInput = {
+    id?: string
+    status?: $Enums.BookingStatus
+    totalPrice: number
+    bookedAt?: Date | string
+    user: UserCreateNestedOneWithoutBookingsInput
+    trip: TripCreateNestedOneWithoutBookingsInput
+    seat: SeatCreateNestedOneWithoutBookingsInput
+  }
+
+  export type BookingUncheckedCreateInput = {
     id?: string
     userId: string
-    status?: $Enums.OrderStatus
-    createdAt?: Date | string
-    updatedAt?: Date | string
+    tripId: string
+    seatId: string
+    status?: $Enums.BookingStatus
+    totalPrice: number
+    bookedAt?: Date | string
   }
 
-  export type OrderUpdateInput = {
+  export type BookingUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
-    status?: EnumOrderStatusFieldUpdateOperationsInput | $Enums.OrderStatus
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    user?: UserUpdateOneRequiredWithoutOrdersNestedInput
+    status?: EnumBookingStatusFieldUpdateOperationsInput | $Enums.BookingStatus
+    totalPrice?: IntFieldUpdateOperationsInput | number
+    bookedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    user?: UserUpdateOneRequiredWithoutBookingsNestedInput
+    trip?: TripUpdateOneRequiredWithoutBookingsNestedInput
+    seat?: SeatUpdateOneRequiredWithoutBookingsNestedInput
   }
 
-  export type OrderUncheckedUpdateInput = {
+  export type BookingUncheckedUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     userId?: StringFieldUpdateOperationsInput | string
-    status?: EnumOrderStatusFieldUpdateOperationsInput | $Enums.OrderStatus
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    tripId?: StringFieldUpdateOperationsInput | string
+    seatId?: StringFieldUpdateOperationsInput | string
+    status?: EnumBookingStatusFieldUpdateOperationsInput | $Enums.BookingStatus
+    totalPrice?: IntFieldUpdateOperationsInput | number
+    bookedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
-  export type OrderCreateManyInput = {
+  export type BookingCreateManyInput = {
     id?: string
     userId: string
-    status?: $Enums.OrderStatus
-    createdAt?: Date | string
-    updatedAt?: Date | string
+    tripId: string
+    seatId: string
+    status?: $Enums.BookingStatus
+    totalPrice: number
+    bookedAt?: Date | string
   }
 
-  export type OrderUpdateManyMutationInput = {
+  export type BookingUpdateManyMutationInput = {
     id?: StringFieldUpdateOperationsInput | string
-    status?: EnumOrderStatusFieldUpdateOperationsInput | $Enums.OrderStatus
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    status?: EnumBookingStatusFieldUpdateOperationsInput | $Enums.BookingStatus
+    totalPrice?: IntFieldUpdateOperationsInput | number
+    bookedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
-  export type OrderUncheckedUpdateManyInput = {
+  export type BookingUncheckedUpdateManyInput = {
     id?: StringFieldUpdateOperationsInput | string
     userId?: StringFieldUpdateOperationsInput | string
-    status?: EnumOrderStatusFieldUpdateOperationsInput | $Enums.OrderStatus
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    tripId?: StringFieldUpdateOperationsInput | string
+    seatId?: StringFieldUpdateOperationsInput | string
+    status?: EnumBookingStatusFieldUpdateOperationsInput | $Enums.BookingStatus
+    totalPrice?: IntFieldUpdateOperationsInput | number
+    bookedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type UuidFilter<$PrismaModel = never> = {
+    equals?: string | StringFieldRefInput<$PrismaModel>
+    in?: string[] | ListStringFieldRefInput<$PrismaModel>
+    notIn?: string[] | ListStringFieldRefInput<$PrismaModel>
+    lt?: string | StringFieldRefInput<$PrismaModel>
+    lte?: string | StringFieldRefInput<$PrismaModel>
+    gt?: string | StringFieldRefInput<$PrismaModel>
+    gte?: string | StringFieldRefInput<$PrismaModel>
+    mode?: QueryMode
+    not?: NestedUuidFilter<$PrismaModel> | string
   }
 
   export type StringFilter<$PrismaModel = never> = {
@@ -6337,24 +8094,26 @@ export namespace Prisma {
     none?: RefreshTokenWhereInput
   }
 
-  export type OrderListRelationFilter = {
-    every?: OrderWhereInput
-    some?: OrderWhereInput
-    none?: OrderWhereInput
+  export type BookingListRelationFilter = {
+    every?: BookingWhereInput
+    some?: BookingWhereInput
+    none?: BookingWhereInput
   }
 
   export type RefreshTokenOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
-  export type OrderOrderByRelationAggregateInput = {
+  export type BookingOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
   export type UserCountOrderByAggregateInput = {
     id?: SortOrder
+    name?: SortOrder
     email?: SortOrder
     passwordHash?: SortOrder
+    phone?: SortOrder
     role?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -6362,8 +8121,10 @@ export namespace Prisma {
 
   export type UserMaxOrderByAggregateInput = {
     id?: SortOrder
+    name?: SortOrder
     email?: SortOrder
     passwordHash?: SortOrder
+    phone?: SortOrder
     role?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -6371,11 +8132,28 @@ export namespace Prisma {
 
   export type UserMinOrderByAggregateInput = {
     id?: SortOrder
+    name?: SortOrder
     email?: SortOrder
     passwordHash?: SortOrder
+    phone?: SortOrder
     role?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+  }
+
+  export type UuidWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: string | StringFieldRefInput<$PrismaModel>
+    in?: string[] | ListStringFieldRefInput<$PrismaModel>
+    notIn?: string[] | ListStringFieldRefInput<$PrismaModel>
+    lt?: string | StringFieldRefInput<$PrismaModel>
+    lte?: string | StringFieldRefInput<$PrismaModel>
+    gt?: string | StringFieldRefInput<$PrismaModel>
+    gte?: string | StringFieldRefInput<$PrismaModel>
+    mode?: QueryMode
+    not?: NestedUuidWithAggregatesFilter<$PrismaModel> | string
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedStringFilter<$PrismaModel>
+    _max?: NestedStringFilter<$PrismaModel>
   }
 
   export type StringWithAggregatesFilter<$PrismaModel = never> = {
@@ -6431,7 +8209,7 @@ export namespace Prisma {
     not?: NestedDateTimeNullableFilter<$PrismaModel> | Date | string | null
   }
 
-  export type StringNullableFilter<$PrismaModel = never> = {
+  export type UuidNullableFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel> | null
     in?: string[] | ListStringFieldRefInput<$PrismaModel> | null
     notIn?: string[] | ListStringFieldRefInput<$PrismaModel> | null
@@ -6439,11 +8217,8 @@ export namespace Prisma {
     lte?: string | StringFieldRefInput<$PrismaModel>
     gt?: string | StringFieldRefInput<$PrismaModel>
     gte?: string | StringFieldRefInput<$PrismaModel>
-    contains?: string | StringFieldRefInput<$PrismaModel>
-    startsWith?: string | StringFieldRefInput<$PrismaModel>
-    endsWith?: string | StringFieldRefInput<$PrismaModel>
     mode?: QueryMode
-    not?: NestedStringNullableFilter<$PrismaModel> | string | null
+    not?: NestedUuidNullableFilter<$PrismaModel> | string | null
   }
 
   export type UserScalarRelationFilter = {
@@ -6505,7 +8280,7 @@ export namespace Prisma {
     _max?: NestedDateTimeNullableFilter<$PrismaModel>
   }
 
-  export type StringNullableWithAggregatesFilter<$PrismaModel = never> = {
+  export type UuidNullableWithAggregatesFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel> | null
     in?: string[] | ListStringFieldRefInput<$PrismaModel> | null
     notIn?: string[] | ListStringFieldRefInput<$PrismaModel> | null
@@ -6513,11 +8288,8 @@ export namespace Prisma {
     lte?: string | StringFieldRefInput<$PrismaModel>
     gt?: string | StringFieldRefInput<$PrismaModel>
     gte?: string | StringFieldRefInput<$PrismaModel>
-    contains?: string | StringFieldRefInput<$PrismaModel>
-    startsWith?: string | StringFieldRefInput<$PrismaModel>
-    endsWith?: string | StringFieldRefInput<$PrismaModel>
     mode?: QueryMode
-    not?: NestedStringNullableWithAggregatesFilter<$PrismaModel> | string | null
+    not?: NestedUuidNullableWithAggregatesFilter<$PrismaModel> | string | null
     _count?: NestedIntNullableFilter<$PrismaModel>
     _min?: NestedStringNullableFilter<$PrismaModel>
     _max?: NestedStringNullableFilter<$PrismaModel>
@@ -6534,39 +8306,64 @@ export namespace Prisma {
     not?: NestedIntFilter<$PrismaModel> | number
   }
 
-  export type ProductCountOrderByAggregateInput = {
+  export type EnumBusTypeFilter<$PrismaModel = never> = {
+    equals?: $Enums.BusType | EnumBusTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.BusType[] | ListEnumBusTypeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.BusType[] | ListEnumBusTypeFieldRefInput<$PrismaModel>
+    not?: NestedEnumBusTypeFilter<$PrismaModel> | $Enums.BusType
+  }
+
+  export type SeatListRelationFilter = {
+    every?: SeatWhereInput
+    some?: SeatWhereInput
+    none?: SeatWhereInput
+  }
+
+  export type SeatOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type TripCountOrderByAggregateInput = {
     id?: SortOrder
-    name?: SortOrder
-    description?: SortOrder
-    priceCents?: SortOrder
-    createdAt?: SortOrder
-    updatedAt?: SortOrder
+    operatorName?: SortOrder
+    origin?: SortOrder
+    destination?: SortOrder
+    departureTime?: SortOrder
+    priceVnd?: SortOrder
+    totalSeats?: SortOrder
+    busType?: SortOrder
   }
 
-  export type ProductAvgOrderByAggregateInput = {
-    priceCents?: SortOrder
+  export type TripAvgOrderByAggregateInput = {
+    priceVnd?: SortOrder
+    totalSeats?: SortOrder
   }
 
-  export type ProductMaxOrderByAggregateInput = {
+  export type TripMaxOrderByAggregateInput = {
     id?: SortOrder
-    name?: SortOrder
-    description?: SortOrder
-    priceCents?: SortOrder
-    createdAt?: SortOrder
-    updatedAt?: SortOrder
+    operatorName?: SortOrder
+    origin?: SortOrder
+    destination?: SortOrder
+    departureTime?: SortOrder
+    priceVnd?: SortOrder
+    totalSeats?: SortOrder
+    busType?: SortOrder
   }
 
-  export type ProductMinOrderByAggregateInput = {
+  export type TripMinOrderByAggregateInput = {
     id?: SortOrder
-    name?: SortOrder
-    description?: SortOrder
-    priceCents?: SortOrder
-    createdAt?: SortOrder
-    updatedAt?: SortOrder
+    operatorName?: SortOrder
+    origin?: SortOrder
+    destination?: SortOrder
+    departureTime?: SortOrder
+    priceVnd?: SortOrder
+    totalSeats?: SortOrder
+    busType?: SortOrder
   }
 
-  export type ProductSumOrderByAggregateInput = {
-    priceCents?: SortOrder
+  export type TripSumOrderByAggregateInput = {
+    priceVnd?: SortOrder
+    totalSeats?: SortOrder
   }
 
   export type IntWithAggregatesFilter<$PrismaModel = never> = {
@@ -6585,45 +8382,122 @@ export namespace Prisma {
     _max?: NestedIntFilter<$PrismaModel>
   }
 
-  export type EnumOrderStatusFilter<$PrismaModel = never> = {
-    equals?: $Enums.OrderStatus | EnumOrderStatusFieldRefInput<$PrismaModel>
-    in?: $Enums.OrderStatus[] | ListEnumOrderStatusFieldRefInput<$PrismaModel>
-    notIn?: $Enums.OrderStatus[] | ListEnumOrderStatusFieldRefInput<$PrismaModel>
-    not?: NestedEnumOrderStatusFilter<$PrismaModel> | $Enums.OrderStatus
-  }
-
-  export type OrderCountOrderByAggregateInput = {
-    id?: SortOrder
-    userId?: SortOrder
-    status?: SortOrder
-    createdAt?: SortOrder
-    updatedAt?: SortOrder
-  }
-
-  export type OrderMaxOrderByAggregateInput = {
-    id?: SortOrder
-    userId?: SortOrder
-    status?: SortOrder
-    createdAt?: SortOrder
-    updatedAt?: SortOrder
-  }
-
-  export type OrderMinOrderByAggregateInput = {
-    id?: SortOrder
-    userId?: SortOrder
-    status?: SortOrder
-    createdAt?: SortOrder
-    updatedAt?: SortOrder
-  }
-
-  export type EnumOrderStatusWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: $Enums.OrderStatus | EnumOrderStatusFieldRefInput<$PrismaModel>
-    in?: $Enums.OrderStatus[] | ListEnumOrderStatusFieldRefInput<$PrismaModel>
-    notIn?: $Enums.OrderStatus[] | ListEnumOrderStatusFieldRefInput<$PrismaModel>
-    not?: NestedEnumOrderStatusWithAggregatesFilter<$PrismaModel> | $Enums.OrderStatus
+  export type EnumBusTypeWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.BusType | EnumBusTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.BusType[] | ListEnumBusTypeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.BusType[] | ListEnumBusTypeFieldRefInput<$PrismaModel>
+    not?: NestedEnumBusTypeWithAggregatesFilter<$PrismaModel> | $Enums.BusType
     _count?: NestedIntFilter<$PrismaModel>
-    _min?: NestedEnumOrderStatusFilter<$PrismaModel>
-    _max?: NestedEnumOrderStatusFilter<$PrismaModel>
+    _min?: NestedEnumBusTypeFilter<$PrismaModel>
+    _max?: NestedEnumBusTypeFilter<$PrismaModel>
+  }
+
+  export type EnumSeatStatusFilter<$PrismaModel = never> = {
+    equals?: $Enums.SeatStatus | EnumSeatStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.SeatStatus[] | ListEnumSeatStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.SeatStatus[] | ListEnumSeatStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumSeatStatusFilter<$PrismaModel> | $Enums.SeatStatus
+  }
+
+  export type TripScalarRelationFilter = {
+    is?: TripWhereInput
+    isNot?: TripWhereInput
+  }
+
+  export type SeatTripIdSeatNumberCompoundUniqueInput = {
+    tripId: string
+    seatNumber: string
+  }
+
+  export type SeatCountOrderByAggregateInput = {
+    id?: SortOrder
+    tripId?: SortOrder
+    seatNumber?: SortOrder
+    status?: SortOrder
+  }
+
+  export type SeatMaxOrderByAggregateInput = {
+    id?: SortOrder
+    tripId?: SortOrder
+    seatNumber?: SortOrder
+    status?: SortOrder
+  }
+
+  export type SeatMinOrderByAggregateInput = {
+    id?: SortOrder
+    tripId?: SortOrder
+    seatNumber?: SortOrder
+    status?: SortOrder
+  }
+
+  export type EnumSeatStatusWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.SeatStatus | EnumSeatStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.SeatStatus[] | ListEnumSeatStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.SeatStatus[] | ListEnumSeatStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumSeatStatusWithAggregatesFilter<$PrismaModel> | $Enums.SeatStatus
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumSeatStatusFilter<$PrismaModel>
+    _max?: NestedEnumSeatStatusFilter<$PrismaModel>
+  }
+
+  export type EnumBookingStatusFilter<$PrismaModel = never> = {
+    equals?: $Enums.BookingStatus | EnumBookingStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.BookingStatus[] | ListEnumBookingStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.BookingStatus[] | ListEnumBookingStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumBookingStatusFilter<$PrismaModel> | $Enums.BookingStatus
+  }
+
+  export type SeatScalarRelationFilter = {
+    is?: SeatWhereInput
+    isNot?: SeatWhereInput
+  }
+
+  export type BookingCountOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    tripId?: SortOrder
+    seatId?: SortOrder
+    status?: SortOrder
+    totalPrice?: SortOrder
+    bookedAt?: SortOrder
+  }
+
+  export type BookingAvgOrderByAggregateInput = {
+    totalPrice?: SortOrder
+  }
+
+  export type BookingMaxOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    tripId?: SortOrder
+    seatId?: SortOrder
+    status?: SortOrder
+    totalPrice?: SortOrder
+    bookedAt?: SortOrder
+  }
+
+  export type BookingMinOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    tripId?: SortOrder
+    seatId?: SortOrder
+    status?: SortOrder
+    totalPrice?: SortOrder
+    bookedAt?: SortOrder
+  }
+
+  export type BookingSumOrderByAggregateInput = {
+    totalPrice?: SortOrder
+  }
+
+  export type EnumBookingStatusWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.BookingStatus | EnumBookingStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.BookingStatus[] | ListEnumBookingStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.BookingStatus[] | ListEnumBookingStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumBookingStatusWithAggregatesFilter<$PrismaModel> | $Enums.BookingStatus
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumBookingStatusFilter<$PrismaModel>
+    _max?: NestedEnumBookingStatusFilter<$PrismaModel>
   }
 
   export type RefreshTokenCreateNestedManyWithoutUserInput = {
@@ -6633,11 +8507,11 @@ export namespace Prisma {
     connect?: RefreshTokenWhereUniqueInput | RefreshTokenWhereUniqueInput[]
   }
 
-  export type OrderCreateNestedManyWithoutUserInput = {
-    create?: XOR<OrderCreateWithoutUserInput, OrderUncheckedCreateWithoutUserInput> | OrderCreateWithoutUserInput[] | OrderUncheckedCreateWithoutUserInput[]
-    connectOrCreate?: OrderCreateOrConnectWithoutUserInput | OrderCreateOrConnectWithoutUserInput[]
-    createMany?: OrderCreateManyUserInputEnvelope
-    connect?: OrderWhereUniqueInput | OrderWhereUniqueInput[]
+  export type BookingCreateNestedManyWithoutUserInput = {
+    create?: XOR<BookingCreateWithoutUserInput, BookingUncheckedCreateWithoutUserInput> | BookingCreateWithoutUserInput[] | BookingUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: BookingCreateOrConnectWithoutUserInput | BookingCreateOrConnectWithoutUserInput[]
+    createMany?: BookingCreateManyUserInputEnvelope
+    connect?: BookingWhereUniqueInput | BookingWhereUniqueInput[]
   }
 
   export type RefreshTokenUncheckedCreateNestedManyWithoutUserInput = {
@@ -6647,11 +8521,11 @@ export namespace Prisma {
     connect?: RefreshTokenWhereUniqueInput | RefreshTokenWhereUniqueInput[]
   }
 
-  export type OrderUncheckedCreateNestedManyWithoutUserInput = {
-    create?: XOR<OrderCreateWithoutUserInput, OrderUncheckedCreateWithoutUserInput> | OrderCreateWithoutUserInput[] | OrderUncheckedCreateWithoutUserInput[]
-    connectOrCreate?: OrderCreateOrConnectWithoutUserInput | OrderCreateOrConnectWithoutUserInput[]
-    createMany?: OrderCreateManyUserInputEnvelope
-    connect?: OrderWhereUniqueInput | OrderWhereUniqueInput[]
+  export type BookingUncheckedCreateNestedManyWithoutUserInput = {
+    create?: XOR<BookingCreateWithoutUserInput, BookingUncheckedCreateWithoutUserInput> | BookingCreateWithoutUserInput[] | BookingUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: BookingCreateOrConnectWithoutUserInput | BookingCreateOrConnectWithoutUserInput[]
+    createMany?: BookingCreateManyUserInputEnvelope
+    connect?: BookingWhereUniqueInput | BookingWhereUniqueInput[]
   }
 
   export type StringFieldUpdateOperationsInput = {
@@ -6680,18 +8554,18 @@ export namespace Prisma {
     deleteMany?: RefreshTokenScalarWhereInput | RefreshTokenScalarWhereInput[]
   }
 
-  export type OrderUpdateManyWithoutUserNestedInput = {
-    create?: XOR<OrderCreateWithoutUserInput, OrderUncheckedCreateWithoutUserInput> | OrderCreateWithoutUserInput[] | OrderUncheckedCreateWithoutUserInput[]
-    connectOrCreate?: OrderCreateOrConnectWithoutUserInput | OrderCreateOrConnectWithoutUserInput[]
-    upsert?: OrderUpsertWithWhereUniqueWithoutUserInput | OrderUpsertWithWhereUniqueWithoutUserInput[]
-    createMany?: OrderCreateManyUserInputEnvelope
-    set?: OrderWhereUniqueInput | OrderWhereUniqueInput[]
-    disconnect?: OrderWhereUniqueInput | OrderWhereUniqueInput[]
-    delete?: OrderWhereUniqueInput | OrderWhereUniqueInput[]
-    connect?: OrderWhereUniqueInput | OrderWhereUniqueInput[]
-    update?: OrderUpdateWithWhereUniqueWithoutUserInput | OrderUpdateWithWhereUniqueWithoutUserInput[]
-    updateMany?: OrderUpdateManyWithWhereWithoutUserInput | OrderUpdateManyWithWhereWithoutUserInput[]
-    deleteMany?: OrderScalarWhereInput | OrderScalarWhereInput[]
+  export type BookingUpdateManyWithoutUserNestedInput = {
+    create?: XOR<BookingCreateWithoutUserInput, BookingUncheckedCreateWithoutUserInput> | BookingCreateWithoutUserInput[] | BookingUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: BookingCreateOrConnectWithoutUserInput | BookingCreateOrConnectWithoutUserInput[]
+    upsert?: BookingUpsertWithWhereUniqueWithoutUserInput | BookingUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: BookingCreateManyUserInputEnvelope
+    set?: BookingWhereUniqueInput | BookingWhereUniqueInput[]
+    disconnect?: BookingWhereUniqueInput | BookingWhereUniqueInput[]
+    delete?: BookingWhereUniqueInput | BookingWhereUniqueInput[]
+    connect?: BookingWhereUniqueInput | BookingWhereUniqueInput[]
+    update?: BookingUpdateWithWhereUniqueWithoutUserInput | BookingUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: BookingUpdateManyWithWhereWithoutUserInput | BookingUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: BookingScalarWhereInput | BookingScalarWhereInput[]
   }
 
   export type RefreshTokenUncheckedUpdateManyWithoutUserNestedInput = {
@@ -6708,18 +8582,18 @@ export namespace Prisma {
     deleteMany?: RefreshTokenScalarWhereInput | RefreshTokenScalarWhereInput[]
   }
 
-  export type OrderUncheckedUpdateManyWithoutUserNestedInput = {
-    create?: XOR<OrderCreateWithoutUserInput, OrderUncheckedCreateWithoutUserInput> | OrderCreateWithoutUserInput[] | OrderUncheckedCreateWithoutUserInput[]
-    connectOrCreate?: OrderCreateOrConnectWithoutUserInput | OrderCreateOrConnectWithoutUserInput[]
-    upsert?: OrderUpsertWithWhereUniqueWithoutUserInput | OrderUpsertWithWhereUniqueWithoutUserInput[]
-    createMany?: OrderCreateManyUserInputEnvelope
-    set?: OrderWhereUniqueInput | OrderWhereUniqueInput[]
-    disconnect?: OrderWhereUniqueInput | OrderWhereUniqueInput[]
-    delete?: OrderWhereUniqueInput | OrderWhereUniqueInput[]
-    connect?: OrderWhereUniqueInput | OrderWhereUniqueInput[]
-    update?: OrderUpdateWithWhereUniqueWithoutUserInput | OrderUpdateWithWhereUniqueWithoutUserInput[]
-    updateMany?: OrderUpdateManyWithWhereWithoutUserInput | OrderUpdateManyWithWhereWithoutUserInput[]
-    deleteMany?: OrderScalarWhereInput | OrderScalarWhereInput[]
+  export type BookingUncheckedUpdateManyWithoutUserNestedInput = {
+    create?: XOR<BookingCreateWithoutUserInput, BookingUncheckedCreateWithoutUserInput> | BookingCreateWithoutUserInput[] | BookingUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: BookingCreateOrConnectWithoutUserInput | BookingCreateOrConnectWithoutUserInput[]
+    upsert?: BookingUpsertWithWhereUniqueWithoutUserInput | BookingUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: BookingCreateManyUserInputEnvelope
+    set?: BookingWhereUniqueInput | BookingWhereUniqueInput[]
+    disconnect?: BookingWhereUniqueInput | BookingWhereUniqueInput[]
+    delete?: BookingWhereUniqueInput | BookingWhereUniqueInput[]
+    connect?: BookingWhereUniqueInput | BookingWhereUniqueInput[]
+    update?: BookingUpdateWithWhereUniqueWithoutUserInput | BookingUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: BookingUpdateManyWithWhereWithoutUserInput | BookingUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: BookingScalarWhereInput | BookingScalarWhereInput[]
   }
 
   export type UserCreateNestedOneWithoutRefreshTokensInput = {
@@ -6802,6 +8676,34 @@ export namespace Prisma {
     deleteMany?: RefreshTokenScalarWhereInput | RefreshTokenScalarWhereInput[]
   }
 
+  export type SeatCreateNestedManyWithoutTripInput = {
+    create?: XOR<SeatCreateWithoutTripInput, SeatUncheckedCreateWithoutTripInput> | SeatCreateWithoutTripInput[] | SeatUncheckedCreateWithoutTripInput[]
+    connectOrCreate?: SeatCreateOrConnectWithoutTripInput | SeatCreateOrConnectWithoutTripInput[]
+    createMany?: SeatCreateManyTripInputEnvelope
+    connect?: SeatWhereUniqueInput | SeatWhereUniqueInput[]
+  }
+
+  export type BookingCreateNestedManyWithoutTripInput = {
+    create?: XOR<BookingCreateWithoutTripInput, BookingUncheckedCreateWithoutTripInput> | BookingCreateWithoutTripInput[] | BookingUncheckedCreateWithoutTripInput[]
+    connectOrCreate?: BookingCreateOrConnectWithoutTripInput | BookingCreateOrConnectWithoutTripInput[]
+    createMany?: BookingCreateManyTripInputEnvelope
+    connect?: BookingWhereUniqueInput | BookingWhereUniqueInput[]
+  }
+
+  export type SeatUncheckedCreateNestedManyWithoutTripInput = {
+    create?: XOR<SeatCreateWithoutTripInput, SeatUncheckedCreateWithoutTripInput> | SeatCreateWithoutTripInput[] | SeatUncheckedCreateWithoutTripInput[]
+    connectOrCreate?: SeatCreateOrConnectWithoutTripInput | SeatCreateOrConnectWithoutTripInput[]
+    createMany?: SeatCreateManyTripInputEnvelope
+    connect?: SeatWhereUniqueInput | SeatWhereUniqueInput[]
+  }
+
+  export type BookingUncheckedCreateNestedManyWithoutTripInput = {
+    create?: XOR<BookingCreateWithoutTripInput, BookingUncheckedCreateWithoutTripInput> | BookingCreateWithoutTripInput[] | BookingUncheckedCreateWithoutTripInput[]
+    connectOrCreate?: BookingCreateOrConnectWithoutTripInput | BookingCreateOrConnectWithoutTripInput[]
+    createMany?: BookingCreateManyTripInputEnvelope
+    connect?: BookingWhereUniqueInput | BookingWhereUniqueInput[]
+  }
+
   export type IntFieldUpdateOperationsInput = {
     set?: number
     increment?: number
@@ -6810,22 +8712,181 @@ export namespace Prisma {
     divide?: number
   }
 
-  export type UserCreateNestedOneWithoutOrdersInput = {
-    create?: XOR<UserCreateWithoutOrdersInput, UserUncheckedCreateWithoutOrdersInput>
-    connectOrCreate?: UserCreateOrConnectWithoutOrdersInput
+  export type EnumBusTypeFieldUpdateOperationsInput = {
+    set?: $Enums.BusType
+  }
+
+  export type SeatUpdateManyWithoutTripNestedInput = {
+    create?: XOR<SeatCreateWithoutTripInput, SeatUncheckedCreateWithoutTripInput> | SeatCreateWithoutTripInput[] | SeatUncheckedCreateWithoutTripInput[]
+    connectOrCreate?: SeatCreateOrConnectWithoutTripInput | SeatCreateOrConnectWithoutTripInput[]
+    upsert?: SeatUpsertWithWhereUniqueWithoutTripInput | SeatUpsertWithWhereUniqueWithoutTripInput[]
+    createMany?: SeatCreateManyTripInputEnvelope
+    set?: SeatWhereUniqueInput | SeatWhereUniqueInput[]
+    disconnect?: SeatWhereUniqueInput | SeatWhereUniqueInput[]
+    delete?: SeatWhereUniqueInput | SeatWhereUniqueInput[]
+    connect?: SeatWhereUniqueInput | SeatWhereUniqueInput[]
+    update?: SeatUpdateWithWhereUniqueWithoutTripInput | SeatUpdateWithWhereUniqueWithoutTripInput[]
+    updateMany?: SeatUpdateManyWithWhereWithoutTripInput | SeatUpdateManyWithWhereWithoutTripInput[]
+    deleteMany?: SeatScalarWhereInput | SeatScalarWhereInput[]
+  }
+
+  export type BookingUpdateManyWithoutTripNestedInput = {
+    create?: XOR<BookingCreateWithoutTripInput, BookingUncheckedCreateWithoutTripInput> | BookingCreateWithoutTripInput[] | BookingUncheckedCreateWithoutTripInput[]
+    connectOrCreate?: BookingCreateOrConnectWithoutTripInput | BookingCreateOrConnectWithoutTripInput[]
+    upsert?: BookingUpsertWithWhereUniqueWithoutTripInput | BookingUpsertWithWhereUniqueWithoutTripInput[]
+    createMany?: BookingCreateManyTripInputEnvelope
+    set?: BookingWhereUniqueInput | BookingWhereUniqueInput[]
+    disconnect?: BookingWhereUniqueInput | BookingWhereUniqueInput[]
+    delete?: BookingWhereUniqueInput | BookingWhereUniqueInput[]
+    connect?: BookingWhereUniqueInput | BookingWhereUniqueInput[]
+    update?: BookingUpdateWithWhereUniqueWithoutTripInput | BookingUpdateWithWhereUniqueWithoutTripInput[]
+    updateMany?: BookingUpdateManyWithWhereWithoutTripInput | BookingUpdateManyWithWhereWithoutTripInput[]
+    deleteMany?: BookingScalarWhereInput | BookingScalarWhereInput[]
+  }
+
+  export type SeatUncheckedUpdateManyWithoutTripNestedInput = {
+    create?: XOR<SeatCreateWithoutTripInput, SeatUncheckedCreateWithoutTripInput> | SeatCreateWithoutTripInput[] | SeatUncheckedCreateWithoutTripInput[]
+    connectOrCreate?: SeatCreateOrConnectWithoutTripInput | SeatCreateOrConnectWithoutTripInput[]
+    upsert?: SeatUpsertWithWhereUniqueWithoutTripInput | SeatUpsertWithWhereUniqueWithoutTripInput[]
+    createMany?: SeatCreateManyTripInputEnvelope
+    set?: SeatWhereUniqueInput | SeatWhereUniqueInput[]
+    disconnect?: SeatWhereUniqueInput | SeatWhereUniqueInput[]
+    delete?: SeatWhereUniqueInput | SeatWhereUniqueInput[]
+    connect?: SeatWhereUniqueInput | SeatWhereUniqueInput[]
+    update?: SeatUpdateWithWhereUniqueWithoutTripInput | SeatUpdateWithWhereUniqueWithoutTripInput[]
+    updateMany?: SeatUpdateManyWithWhereWithoutTripInput | SeatUpdateManyWithWhereWithoutTripInput[]
+    deleteMany?: SeatScalarWhereInput | SeatScalarWhereInput[]
+  }
+
+  export type BookingUncheckedUpdateManyWithoutTripNestedInput = {
+    create?: XOR<BookingCreateWithoutTripInput, BookingUncheckedCreateWithoutTripInput> | BookingCreateWithoutTripInput[] | BookingUncheckedCreateWithoutTripInput[]
+    connectOrCreate?: BookingCreateOrConnectWithoutTripInput | BookingCreateOrConnectWithoutTripInput[]
+    upsert?: BookingUpsertWithWhereUniqueWithoutTripInput | BookingUpsertWithWhereUniqueWithoutTripInput[]
+    createMany?: BookingCreateManyTripInputEnvelope
+    set?: BookingWhereUniqueInput | BookingWhereUniqueInput[]
+    disconnect?: BookingWhereUniqueInput | BookingWhereUniqueInput[]
+    delete?: BookingWhereUniqueInput | BookingWhereUniqueInput[]
+    connect?: BookingWhereUniqueInput | BookingWhereUniqueInput[]
+    update?: BookingUpdateWithWhereUniqueWithoutTripInput | BookingUpdateWithWhereUniqueWithoutTripInput[]
+    updateMany?: BookingUpdateManyWithWhereWithoutTripInput | BookingUpdateManyWithWhereWithoutTripInput[]
+    deleteMany?: BookingScalarWhereInput | BookingScalarWhereInput[]
+  }
+
+  export type TripCreateNestedOneWithoutSeatsInput = {
+    create?: XOR<TripCreateWithoutSeatsInput, TripUncheckedCreateWithoutSeatsInput>
+    connectOrCreate?: TripCreateOrConnectWithoutSeatsInput
+    connect?: TripWhereUniqueInput
+  }
+
+  export type BookingCreateNestedManyWithoutSeatInput = {
+    create?: XOR<BookingCreateWithoutSeatInput, BookingUncheckedCreateWithoutSeatInput> | BookingCreateWithoutSeatInput[] | BookingUncheckedCreateWithoutSeatInput[]
+    connectOrCreate?: BookingCreateOrConnectWithoutSeatInput | BookingCreateOrConnectWithoutSeatInput[]
+    createMany?: BookingCreateManySeatInputEnvelope
+    connect?: BookingWhereUniqueInput | BookingWhereUniqueInput[]
+  }
+
+  export type BookingUncheckedCreateNestedManyWithoutSeatInput = {
+    create?: XOR<BookingCreateWithoutSeatInput, BookingUncheckedCreateWithoutSeatInput> | BookingCreateWithoutSeatInput[] | BookingUncheckedCreateWithoutSeatInput[]
+    connectOrCreate?: BookingCreateOrConnectWithoutSeatInput | BookingCreateOrConnectWithoutSeatInput[]
+    createMany?: BookingCreateManySeatInputEnvelope
+    connect?: BookingWhereUniqueInput | BookingWhereUniqueInput[]
+  }
+
+  export type EnumSeatStatusFieldUpdateOperationsInput = {
+    set?: $Enums.SeatStatus
+  }
+
+  export type TripUpdateOneRequiredWithoutSeatsNestedInput = {
+    create?: XOR<TripCreateWithoutSeatsInput, TripUncheckedCreateWithoutSeatsInput>
+    connectOrCreate?: TripCreateOrConnectWithoutSeatsInput
+    upsert?: TripUpsertWithoutSeatsInput
+    connect?: TripWhereUniqueInput
+    update?: XOR<XOR<TripUpdateToOneWithWhereWithoutSeatsInput, TripUpdateWithoutSeatsInput>, TripUncheckedUpdateWithoutSeatsInput>
+  }
+
+  export type BookingUpdateManyWithoutSeatNestedInput = {
+    create?: XOR<BookingCreateWithoutSeatInput, BookingUncheckedCreateWithoutSeatInput> | BookingCreateWithoutSeatInput[] | BookingUncheckedCreateWithoutSeatInput[]
+    connectOrCreate?: BookingCreateOrConnectWithoutSeatInput | BookingCreateOrConnectWithoutSeatInput[]
+    upsert?: BookingUpsertWithWhereUniqueWithoutSeatInput | BookingUpsertWithWhereUniqueWithoutSeatInput[]
+    createMany?: BookingCreateManySeatInputEnvelope
+    set?: BookingWhereUniqueInput | BookingWhereUniqueInput[]
+    disconnect?: BookingWhereUniqueInput | BookingWhereUniqueInput[]
+    delete?: BookingWhereUniqueInput | BookingWhereUniqueInput[]
+    connect?: BookingWhereUniqueInput | BookingWhereUniqueInput[]
+    update?: BookingUpdateWithWhereUniqueWithoutSeatInput | BookingUpdateWithWhereUniqueWithoutSeatInput[]
+    updateMany?: BookingUpdateManyWithWhereWithoutSeatInput | BookingUpdateManyWithWhereWithoutSeatInput[]
+    deleteMany?: BookingScalarWhereInput | BookingScalarWhereInput[]
+  }
+
+  export type BookingUncheckedUpdateManyWithoutSeatNestedInput = {
+    create?: XOR<BookingCreateWithoutSeatInput, BookingUncheckedCreateWithoutSeatInput> | BookingCreateWithoutSeatInput[] | BookingUncheckedCreateWithoutSeatInput[]
+    connectOrCreate?: BookingCreateOrConnectWithoutSeatInput | BookingCreateOrConnectWithoutSeatInput[]
+    upsert?: BookingUpsertWithWhereUniqueWithoutSeatInput | BookingUpsertWithWhereUniqueWithoutSeatInput[]
+    createMany?: BookingCreateManySeatInputEnvelope
+    set?: BookingWhereUniqueInput | BookingWhereUniqueInput[]
+    disconnect?: BookingWhereUniqueInput | BookingWhereUniqueInput[]
+    delete?: BookingWhereUniqueInput | BookingWhereUniqueInput[]
+    connect?: BookingWhereUniqueInput | BookingWhereUniqueInput[]
+    update?: BookingUpdateWithWhereUniqueWithoutSeatInput | BookingUpdateWithWhereUniqueWithoutSeatInput[]
+    updateMany?: BookingUpdateManyWithWhereWithoutSeatInput | BookingUpdateManyWithWhereWithoutSeatInput[]
+    deleteMany?: BookingScalarWhereInput | BookingScalarWhereInput[]
+  }
+
+  export type UserCreateNestedOneWithoutBookingsInput = {
+    create?: XOR<UserCreateWithoutBookingsInput, UserUncheckedCreateWithoutBookingsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutBookingsInput
     connect?: UserWhereUniqueInput
   }
 
-  export type EnumOrderStatusFieldUpdateOperationsInput = {
-    set?: $Enums.OrderStatus
+  export type TripCreateNestedOneWithoutBookingsInput = {
+    create?: XOR<TripCreateWithoutBookingsInput, TripUncheckedCreateWithoutBookingsInput>
+    connectOrCreate?: TripCreateOrConnectWithoutBookingsInput
+    connect?: TripWhereUniqueInput
   }
 
-  export type UserUpdateOneRequiredWithoutOrdersNestedInput = {
-    create?: XOR<UserCreateWithoutOrdersInput, UserUncheckedCreateWithoutOrdersInput>
-    connectOrCreate?: UserCreateOrConnectWithoutOrdersInput
-    upsert?: UserUpsertWithoutOrdersInput
+  export type SeatCreateNestedOneWithoutBookingsInput = {
+    create?: XOR<SeatCreateWithoutBookingsInput, SeatUncheckedCreateWithoutBookingsInput>
+    connectOrCreate?: SeatCreateOrConnectWithoutBookingsInput
+    connect?: SeatWhereUniqueInput
+  }
+
+  export type EnumBookingStatusFieldUpdateOperationsInput = {
+    set?: $Enums.BookingStatus
+  }
+
+  export type UserUpdateOneRequiredWithoutBookingsNestedInput = {
+    create?: XOR<UserCreateWithoutBookingsInput, UserUncheckedCreateWithoutBookingsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutBookingsInput
+    upsert?: UserUpsertWithoutBookingsInput
     connect?: UserWhereUniqueInput
-    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutOrdersInput, UserUpdateWithoutOrdersInput>, UserUncheckedUpdateWithoutOrdersInput>
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutBookingsInput, UserUpdateWithoutBookingsInput>, UserUncheckedUpdateWithoutBookingsInput>
+  }
+
+  export type TripUpdateOneRequiredWithoutBookingsNestedInput = {
+    create?: XOR<TripCreateWithoutBookingsInput, TripUncheckedCreateWithoutBookingsInput>
+    connectOrCreate?: TripCreateOrConnectWithoutBookingsInput
+    upsert?: TripUpsertWithoutBookingsInput
+    connect?: TripWhereUniqueInput
+    update?: XOR<XOR<TripUpdateToOneWithWhereWithoutBookingsInput, TripUpdateWithoutBookingsInput>, TripUncheckedUpdateWithoutBookingsInput>
+  }
+
+  export type SeatUpdateOneRequiredWithoutBookingsNestedInput = {
+    create?: XOR<SeatCreateWithoutBookingsInput, SeatUncheckedCreateWithoutBookingsInput>
+    connectOrCreate?: SeatCreateOrConnectWithoutBookingsInput
+    upsert?: SeatUpsertWithoutBookingsInput
+    connect?: SeatWhereUniqueInput
+    update?: XOR<XOR<SeatUpdateToOneWithWhereWithoutBookingsInput, SeatUpdateWithoutBookingsInput>, SeatUncheckedUpdateWithoutBookingsInput>
+  }
+
+  export type NestedUuidFilter<$PrismaModel = never> = {
+    equals?: string | StringFieldRefInput<$PrismaModel>
+    in?: string[] | ListStringFieldRefInput<$PrismaModel>
+    notIn?: string[] | ListStringFieldRefInput<$PrismaModel>
+    lt?: string | StringFieldRefInput<$PrismaModel>
+    lte?: string | StringFieldRefInput<$PrismaModel>
+    gt?: string | StringFieldRefInput<$PrismaModel>
+    gte?: string | StringFieldRefInput<$PrismaModel>
+    not?: NestedUuidFilter<$PrismaModel> | string
   }
 
   export type NestedStringFilter<$PrismaModel = never> = {
@@ -6860,6 +8921,31 @@ export namespace Prisma {
     not?: NestedDateTimeFilter<$PrismaModel> | Date | string
   }
 
+  export type NestedUuidWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: string | StringFieldRefInput<$PrismaModel>
+    in?: string[] | ListStringFieldRefInput<$PrismaModel>
+    notIn?: string[] | ListStringFieldRefInput<$PrismaModel>
+    lt?: string | StringFieldRefInput<$PrismaModel>
+    lte?: string | StringFieldRefInput<$PrismaModel>
+    gt?: string | StringFieldRefInput<$PrismaModel>
+    gte?: string | StringFieldRefInput<$PrismaModel>
+    not?: NestedUuidWithAggregatesFilter<$PrismaModel> | string
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedStringFilter<$PrismaModel>
+    _max?: NestedStringFilter<$PrismaModel>
+  }
+
+  export type NestedIntFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel>
+    in?: number[] | ListIntFieldRefInput<$PrismaModel>
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel>
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntFilter<$PrismaModel> | number
+  }
+
   export type NestedStringWithAggregatesFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel>
     in?: string[] | ListStringFieldRefInput<$PrismaModel>
@@ -6875,17 +8961,6 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedStringFilter<$PrismaModel>
     _max?: NestedStringFilter<$PrismaModel>
-  }
-
-  export type NestedIntFilter<$PrismaModel = never> = {
-    equals?: number | IntFieldRefInput<$PrismaModel>
-    in?: number[] | ListIntFieldRefInput<$PrismaModel>
-    notIn?: number[] | ListIntFieldRefInput<$PrismaModel>
-    lt?: number | IntFieldRefInput<$PrismaModel>
-    lte?: number | IntFieldRefInput<$PrismaModel>
-    gt?: number | IntFieldRefInput<$PrismaModel>
-    gte?: number | IntFieldRefInput<$PrismaModel>
-    not?: NestedIntFilter<$PrismaModel> | number
   }
 
   export type NestedEnumUserRoleWithAggregatesFilter<$PrismaModel = never> = {
@@ -6923,7 +8998,7 @@ export namespace Prisma {
     not?: NestedDateTimeNullableFilter<$PrismaModel> | Date | string | null
   }
 
-  export type NestedStringNullableFilter<$PrismaModel = never> = {
+  export type NestedUuidNullableFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel> | null
     in?: string[] | ListStringFieldRefInput<$PrismaModel> | null
     notIn?: string[] | ListStringFieldRefInput<$PrismaModel> | null
@@ -6931,10 +9006,7 @@ export namespace Prisma {
     lte?: string | StringFieldRefInput<$PrismaModel>
     gt?: string | StringFieldRefInput<$PrismaModel>
     gte?: string | StringFieldRefInput<$PrismaModel>
-    contains?: string | StringFieldRefInput<$PrismaModel>
-    startsWith?: string | StringFieldRefInput<$PrismaModel>
-    endsWith?: string | StringFieldRefInput<$PrismaModel>
-    not?: NestedStringNullableFilter<$PrismaModel> | string | null
+    not?: NestedUuidNullableFilter<$PrismaModel> | string | null
   }
 
   export type NestedDateTimeNullableWithAggregatesFilter<$PrismaModel = never> = {
@@ -6962,7 +9034,21 @@ export namespace Prisma {
     not?: NestedIntNullableFilter<$PrismaModel> | number | null
   }
 
-  export type NestedStringNullableWithAggregatesFilter<$PrismaModel = never> = {
+  export type NestedUuidNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: string | StringFieldRefInput<$PrismaModel> | null
+    in?: string[] | ListStringFieldRefInput<$PrismaModel> | null
+    notIn?: string[] | ListStringFieldRefInput<$PrismaModel> | null
+    lt?: string | StringFieldRefInput<$PrismaModel>
+    lte?: string | StringFieldRefInput<$PrismaModel>
+    gt?: string | StringFieldRefInput<$PrismaModel>
+    gte?: string | StringFieldRefInput<$PrismaModel>
+    not?: NestedUuidNullableWithAggregatesFilter<$PrismaModel> | string | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedStringNullableFilter<$PrismaModel>
+    _max?: NestedStringNullableFilter<$PrismaModel>
+  }
+
+  export type NestedStringNullableFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel> | null
     in?: string[] | ListStringFieldRefInput<$PrismaModel> | null
     notIn?: string[] | ListStringFieldRefInput<$PrismaModel> | null
@@ -6973,10 +9059,14 @@ export namespace Prisma {
     contains?: string | StringFieldRefInput<$PrismaModel>
     startsWith?: string | StringFieldRefInput<$PrismaModel>
     endsWith?: string | StringFieldRefInput<$PrismaModel>
-    not?: NestedStringNullableWithAggregatesFilter<$PrismaModel> | string | null
-    _count?: NestedIntNullableFilter<$PrismaModel>
-    _min?: NestedStringNullableFilter<$PrismaModel>
-    _max?: NestedStringNullableFilter<$PrismaModel>
+    not?: NestedStringNullableFilter<$PrismaModel> | string | null
+  }
+
+  export type NestedEnumBusTypeFilter<$PrismaModel = never> = {
+    equals?: $Enums.BusType | EnumBusTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.BusType[] | ListEnumBusTypeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.BusType[] | ListEnumBusTypeFieldRefInput<$PrismaModel>
+    not?: NestedEnumBusTypeFilter<$PrismaModel> | $Enums.BusType
   }
 
   export type NestedIntWithAggregatesFilter<$PrismaModel = never> = {
@@ -7006,21 +9096,48 @@ export namespace Prisma {
     not?: NestedFloatFilter<$PrismaModel> | number
   }
 
-  export type NestedEnumOrderStatusFilter<$PrismaModel = never> = {
-    equals?: $Enums.OrderStatus | EnumOrderStatusFieldRefInput<$PrismaModel>
-    in?: $Enums.OrderStatus[] | ListEnumOrderStatusFieldRefInput<$PrismaModel>
-    notIn?: $Enums.OrderStatus[] | ListEnumOrderStatusFieldRefInput<$PrismaModel>
-    not?: NestedEnumOrderStatusFilter<$PrismaModel> | $Enums.OrderStatus
+  export type NestedEnumBusTypeWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.BusType | EnumBusTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.BusType[] | ListEnumBusTypeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.BusType[] | ListEnumBusTypeFieldRefInput<$PrismaModel>
+    not?: NestedEnumBusTypeWithAggregatesFilter<$PrismaModel> | $Enums.BusType
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumBusTypeFilter<$PrismaModel>
+    _max?: NestedEnumBusTypeFilter<$PrismaModel>
   }
 
-  export type NestedEnumOrderStatusWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: $Enums.OrderStatus | EnumOrderStatusFieldRefInput<$PrismaModel>
-    in?: $Enums.OrderStatus[] | ListEnumOrderStatusFieldRefInput<$PrismaModel>
-    notIn?: $Enums.OrderStatus[] | ListEnumOrderStatusFieldRefInput<$PrismaModel>
-    not?: NestedEnumOrderStatusWithAggregatesFilter<$PrismaModel> | $Enums.OrderStatus
+  export type NestedEnumSeatStatusFilter<$PrismaModel = never> = {
+    equals?: $Enums.SeatStatus | EnumSeatStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.SeatStatus[] | ListEnumSeatStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.SeatStatus[] | ListEnumSeatStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumSeatStatusFilter<$PrismaModel> | $Enums.SeatStatus
+  }
+
+  export type NestedEnumSeatStatusWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.SeatStatus | EnumSeatStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.SeatStatus[] | ListEnumSeatStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.SeatStatus[] | ListEnumSeatStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumSeatStatusWithAggregatesFilter<$PrismaModel> | $Enums.SeatStatus
     _count?: NestedIntFilter<$PrismaModel>
-    _min?: NestedEnumOrderStatusFilter<$PrismaModel>
-    _max?: NestedEnumOrderStatusFilter<$PrismaModel>
+    _min?: NestedEnumSeatStatusFilter<$PrismaModel>
+    _max?: NestedEnumSeatStatusFilter<$PrismaModel>
+  }
+
+  export type NestedEnumBookingStatusFilter<$PrismaModel = never> = {
+    equals?: $Enums.BookingStatus | EnumBookingStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.BookingStatus[] | ListEnumBookingStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.BookingStatus[] | ListEnumBookingStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumBookingStatusFilter<$PrismaModel> | $Enums.BookingStatus
+  }
+
+  export type NestedEnumBookingStatusWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.BookingStatus | EnumBookingStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.BookingStatus[] | ListEnumBookingStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.BookingStatus[] | ListEnumBookingStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumBookingStatusWithAggregatesFilter<$PrismaModel> | $Enums.BookingStatus
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumBookingStatusFilter<$PrismaModel>
+    _max?: NestedEnumBookingStatusFilter<$PrismaModel>
   }
 
   export type RefreshTokenCreateWithoutUserInput = {
@@ -7053,27 +9170,31 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
-  export type OrderCreateWithoutUserInput = {
+  export type BookingCreateWithoutUserInput = {
     id?: string
-    status?: $Enums.OrderStatus
-    createdAt?: Date | string
-    updatedAt?: Date | string
+    status?: $Enums.BookingStatus
+    totalPrice: number
+    bookedAt?: Date | string
+    trip: TripCreateNestedOneWithoutBookingsInput
+    seat: SeatCreateNestedOneWithoutBookingsInput
   }
 
-  export type OrderUncheckedCreateWithoutUserInput = {
+  export type BookingUncheckedCreateWithoutUserInput = {
     id?: string
-    status?: $Enums.OrderStatus
-    createdAt?: Date | string
-    updatedAt?: Date | string
+    tripId: string
+    seatId: string
+    status?: $Enums.BookingStatus
+    totalPrice: number
+    bookedAt?: Date | string
   }
 
-  export type OrderCreateOrConnectWithoutUserInput = {
-    where: OrderWhereUniqueInput
-    create: XOR<OrderCreateWithoutUserInput, OrderUncheckedCreateWithoutUserInput>
+  export type BookingCreateOrConnectWithoutUserInput = {
+    where: BookingWhereUniqueInput
+    create: XOR<BookingCreateWithoutUserInput, BookingUncheckedCreateWithoutUserInput>
   }
 
-  export type OrderCreateManyUserInputEnvelope = {
-    data: OrderCreateManyUserInput | OrderCreateManyUserInput[]
+  export type BookingCreateManyUserInputEnvelope = {
+    data: BookingCreateManyUserInput | BookingCreateManyUserInput[]
     skipDuplicates?: boolean
   }
 
@@ -7097,60 +9218,66 @@ export namespace Prisma {
     AND?: RefreshTokenScalarWhereInput | RefreshTokenScalarWhereInput[]
     OR?: RefreshTokenScalarWhereInput[]
     NOT?: RefreshTokenScalarWhereInput | RefreshTokenScalarWhereInput[]
-    id?: StringFilter<"RefreshToken"> | string
-    userId?: StringFilter<"RefreshToken"> | string
+    id?: UuidFilter<"RefreshToken"> | string
+    userId?: UuidFilter<"RefreshToken"> | string
     tokenHash?: StringFilter<"RefreshToken"> | string
     revokedAt?: DateTimeNullableFilter<"RefreshToken"> | Date | string | null
-    replacedById?: StringNullableFilter<"RefreshToken"> | string | null
+    replacedById?: UuidNullableFilter<"RefreshToken"> | string | null
     createdAt?: DateTimeFilter<"RefreshToken"> | Date | string
     expiresAt?: DateTimeFilter<"RefreshToken"> | Date | string
   }
 
-  export type OrderUpsertWithWhereUniqueWithoutUserInput = {
-    where: OrderWhereUniqueInput
-    update: XOR<OrderUpdateWithoutUserInput, OrderUncheckedUpdateWithoutUserInput>
-    create: XOR<OrderCreateWithoutUserInput, OrderUncheckedCreateWithoutUserInput>
+  export type BookingUpsertWithWhereUniqueWithoutUserInput = {
+    where: BookingWhereUniqueInput
+    update: XOR<BookingUpdateWithoutUserInput, BookingUncheckedUpdateWithoutUserInput>
+    create: XOR<BookingCreateWithoutUserInput, BookingUncheckedCreateWithoutUserInput>
   }
 
-  export type OrderUpdateWithWhereUniqueWithoutUserInput = {
-    where: OrderWhereUniqueInput
-    data: XOR<OrderUpdateWithoutUserInput, OrderUncheckedUpdateWithoutUserInput>
+  export type BookingUpdateWithWhereUniqueWithoutUserInput = {
+    where: BookingWhereUniqueInput
+    data: XOR<BookingUpdateWithoutUserInput, BookingUncheckedUpdateWithoutUserInput>
   }
 
-  export type OrderUpdateManyWithWhereWithoutUserInput = {
-    where: OrderScalarWhereInput
-    data: XOR<OrderUpdateManyMutationInput, OrderUncheckedUpdateManyWithoutUserInput>
+  export type BookingUpdateManyWithWhereWithoutUserInput = {
+    where: BookingScalarWhereInput
+    data: XOR<BookingUpdateManyMutationInput, BookingUncheckedUpdateManyWithoutUserInput>
   }
 
-  export type OrderScalarWhereInput = {
-    AND?: OrderScalarWhereInput | OrderScalarWhereInput[]
-    OR?: OrderScalarWhereInput[]
-    NOT?: OrderScalarWhereInput | OrderScalarWhereInput[]
-    id?: StringFilter<"Order"> | string
-    userId?: StringFilter<"Order"> | string
-    status?: EnumOrderStatusFilter<"Order"> | $Enums.OrderStatus
-    createdAt?: DateTimeFilter<"Order"> | Date | string
-    updatedAt?: DateTimeFilter<"Order"> | Date | string
+  export type BookingScalarWhereInput = {
+    AND?: BookingScalarWhereInput | BookingScalarWhereInput[]
+    OR?: BookingScalarWhereInput[]
+    NOT?: BookingScalarWhereInput | BookingScalarWhereInput[]
+    id?: UuidFilter<"Booking"> | string
+    userId?: UuidFilter<"Booking"> | string
+    tripId?: UuidFilter<"Booking"> | string
+    seatId?: UuidFilter<"Booking"> | string
+    status?: EnumBookingStatusFilter<"Booking"> | $Enums.BookingStatus
+    totalPrice?: IntFilter<"Booking"> | number
+    bookedAt?: DateTimeFilter<"Booking"> | Date | string
   }
 
   export type UserCreateWithoutRefreshTokensInput = {
     id?: string
+    name: string
     email: string
     passwordHash: string
+    phone: string
     role?: $Enums.UserRole
     createdAt?: Date | string
     updatedAt?: Date | string
-    orders?: OrderCreateNestedManyWithoutUserInput
+    bookings?: BookingCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutRefreshTokensInput = {
     id?: string
+    name: string
     email: string
     passwordHash: string
+    phone: string
     role?: $Enums.UserRole
     createdAt?: Date | string
     updatedAt?: Date | string
-    orders?: OrderUncheckedCreateNestedManyWithoutUserInput
+    bookings?: BookingUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutRefreshTokensInput = {
@@ -7226,22 +9353,26 @@ export namespace Prisma {
 
   export type UserUpdateWithoutRefreshTokensInput = {
     id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
     passwordHash?: StringFieldUpdateOperationsInput | string
+    phone?: StringFieldUpdateOperationsInput | string
     role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    orders?: OrderUpdateManyWithoutUserNestedInput
+    bookings?: BookingUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutRefreshTokensInput = {
     id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
     passwordHash?: StringFieldUpdateOperationsInput | string
+    phone?: StringFieldUpdateOperationsInput | string
     role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    orders?: OrderUncheckedUpdateManyWithoutUserNestedInput
+    bookings?: BookingUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type RefreshTokenUpsertWithoutReplacementsInput = {
@@ -7291,60 +9422,378 @@ export namespace Prisma {
     data: XOR<RefreshTokenUpdateManyMutationInput, RefreshTokenUncheckedUpdateManyWithoutReplacedByInput>
   }
 
-  export type UserCreateWithoutOrdersInput = {
+  export type SeatCreateWithoutTripInput = {
     id?: string
+    seatNumber: string
+    status?: $Enums.SeatStatus
+    bookings?: BookingCreateNestedManyWithoutSeatInput
+  }
+
+  export type SeatUncheckedCreateWithoutTripInput = {
+    id?: string
+    seatNumber: string
+    status?: $Enums.SeatStatus
+    bookings?: BookingUncheckedCreateNestedManyWithoutSeatInput
+  }
+
+  export type SeatCreateOrConnectWithoutTripInput = {
+    where: SeatWhereUniqueInput
+    create: XOR<SeatCreateWithoutTripInput, SeatUncheckedCreateWithoutTripInput>
+  }
+
+  export type SeatCreateManyTripInputEnvelope = {
+    data: SeatCreateManyTripInput | SeatCreateManyTripInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type BookingCreateWithoutTripInput = {
+    id?: string
+    status?: $Enums.BookingStatus
+    totalPrice: number
+    bookedAt?: Date | string
+    user: UserCreateNestedOneWithoutBookingsInput
+    seat: SeatCreateNestedOneWithoutBookingsInput
+  }
+
+  export type BookingUncheckedCreateWithoutTripInput = {
+    id?: string
+    userId: string
+    seatId: string
+    status?: $Enums.BookingStatus
+    totalPrice: number
+    bookedAt?: Date | string
+  }
+
+  export type BookingCreateOrConnectWithoutTripInput = {
+    where: BookingWhereUniqueInput
+    create: XOR<BookingCreateWithoutTripInput, BookingUncheckedCreateWithoutTripInput>
+  }
+
+  export type BookingCreateManyTripInputEnvelope = {
+    data: BookingCreateManyTripInput | BookingCreateManyTripInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type SeatUpsertWithWhereUniqueWithoutTripInput = {
+    where: SeatWhereUniqueInput
+    update: XOR<SeatUpdateWithoutTripInput, SeatUncheckedUpdateWithoutTripInput>
+    create: XOR<SeatCreateWithoutTripInput, SeatUncheckedCreateWithoutTripInput>
+  }
+
+  export type SeatUpdateWithWhereUniqueWithoutTripInput = {
+    where: SeatWhereUniqueInput
+    data: XOR<SeatUpdateWithoutTripInput, SeatUncheckedUpdateWithoutTripInput>
+  }
+
+  export type SeatUpdateManyWithWhereWithoutTripInput = {
+    where: SeatScalarWhereInput
+    data: XOR<SeatUpdateManyMutationInput, SeatUncheckedUpdateManyWithoutTripInput>
+  }
+
+  export type SeatScalarWhereInput = {
+    AND?: SeatScalarWhereInput | SeatScalarWhereInput[]
+    OR?: SeatScalarWhereInput[]
+    NOT?: SeatScalarWhereInput | SeatScalarWhereInput[]
+    id?: UuidFilter<"Seat"> | string
+    tripId?: UuidFilter<"Seat"> | string
+    seatNumber?: StringFilter<"Seat"> | string
+    status?: EnumSeatStatusFilter<"Seat"> | $Enums.SeatStatus
+  }
+
+  export type BookingUpsertWithWhereUniqueWithoutTripInput = {
+    where: BookingWhereUniqueInput
+    update: XOR<BookingUpdateWithoutTripInput, BookingUncheckedUpdateWithoutTripInput>
+    create: XOR<BookingCreateWithoutTripInput, BookingUncheckedCreateWithoutTripInput>
+  }
+
+  export type BookingUpdateWithWhereUniqueWithoutTripInput = {
+    where: BookingWhereUniqueInput
+    data: XOR<BookingUpdateWithoutTripInput, BookingUncheckedUpdateWithoutTripInput>
+  }
+
+  export type BookingUpdateManyWithWhereWithoutTripInput = {
+    where: BookingScalarWhereInput
+    data: XOR<BookingUpdateManyMutationInput, BookingUncheckedUpdateManyWithoutTripInput>
+  }
+
+  export type TripCreateWithoutSeatsInput = {
+    id?: string
+    operatorName: string
+    origin: string
+    destination: string
+    departureTime: Date | string
+    priceVnd: number
+    totalSeats: number
+    busType: $Enums.BusType
+    bookings?: BookingCreateNestedManyWithoutTripInput
+  }
+
+  export type TripUncheckedCreateWithoutSeatsInput = {
+    id?: string
+    operatorName: string
+    origin: string
+    destination: string
+    departureTime: Date | string
+    priceVnd: number
+    totalSeats: number
+    busType: $Enums.BusType
+    bookings?: BookingUncheckedCreateNestedManyWithoutTripInput
+  }
+
+  export type TripCreateOrConnectWithoutSeatsInput = {
+    where: TripWhereUniqueInput
+    create: XOR<TripCreateWithoutSeatsInput, TripUncheckedCreateWithoutSeatsInput>
+  }
+
+  export type BookingCreateWithoutSeatInput = {
+    id?: string
+    status?: $Enums.BookingStatus
+    totalPrice: number
+    bookedAt?: Date | string
+    user: UserCreateNestedOneWithoutBookingsInput
+    trip: TripCreateNestedOneWithoutBookingsInput
+  }
+
+  export type BookingUncheckedCreateWithoutSeatInput = {
+    id?: string
+    userId: string
+    tripId: string
+    status?: $Enums.BookingStatus
+    totalPrice: number
+    bookedAt?: Date | string
+  }
+
+  export type BookingCreateOrConnectWithoutSeatInput = {
+    where: BookingWhereUniqueInput
+    create: XOR<BookingCreateWithoutSeatInput, BookingUncheckedCreateWithoutSeatInput>
+  }
+
+  export type BookingCreateManySeatInputEnvelope = {
+    data: BookingCreateManySeatInput | BookingCreateManySeatInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type TripUpsertWithoutSeatsInput = {
+    update: XOR<TripUpdateWithoutSeatsInput, TripUncheckedUpdateWithoutSeatsInput>
+    create: XOR<TripCreateWithoutSeatsInput, TripUncheckedCreateWithoutSeatsInput>
+    where?: TripWhereInput
+  }
+
+  export type TripUpdateToOneWithWhereWithoutSeatsInput = {
+    where?: TripWhereInput
+    data: XOR<TripUpdateWithoutSeatsInput, TripUncheckedUpdateWithoutSeatsInput>
+  }
+
+  export type TripUpdateWithoutSeatsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    operatorName?: StringFieldUpdateOperationsInput | string
+    origin?: StringFieldUpdateOperationsInput | string
+    destination?: StringFieldUpdateOperationsInput | string
+    departureTime?: DateTimeFieldUpdateOperationsInput | Date | string
+    priceVnd?: IntFieldUpdateOperationsInput | number
+    totalSeats?: IntFieldUpdateOperationsInput | number
+    busType?: EnumBusTypeFieldUpdateOperationsInput | $Enums.BusType
+    bookings?: BookingUpdateManyWithoutTripNestedInput
+  }
+
+  export type TripUncheckedUpdateWithoutSeatsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    operatorName?: StringFieldUpdateOperationsInput | string
+    origin?: StringFieldUpdateOperationsInput | string
+    destination?: StringFieldUpdateOperationsInput | string
+    departureTime?: DateTimeFieldUpdateOperationsInput | Date | string
+    priceVnd?: IntFieldUpdateOperationsInput | number
+    totalSeats?: IntFieldUpdateOperationsInput | number
+    busType?: EnumBusTypeFieldUpdateOperationsInput | $Enums.BusType
+    bookings?: BookingUncheckedUpdateManyWithoutTripNestedInput
+  }
+
+  export type BookingUpsertWithWhereUniqueWithoutSeatInput = {
+    where: BookingWhereUniqueInput
+    update: XOR<BookingUpdateWithoutSeatInput, BookingUncheckedUpdateWithoutSeatInput>
+    create: XOR<BookingCreateWithoutSeatInput, BookingUncheckedCreateWithoutSeatInput>
+  }
+
+  export type BookingUpdateWithWhereUniqueWithoutSeatInput = {
+    where: BookingWhereUniqueInput
+    data: XOR<BookingUpdateWithoutSeatInput, BookingUncheckedUpdateWithoutSeatInput>
+  }
+
+  export type BookingUpdateManyWithWhereWithoutSeatInput = {
+    where: BookingScalarWhereInput
+    data: XOR<BookingUpdateManyMutationInput, BookingUncheckedUpdateManyWithoutSeatInput>
+  }
+
+  export type UserCreateWithoutBookingsInput = {
+    id?: string
+    name: string
     email: string
     passwordHash: string
+    phone: string
     role?: $Enums.UserRole
     createdAt?: Date | string
     updatedAt?: Date | string
     refreshTokens?: RefreshTokenCreateNestedManyWithoutUserInput
   }
 
-  export type UserUncheckedCreateWithoutOrdersInput = {
+  export type UserUncheckedCreateWithoutBookingsInput = {
     id?: string
+    name: string
     email: string
     passwordHash: string
+    phone: string
     role?: $Enums.UserRole
     createdAt?: Date | string
     updatedAt?: Date | string
     refreshTokens?: RefreshTokenUncheckedCreateNestedManyWithoutUserInput
   }
 
-  export type UserCreateOrConnectWithoutOrdersInput = {
+  export type UserCreateOrConnectWithoutBookingsInput = {
     where: UserWhereUniqueInput
-    create: XOR<UserCreateWithoutOrdersInput, UserUncheckedCreateWithoutOrdersInput>
+    create: XOR<UserCreateWithoutBookingsInput, UserUncheckedCreateWithoutBookingsInput>
   }
 
-  export type UserUpsertWithoutOrdersInput = {
-    update: XOR<UserUpdateWithoutOrdersInput, UserUncheckedUpdateWithoutOrdersInput>
-    create: XOR<UserCreateWithoutOrdersInput, UserUncheckedCreateWithoutOrdersInput>
+  export type TripCreateWithoutBookingsInput = {
+    id?: string
+    operatorName: string
+    origin: string
+    destination: string
+    departureTime: Date | string
+    priceVnd: number
+    totalSeats: number
+    busType: $Enums.BusType
+    seats?: SeatCreateNestedManyWithoutTripInput
+  }
+
+  export type TripUncheckedCreateWithoutBookingsInput = {
+    id?: string
+    operatorName: string
+    origin: string
+    destination: string
+    departureTime: Date | string
+    priceVnd: number
+    totalSeats: number
+    busType: $Enums.BusType
+    seats?: SeatUncheckedCreateNestedManyWithoutTripInput
+  }
+
+  export type TripCreateOrConnectWithoutBookingsInput = {
+    where: TripWhereUniqueInput
+    create: XOR<TripCreateWithoutBookingsInput, TripUncheckedCreateWithoutBookingsInput>
+  }
+
+  export type SeatCreateWithoutBookingsInput = {
+    id?: string
+    seatNumber: string
+    status?: $Enums.SeatStatus
+    trip: TripCreateNestedOneWithoutSeatsInput
+  }
+
+  export type SeatUncheckedCreateWithoutBookingsInput = {
+    id?: string
+    tripId: string
+    seatNumber: string
+    status?: $Enums.SeatStatus
+  }
+
+  export type SeatCreateOrConnectWithoutBookingsInput = {
+    where: SeatWhereUniqueInput
+    create: XOR<SeatCreateWithoutBookingsInput, SeatUncheckedCreateWithoutBookingsInput>
+  }
+
+  export type UserUpsertWithoutBookingsInput = {
+    update: XOR<UserUpdateWithoutBookingsInput, UserUncheckedUpdateWithoutBookingsInput>
+    create: XOR<UserCreateWithoutBookingsInput, UserUncheckedCreateWithoutBookingsInput>
     where?: UserWhereInput
   }
 
-  export type UserUpdateToOneWithWhereWithoutOrdersInput = {
+  export type UserUpdateToOneWithWhereWithoutBookingsInput = {
     where?: UserWhereInput
-    data: XOR<UserUpdateWithoutOrdersInput, UserUncheckedUpdateWithoutOrdersInput>
+    data: XOR<UserUpdateWithoutBookingsInput, UserUncheckedUpdateWithoutBookingsInput>
   }
 
-  export type UserUpdateWithoutOrdersInput = {
+  export type UserUpdateWithoutBookingsInput = {
     id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
     passwordHash?: StringFieldUpdateOperationsInput | string
+    phone?: StringFieldUpdateOperationsInput | string
     role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     refreshTokens?: RefreshTokenUpdateManyWithoutUserNestedInput
   }
 
-  export type UserUncheckedUpdateWithoutOrdersInput = {
+  export type UserUncheckedUpdateWithoutBookingsInput = {
     id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
     passwordHash?: StringFieldUpdateOperationsInput | string
+    phone?: StringFieldUpdateOperationsInput | string
     role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     refreshTokens?: RefreshTokenUncheckedUpdateManyWithoutUserNestedInput
+  }
+
+  export type TripUpsertWithoutBookingsInput = {
+    update: XOR<TripUpdateWithoutBookingsInput, TripUncheckedUpdateWithoutBookingsInput>
+    create: XOR<TripCreateWithoutBookingsInput, TripUncheckedCreateWithoutBookingsInput>
+    where?: TripWhereInput
+  }
+
+  export type TripUpdateToOneWithWhereWithoutBookingsInput = {
+    where?: TripWhereInput
+    data: XOR<TripUpdateWithoutBookingsInput, TripUncheckedUpdateWithoutBookingsInput>
+  }
+
+  export type TripUpdateWithoutBookingsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    operatorName?: StringFieldUpdateOperationsInput | string
+    origin?: StringFieldUpdateOperationsInput | string
+    destination?: StringFieldUpdateOperationsInput | string
+    departureTime?: DateTimeFieldUpdateOperationsInput | Date | string
+    priceVnd?: IntFieldUpdateOperationsInput | number
+    totalSeats?: IntFieldUpdateOperationsInput | number
+    busType?: EnumBusTypeFieldUpdateOperationsInput | $Enums.BusType
+    seats?: SeatUpdateManyWithoutTripNestedInput
+  }
+
+  export type TripUncheckedUpdateWithoutBookingsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    operatorName?: StringFieldUpdateOperationsInput | string
+    origin?: StringFieldUpdateOperationsInput | string
+    destination?: StringFieldUpdateOperationsInput | string
+    departureTime?: DateTimeFieldUpdateOperationsInput | Date | string
+    priceVnd?: IntFieldUpdateOperationsInput | number
+    totalSeats?: IntFieldUpdateOperationsInput | number
+    busType?: EnumBusTypeFieldUpdateOperationsInput | $Enums.BusType
+    seats?: SeatUncheckedUpdateManyWithoutTripNestedInput
+  }
+
+  export type SeatUpsertWithoutBookingsInput = {
+    update: XOR<SeatUpdateWithoutBookingsInput, SeatUncheckedUpdateWithoutBookingsInput>
+    create: XOR<SeatCreateWithoutBookingsInput, SeatUncheckedCreateWithoutBookingsInput>
+    where?: SeatWhereInput
+  }
+
+  export type SeatUpdateToOneWithWhereWithoutBookingsInput = {
+    where?: SeatWhereInput
+    data: XOR<SeatUpdateWithoutBookingsInput, SeatUncheckedUpdateWithoutBookingsInput>
+  }
+
+  export type SeatUpdateWithoutBookingsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    seatNumber?: StringFieldUpdateOperationsInput | string
+    status?: EnumSeatStatusFieldUpdateOperationsInput | $Enums.SeatStatus
+    trip?: TripUpdateOneRequiredWithoutSeatsNestedInput
+  }
+
+  export type SeatUncheckedUpdateWithoutBookingsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tripId?: StringFieldUpdateOperationsInput | string
+    seatNumber?: StringFieldUpdateOperationsInput | string
+    status?: EnumSeatStatusFieldUpdateOperationsInput | $Enums.SeatStatus
   }
 
   export type RefreshTokenCreateManyUserInput = {
@@ -7356,11 +9805,13 @@ export namespace Prisma {
     expiresAt: Date | string
   }
 
-  export type OrderCreateManyUserInput = {
+  export type BookingCreateManyUserInput = {
     id?: string
-    status?: $Enums.OrderStatus
-    createdAt?: Date | string
-    updatedAt?: Date | string
+    tripId: string
+    seatId: string
+    status?: $Enums.BookingStatus
+    totalPrice: number
+    bookedAt?: Date | string
   }
 
   export type RefreshTokenUpdateWithoutUserInput = {
@@ -7392,25 +9843,31 @@ export namespace Prisma {
     expiresAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
-  export type OrderUpdateWithoutUserInput = {
+  export type BookingUpdateWithoutUserInput = {
     id?: StringFieldUpdateOperationsInput | string
-    status?: EnumOrderStatusFieldUpdateOperationsInput | $Enums.OrderStatus
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    status?: EnumBookingStatusFieldUpdateOperationsInput | $Enums.BookingStatus
+    totalPrice?: IntFieldUpdateOperationsInput | number
+    bookedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    trip?: TripUpdateOneRequiredWithoutBookingsNestedInput
+    seat?: SeatUpdateOneRequiredWithoutBookingsNestedInput
   }
 
-  export type OrderUncheckedUpdateWithoutUserInput = {
+  export type BookingUncheckedUpdateWithoutUserInput = {
     id?: StringFieldUpdateOperationsInput | string
-    status?: EnumOrderStatusFieldUpdateOperationsInput | $Enums.OrderStatus
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    tripId?: StringFieldUpdateOperationsInput | string
+    seatId?: StringFieldUpdateOperationsInput | string
+    status?: EnumBookingStatusFieldUpdateOperationsInput | $Enums.BookingStatus
+    totalPrice?: IntFieldUpdateOperationsInput | number
+    bookedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
-  export type OrderUncheckedUpdateManyWithoutUserInput = {
+  export type BookingUncheckedUpdateManyWithoutUserInput = {
     id?: StringFieldUpdateOperationsInput | string
-    status?: EnumOrderStatusFieldUpdateOperationsInput | $Enums.OrderStatus
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    tripId?: StringFieldUpdateOperationsInput | string
+    seatId?: StringFieldUpdateOperationsInput | string
+    status?: EnumBookingStatusFieldUpdateOperationsInput | $Enums.BookingStatus
+    totalPrice?: IntFieldUpdateOperationsInput | number
+    bookedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type RefreshTokenCreateManyReplacedByInput = {
@@ -7449,6 +9906,104 @@ export namespace Prisma {
     revokedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     expiresAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type SeatCreateManyTripInput = {
+    id?: string
+    seatNumber: string
+    status?: $Enums.SeatStatus
+  }
+
+  export type BookingCreateManyTripInput = {
+    id?: string
+    userId: string
+    seatId: string
+    status?: $Enums.BookingStatus
+    totalPrice: number
+    bookedAt?: Date | string
+  }
+
+  export type SeatUpdateWithoutTripInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    seatNumber?: StringFieldUpdateOperationsInput | string
+    status?: EnumSeatStatusFieldUpdateOperationsInput | $Enums.SeatStatus
+    bookings?: BookingUpdateManyWithoutSeatNestedInput
+  }
+
+  export type SeatUncheckedUpdateWithoutTripInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    seatNumber?: StringFieldUpdateOperationsInput | string
+    status?: EnumSeatStatusFieldUpdateOperationsInput | $Enums.SeatStatus
+    bookings?: BookingUncheckedUpdateManyWithoutSeatNestedInput
+  }
+
+  export type SeatUncheckedUpdateManyWithoutTripInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    seatNumber?: StringFieldUpdateOperationsInput | string
+    status?: EnumSeatStatusFieldUpdateOperationsInput | $Enums.SeatStatus
+  }
+
+  export type BookingUpdateWithoutTripInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    status?: EnumBookingStatusFieldUpdateOperationsInput | $Enums.BookingStatus
+    totalPrice?: IntFieldUpdateOperationsInput | number
+    bookedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    user?: UserUpdateOneRequiredWithoutBookingsNestedInput
+    seat?: SeatUpdateOneRequiredWithoutBookingsNestedInput
+  }
+
+  export type BookingUncheckedUpdateWithoutTripInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    seatId?: StringFieldUpdateOperationsInput | string
+    status?: EnumBookingStatusFieldUpdateOperationsInput | $Enums.BookingStatus
+    totalPrice?: IntFieldUpdateOperationsInput | number
+    bookedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type BookingUncheckedUpdateManyWithoutTripInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    seatId?: StringFieldUpdateOperationsInput | string
+    status?: EnumBookingStatusFieldUpdateOperationsInput | $Enums.BookingStatus
+    totalPrice?: IntFieldUpdateOperationsInput | number
+    bookedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type BookingCreateManySeatInput = {
+    id?: string
+    userId: string
+    tripId: string
+    status?: $Enums.BookingStatus
+    totalPrice: number
+    bookedAt?: Date | string
+  }
+
+  export type BookingUpdateWithoutSeatInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    status?: EnumBookingStatusFieldUpdateOperationsInput | $Enums.BookingStatus
+    totalPrice?: IntFieldUpdateOperationsInput | number
+    bookedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    user?: UserUpdateOneRequiredWithoutBookingsNestedInput
+    trip?: TripUpdateOneRequiredWithoutBookingsNestedInput
+  }
+
+  export type BookingUncheckedUpdateWithoutSeatInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    tripId?: StringFieldUpdateOperationsInput | string
+    status?: EnumBookingStatusFieldUpdateOperationsInput | $Enums.BookingStatus
+    totalPrice?: IntFieldUpdateOperationsInput | number
+    bookedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type BookingUncheckedUpdateManyWithoutSeatInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    tripId?: StringFieldUpdateOperationsInput | string
+    status?: EnumBookingStatusFieldUpdateOperationsInput | $Enums.BookingStatus
+    totalPrice?: IntFieldUpdateOperationsInput | number
+    bookedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
 

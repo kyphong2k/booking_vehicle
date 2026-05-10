@@ -3,11 +3,13 @@ import swaggerUi from 'swagger-ui-express';
 import swaggerJSDoc from 'swagger-jsdoc';
 import { getEnv } from '@/config/env';
 import { healthRouter } from '@/modules/health/route';
+import { tripsRouter } from '@/modules/trips/route';
 
 export function registerRoutes(app: Express) {
   const env = getEnv();
 
   app.use('/health', healthRouter);
+  app.use('/trips', tripsRouter);
 
   if (env.SWAGGER_ENABLED) {
     const spec = swaggerJSDoc({

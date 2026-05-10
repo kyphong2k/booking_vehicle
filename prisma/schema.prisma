@@ -13,62 +13,105 @@ enum UserRole {
 }
 
 model User {
-  id           String         @id @default(uuid())
-  email        String         @unique
-  passwordHash String
-  role         UserRole       @default(USER)
-  createdAt    DateTime       @default(now())
-  updatedAt    DateTime       @updatedAt
+  id           String   @id @default(uuid()) @db.Uuid
+  name         String
+  email        String   @unique
+  passwordHash String   @map("password_hash")
+  phone        String
+  role         UserRole @default(USER)
+  createdAt    DateTime @default(now()) @map("created_at") @db.Timestamptz(6)
+  updatedAt    DateTime @updatedAt @map("updated_at") @db.Timestamptz(6)
 
   refreshTokens RefreshToken[]
-  orders        Order[]
+  bookings      Booking[]
 
   @@index([createdAt])
+  @@map("users")
 }
 
 model RefreshToken {
-  id             String   @id @default(uuid())
-  userId         String
-  tokenHash      String
-  revokedAt      DateTime?
-  replacedById   String?
-  createdAt      DateTime @default(now())
-  expiresAt      DateTime
+  id           String    @id @default(uuid()) @db.Uuid
+  userId       String    @map("user_id") @db.Uuid
+  tokenHash    String    @map("token_hash")
+  revokedAt    DateTime? @map("revoked_at") @db.Timestamptz(6)
+  replacedById String?   @map("replaced_by_id") @db.Uuid
+  createdAt    DateTime  @default(now()) @map("created_at") @db.Timestamptz(6)
+  expiresAt    DateTime  @map("expires_at") @db.Timestamptz(6)
 
-  user           User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  replacedBy     RefreshToken? @relation("RefreshTokenReplacement", fields: [replacedById], references: [id])
-  replacements   RefreshToken[] @relation("RefreshTokenReplacement")
+  user         User           @relation(fields: [userId], references: [id], onDelete: Cascade)
+  replacedBy   RefreshToken?  @relation("RefreshTokenReplacement", fields: [replacedById], references: [id])
+  replacements RefreshToken[] @relation("RefreshTokenReplacement")
 
   @@index([userId, createdAt])
   @@index([expiresAt])
+  @@map("refresh_tokens")
 }
 
-model Product {
-  id          String   @id @default(uuid())
-  name        String
-  description String?
-  priceCents  Int
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
-
-  @@index([createdAt])
+enum BusType {
+  SEATER
+  SLEEPER
+  LIMOUSINE
 }
 
-enum OrderStatus {
+model Trip {
+  id            String   @id @default(uuid()) @db.Uuid
+  operatorName  String   @map("operator_name")
+  origin        String
+  destination   String
+  departureTime DateTime @map("departure_time") @db.Timestamptz(6)
+  priceVnd      Int      @map("price")
+  totalSeats    Int      @map("total_seats")
+  busType       BusType  @map("bus_type")
+
+  seats    Seat[]
+  bookings Booking[]
+
+  @@index([departureTime])
+  @@index([origin, destination])
+  @@map("trips")
+}
+
+enum SeatStatus {
+  AVAILABLE
+  BOOKED
+  LOCKED
+}
+
+model Seat {
+  id         String     @id @default(uuid()) @db.Uuid
+  tripId     String     @map("trip_id") @db.Uuid
+  seatNumber String     @map("seat_number")
+  status     SeatStatus @default(AVAILABLE)
+
+  trip     Trip      @relation(fields: [tripId], references: [id], onDelete: Cascade)
+  bookings Booking[]
+
+  @@unique([tripId, seatNumber])
+  @@index([tripId, status])
+  @@map("seats")
+}
+
+enum BookingStatus {
   PENDING
-  PAID
+  CONFIRMED
   CANCELLED
 }
 
-model Order {
-  id        String      @id @default(uuid())
-  userId    String
-  status    OrderStatus @default(PENDING)
-  createdAt DateTime    @default(now())
-  updatedAt DateTime    @updatedAt
+model Booking {
+  id         String        @id @default(uuid()) @db.Uuid
+  userId     String        @map("user_id") @db.Uuid
+  tripId     String        @map("trip_id") @db.Uuid
+  seatId     String        @map("seat_id") @db.Uuid
+  status     BookingStatus @default(PENDING)
+  totalPrice Int           @map("total_price")
+  bookedAt   DateTime      @default(now()) @map("booked_at") @db.Timestamptz(6)
 
-  user      User        @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  trip Trip @relation(fields: [tripId], references: [id], onDelete: Cascade)
+  seat Seat @relation(fields: [seatId], references: [id], onDelete: Cascade)
 
-  @@index([userId, createdAt])
+  @@index([userId, bookedAt])
+  @@index([tripId, status])
+  @@index([seatId])
+  @@map("bookings")
 }
-

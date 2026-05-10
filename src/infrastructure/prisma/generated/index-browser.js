@@ -122,8 +122,10 @@ exports.Prisma.TransactionIsolationLevel = makeStrictEnum({
 
 exports.Prisma.UserScalarFieldEnum = {
   id: 'id',
+  name: 'name',
   email: 'email',
   passwordHash: 'passwordHash',
+  phone: 'phone',
   role: 'role',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
@@ -139,21 +141,32 @@ exports.Prisma.RefreshTokenScalarFieldEnum = {
   expiresAt: 'expiresAt'
 };
 
-exports.Prisma.ProductScalarFieldEnum = {
+exports.Prisma.TripScalarFieldEnum = {
   id: 'id',
-  name: 'name',
-  description: 'description',
-  priceCents: 'priceCents',
-  createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
+  operatorName: 'operatorName',
+  origin: 'origin',
+  destination: 'destination',
+  departureTime: 'departureTime',
+  priceVnd: 'priceVnd',
+  totalSeats: 'totalSeats',
+  busType: 'busType'
 };
 
-exports.Prisma.OrderScalarFieldEnum = {
+exports.Prisma.SeatScalarFieldEnum = {
+  id: 'id',
+  tripId: 'tripId',
+  seatNumber: 'seatNumber',
+  status: 'status'
+};
+
+exports.Prisma.BookingScalarFieldEnum = {
   id: 'id',
   userId: 'userId',
+  tripId: 'tripId',
+  seatId: 'seatId',
   status: 'status',
-  createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
+  totalPrice: 'totalPrice',
+  bookedAt: 'bookedAt'
 };
 
 exports.Prisma.SortOrder = {
@@ -175,17 +188,30 @@ exports.UserRole = exports.$Enums.UserRole = {
   ADMIN: 'ADMIN'
 };
 
-exports.OrderStatus = exports.$Enums.OrderStatus = {
+exports.BusType = exports.$Enums.BusType = {
+  SEATER: 'SEATER',
+  SLEEPER: 'SLEEPER',
+  LIMOUSINE: 'LIMOUSINE'
+};
+
+exports.SeatStatus = exports.$Enums.SeatStatus = {
+  AVAILABLE: 'AVAILABLE',
+  BOOKED: 'BOOKED',
+  LOCKED: 'LOCKED'
+};
+
+exports.BookingStatus = exports.$Enums.BookingStatus = {
   PENDING: 'PENDING',
-  PAID: 'PAID',
+  CONFIRMED: 'CONFIRMED',
   CANCELLED: 'CANCELLED'
 };
 
 exports.Prisma.ModelName = {
   User: 'User',
   RefreshToken: 'RefreshToken',
-  Product: 'Product',
-  Order: 'Order'
+  Trip: 'Trip',
+  Seat: 'Seat',
+  Booking: 'Booking'
 };
 
 /**
