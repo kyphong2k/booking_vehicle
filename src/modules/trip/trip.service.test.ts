@@ -19,9 +19,11 @@ function makeTrip(overrides: Partial<Trip> = {}): Trip {
     origin: 'HCM',
     destination: 'Da Lat',
     departureTime: new Date('2026-06-01T08:00:00.000Z'),
+    arrivalTime: new Date('2026-06-01T12:00:00.000Z'),
     priceVnd: 350_000,
     totalSeats: 40,
     busType: 'SLEEPER',
+    routeId: '11111111-1111-1111-1111-111111111111',
     ...overrides,
   };
 }
@@ -77,9 +79,9 @@ describe('tripsService.getTripById', () => {
   it('throws TripNotFoundError when trip is missing', async () => {
     mockedRepo.findTripById.mockResolvedValue(null);
 
-    await expect(tripsService.getTripById('00000000-0000-0000-0000-000000000000')).rejects.toBeInstanceOf(
-      TripNotFoundError,
-    );
+    await expect(
+      tripsService.getTripById('00000000-0000-0000-0000-000000000000'),
+    ).rejects.toBeInstanceOf(TripNotFoundError);
   });
 });
 
@@ -97,9 +99,11 @@ describe('tripsService.createTrip', () => {
       origin: created.origin,
       destination: created.destination,
       departureTime: created.departureTime,
+      arrivalTime: created.arrivalTime,
       priceVnd: created.priceVnd,
       totalSeats: created.totalSeats,
       busType: created.busType,
+      routeId: created.routeId,
     });
 
     expect(mockedRepo.createTrip).toHaveBeenCalledTimes(1);
