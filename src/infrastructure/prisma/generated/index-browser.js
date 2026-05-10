@@ -150,7 +150,8 @@ exports.Prisma.TripScalarFieldEnum = {
   arrivalTime: 'arrivalTime',
   priceVnd: 'priceVnd',
   totalSeats: 'totalSeats',
-  busType: 'busType'
+  busType: 'busType',
+  routeId: 'routeId'
 };
 
 exports.Prisma.SeatScalarFieldEnum = {
@@ -163,11 +164,26 @@ exports.Prisma.SeatScalarFieldEnum = {
 exports.Prisma.BookingScalarFieldEnum = {
   id: 'id',
   userId: 'userId',
+  customerName: 'customerName',
+  customerPhone: 'customerPhone',
+  customerEmail: 'customerEmail',
   tripId: 'tripId',
   seatId: 'seatId',
   status: 'status',
   totalPrice: 'totalPrice',
   bookedAt: 'bookedAt'
+};
+
+exports.Prisma.RouteScalarFieldEnum = {
+  id: 'id',
+  fromProvince: 'fromProvince',
+  toProvince: 'toProvince',
+  distanceKm: 'distanceKm',
+  estimatedDurationMinutes: 'estimatedDurationMinutes',
+  description: 'description',
+  isActive: 'isActive',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
 };
 
 exports.Prisma.SortOrder = {
@@ -212,7 +228,8 @@ exports.Prisma.ModelName = {
   RefreshToken: 'RefreshToken',
   Trip: 'Trip',
   Seat: 'Seat',
-  Booking: 'Booking'
+  Booking: 'Booking',
+  Route: 'Route'
 };
 
 /**

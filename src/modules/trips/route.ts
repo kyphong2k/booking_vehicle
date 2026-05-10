@@ -62,6 +62,7 @@ tripsRouter.get('/:id', getTripById);
  *               origin: { type: string, example: "HCM" }
  *               destination: { type: string, example: "Da Lat" }
  *               departureTime: { type: string, format: date-time, example: "2026-06-01T08:00:00Z" }
+ *               arrivalTime: { type: string, format: date-time, example: "2026-06-01T12:00:00Z" }
  *               priceVnd: { type: integer, example: 350000 }
  *               totalSeats: { type: integer, example: 40 }
  *               busType:

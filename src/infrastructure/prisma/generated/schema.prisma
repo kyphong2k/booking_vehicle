@@ -54,18 +54,19 @@ enum BusType {
 }
 
 model Trip {
-  id            String   @id @default(uuid()) @db.Uuid
-  operatorName  String   @map("operator_name")
+  id            String    @id @default(uuid()) @db.Uuid
+  operatorName  String    @map("operator_name")
   origin        String
   destination   String
-  departureTime DateTime @map("departure_time") @db.Timestamptz(6)
-  arrivalTime   DateTime @map("arrival_time") @db.Timestamptz(6)
-  priceVnd      Int      @map("price")
-  totalSeats    Int      @map("total_seats")
-  busType       BusType  @map("bus_type")
-
-  seats    Seat[]
-  bookings Booking[]
+  departureTime DateTime  @map("departure_time") @db.Timestamptz(6)
+  arrivalTime   DateTime  @map("arrival_time") @db.Timestamptz(6)
+  priceVnd      Int       @map("price")
+  totalSeats    Int       @map("total_seats")
+  busType       BusType   @map("bus_type")
+  routeId       String    @map("route_id") @db.Uuid
+  route         Route     @relation(fields: [routeId], references: [id], onDelete: Cascade)
+  seats         Seat[]
+  bookings      Booking[]
 
   @@index([departureTime])
   @@index([origin, destination])
@@ -99,20 +100,47 @@ enum BookingStatus {
 }
 
 model Booking {
-  id         String        @id @default(uuid()) @db.Uuid
-  userId     String        @map("user_id") @db.Uuid
+  id            String  @id @default(uuid()) @db.Uuid
+  userId        String? @map("user_id") @db.Uuid
+  // customer information (maybe guest user)
+  customerName  String  @map("customer_name")
+  customerPhone String  @map("customer_phone")
+  customerEmail String? @map("customer_email")
+
   tripId     String        @map("trip_id") @db.Uuid
   seatId     String        @map("seat_id") @db.Uuid
   status     BookingStatus @default(PENDING)
   totalPrice Int           @map("total_price")
   bookedAt   DateTime      @default(now()) @map("booked_at") @db.Timestamptz(6)
 
-  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
-  trip Trip @relation(fields: [tripId], references: [id], onDelete: Cascade)
-  seat Seat @relation(fields: [seatId], references: [id], onDelete: Cascade)
+  user User? @relation(fields: [userId], references: [id], onDelete: Cascade)
+  trip Trip  @relation(fields: [tripId], references: [id], onDelete: Cascade)
+  seat Seat  @relation(fields: [seatId], references: [id], onDelete: Cascade)
 
   @@index([userId, bookedAt])
   @@index([tripId, status])
   @@index([seatId])
   @@map("bookings")
+}
+
+model Route {
+  id String @id @default(uuid()) @db.Uuid
+
+  fromProvince String @map("from_province")
+  toProvince   String @map("to_province")
+
+  distanceKm               Int @map("distance_km")
+  estimatedDurationMinutes Int @map("estimated_duration_minutes")
+
+  description String? @map("description")
+
+  isActive Boolean @default(true) @map("is_active")
+
+  createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz(6)
+  updatedAt DateTime @updatedAt @map("updated_at") @db.Timestamptz(6)
+
+  trips Trip[]
+
+  @@index([fromProvince, toProvince])
+  @@map("routes")
 }

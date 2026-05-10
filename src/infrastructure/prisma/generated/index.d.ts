@@ -38,6 +38,11 @@ export type Seat = $Result.DefaultSelection<Prisma.$SeatPayload>
  * 
  */
 export type Booking = $Result.DefaultSelection<Prisma.$BookingPayload>
+/**
+ * Model Route
+ * 
+ */
+export type Route = $Result.DefaultSelection<Prisma.$RoutePayload>
 
 /**
  * Enums
@@ -265,6 +270,16 @@ export class PrismaClient<
     * ```
     */
   get booking(): Prisma.BookingDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.route`: Exposes CRUD operations for the **Route** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Routes
+    * const routes = await prisma.route.findMany()
+    * ```
+    */
+  get route(): Prisma.RouteDelegate<ExtArgs, ClientOptions>;
 }
 
 export namespace Prisma {
@@ -703,7 +718,8 @@ export namespace Prisma {
     RefreshToken: 'RefreshToken',
     Trip: 'Trip',
     Seat: 'Seat',
-    Booking: 'Booking'
+    Booking: 'Booking',
+    Route: 'Route'
   };
 
   export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -719,7 +735,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "user" | "refreshToken" | "trip" | "seat" | "booking"
+      modelProps: "user" | "refreshToken" | "trip" | "seat" | "booking" | "route"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -1093,6 +1109,80 @@ export namespace Prisma {
           }
         }
       }
+      Route: {
+        payload: Prisma.$RoutePayload<ExtArgs>
+        fields: Prisma.RouteFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.RouteFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RoutePayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.RouteFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RoutePayload>
+          }
+          findFirst: {
+            args: Prisma.RouteFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RoutePayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.RouteFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RoutePayload>
+          }
+          findMany: {
+            args: Prisma.RouteFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RoutePayload>[]
+          }
+          create: {
+            args: Prisma.RouteCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RoutePayload>
+          }
+          createMany: {
+            args: Prisma.RouteCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.RouteCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RoutePayload>[]
+          }
+          delete: {
+            args: Prisma.RouteDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RoutePayload>
+          }
+          update: {
+            args: Prisma.RouteUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RoutePayload>
+          }
+          deleteMany: {
+            args: Prisma.RouteDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.RouteUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.RouteUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RoutePayload>[]
+          }
+          upsert: {
+            args: Prisma.RouteUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RoutePayload>
+          }
+          aggregate: {
+            args: Prisma.RouteAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateRoute>
+          }
+          groupBy: {
+            args: Prisma.RouteGroupByArgs<ExtArgs>
+            result: $Utils.Optional<RouteGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.RouteCountArgs<ExtArgs>
+            result: $Utils.Optional<RouteCountAggregateOutputType> | number
+          }
+        }
+      }
     }
   } & {
     other: {
@@ -1206,6 +1296,7 @@ export namespace Prisma {
     trip?: TripOmit
     seat?: SeatOmit
     booking?: BookingOmit
+    route?: RouteOmit
   }
 
   /* Types for Logging */
@@ -1420,6 +1511,37 @@ export namespace Prisma {
    */
   export type SeatCountOutputTypeCountBookingsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: BookingWhereInput
+  }
+
+
+  /**
+   * Count Type RouteCountOutputType
+   */
+
+  export type RouteCountOutputType = {
+    trips: number
+  }
+
+  export type RouteCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    trips?: boolean | RouteCountOutputTypeCountTripsArgs
+  }
+
+  // Custom InputTypes
+  /**
+   * RouteCountOutputType without action
+   */
+  export type RouteCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the RouteCountOutputType
+     */
+    select?: RouteCountOutputTypeSelect<ExtArgs> | null
+  }
+
+  /**
+   * RouteCountOutputType without action
+   */
+  export type RouteCountOutputTypeCountTripsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: TripWhereInput
   }
 
 
@@ -3747,6 +3869,7 @@ export namespace Prisma {
     priceVnd: number | null
     totalSeats: number | null
     busType: $Enums.BusType | null
+    routeId: string | null
   }
 
   export type TripMaxAggregateOutputType = {
@@ -3759,6 +3882,7 @@ export namespace Prisma {
     priceVnd: number | null
     totalSeats: number | null
     busType: $Enums.BusType | null
+    routeId: string | null
   }
 
   export type TripCountAggregateOutputType = {
@@ -3771,6 +3895,7 @@ export namespace Prisma {
     priceVnd: number
     totalSeats: number
     busType: number
+    routeId: number
     _all: number
   }
 
@@ -3795,6 +3920,7 @@ export namespace Prisma {
     priceVnd?: true
     totalSeats?: true
     busType?: true
+    routeId?: true
   }
 
   export type TripMaxAggregateInputType = {
@@ -3807,6 +3933,7 @@ export namespace Prisma {
     priceVnd?: true
     totalSeats?: true
     busType?: true
+    routeId?: true
   }
 
   export type TripCountAggregateInputType = {
@@ -3819,6 +3946,7 @@ export namespace Prisma {
     priceVnd?: true
     totalSeats?: true
     busType?: true
+    routeId?: true
     _all?: true
   }
 
@@ -3918,6 +4046,7 @@ export namespace Prisma {
     priceVnd: number
     totalSeats: number
     busType: $Enums.BusType
+    routeId: string
     _count: TripCountAggregateOutputType | null
     _avg: TripAvgAggregateOutputType | null
     _sum: TripSumAggregateOutputType | null
@@ -3949,6 +4078,8 @@ export namespace Prisma {
     priceVnd?: boolean
     totalSeats?: boolean
     busType?: boolean
+    routeId?: boolean
+    route?: boolean | RouteDefaultArgs<ExtArgs>
     seats?: boolean | Trip$seatsArgs<ExtArgs>
     bookings?: boolean | Trip$bookingsArgs<ExtArgs>
     _count?: boolean | TripCountOutputTypeDefaultArgs<ExtArgs>
@@ -3964,6 +4095,8 @@ export namespace Prisma {
     priceVnd?: boolean
     totalSeats?: boolean
     busType?: boolean
+    routeId?: boolean
+    route?: boolean | RouteDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["trip"]>
 
   export type TripSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -3976,6 +4109,8 @@ export namespace Prisma {
     priceVnd?: boolean
     totalSeats?: boolean
     busType?: boolean
+    routeId?: boolean
+    route?: boolean | RouteDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["trip"]>
 
   export type TripSelectScalar = {
@@ -3988,20 +4123,27 @@ export namespace Prisma {
     priceVnd?: boolean
     totalSeats?: boolean
     busType?: boolean
+    routeId?: boolean
   }
 
-  export type TripOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "operatorName" | "origin" | "destination" | "departureTime" | "arrivalTime" | "priceVnd" | "totalSeats" | "busType", ExtArgs["result"]["trip"]>
+  export type TripOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "operatorName" | "origin" | "destination" | "departureTime" | "arrivalTime" | "priceVnd" | "totalSeats" | "busType" | "routeId", ExtArgs["result"]["trip"]>
   export type TripInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    route?: boolean | RouteDefaultArgs<ExtArgs>
     seats?: boolean | Trip$seatsArgs<ExtArgs>
     bookings?: boolean | Trip$bookingsArgs<ExtArgs>
     _count?: boolean | TripCountOutputTypeDefaultArgs<ExtArgs>
   }
-  export type TripIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
-  export type TripIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
+  export type TripIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    route?: boolean | RouteDefaultArgs<ExtArgs>
+  }
+  export type TripIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    route?: boolean | RouteDefaultArgs<ExtArgs>
+  }
 
   export type $TripPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "Trip"
     objects: {
+      route: Prisma.$RoutePayload<ExtArgs>
       seats: Prisma.$SeatPayload<ExtArgs>[]
       bookings: Prisma.$BookingPayload<ExtArgs>[]
     }
@@ -4015,6 +4157,7 @@ export namespace Prisma {
       priceVnd: number
       totalSeats: number
       busType: $Enums.BusType
+      routeId: string
     }, ExtArgs["result"]["trip"]>
     composites: {}
   }
@@ -4409,6 +4552,7 @@ export namespace Prisma {
    */
   export interface Prisma__TripClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
+    route<T extends RouteDefaultArgs<ExtArgs> = {}>(args?: Subset<T, RouteDefaultArgs<ExtArgs>>): Prisma__RouteClient<$Result.GetResult<Prisma.$RoutePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     seats<T extends Trip$seatsArgs<ExtArgs> = {}>(args?: Subset<T, Trip$seatsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SeatPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     bookings<T extends Trip$bookingsArgs<ExtArgs> = {}>(args?: Subset<T, Trip$bookingsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$BookingPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
@@ -4449,6 +4593,7 @@ export namespace Prisma {
     readonly priceVnd: FieldRef<"Trip", 'Int'>
     readonly totalSeats: FieldRef<"Trip", 'Int'>
     readonly busType: FieldRef<"Trip", 'BusType'>
+    readonly routeId: FieldRef<"Trip", 'String'>
   }
     
 
@@ -4703,6 +4848,10 @@ export namespace Prisma {
      */
     data: TripCreateManyInput | TripCreateManyInput[]
     skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TripIncludeCreateManyAndReturn<ExtArgs> | null
   }
 
   /**
@@ -4773,6 +4922,10 @@ export namespace Prisma {
      * Limit how many Trips to update.
      */
     limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TripIncludeUpdateManyAndReturn<ExtArgs> | null
   }
 
   /**
@@ -6011,6 +6164,9 @@ export namespace Prisma {
   export type BookingMinAggregateOutputType = {
     id: string | null
     userId: string | null
+    customerName: string | null
+    customerPhone: string | null
+    customerEmail: string | null
     tripId: string | null
     seatId: string | null
     status: $Enums.BookingStatus | null
@@ -6021,6 +6177,9 @@ export namespace Prisma {
   export type BookingMaxAggregateOutputType = {
     id: string | null
     userId: string | null
+    customerName: string | null
+    customerPhone: string | null
+    customerEmail: string | null
     tripId: string | null
     seatId: string | null
     status: $Enums.BookingStatus | null
@@ -6031,6 +6190,9 @@ export namespace Prisma {
   export type BookingCountAggregateOutputType = {
     id: number
     userId: number
+    customerName: number
+    customerPhone: number
+    customerEmail: number
     tripId: number
     seatId: number
     status: number
@@ -6051,6 +6213,9 @@ export namespace Prisma {
   export type BookingMinAggregateInputType = {
     id?: true
     userId?: true
+    customerName?: true
+    customerPhone?: true
+    customerEmail?: true
     tripId?: true
     seatId?: true
     status?: true
@@ -6061,6 +6226,9 @@ export namespace Prisma {
   export type BookingMaxAggregateInputType = {
     id?: true
     userId?: true
+    customerName?: true
+    customerPhone?: true
+    customerEmail?: true
     tripId?: true
     seatId?: true
     status?: true
@@ -6071,6 +6239,9 @@ export namespace Prisma {
   export type BookingCountAggregateInputType = {
     id?: true
     userId?: true
+    customerName?: true
+    customerPhone?: true
+    customerEmail?: true
     tripId?: true
     seatId?: true
     status?: true
@@ -6167,7 +6338,10 @@ export namespace Prisma {
 
   export type BookingGroupByOutputType = {
     id: string
-    userId: string
+    userId: string | null
+    customerName: string
+    customerPhone: string
+    customerEmail: string | null
     tripId: string
     seatId: string
     status: $Enums.BookingStatus
@@ -6197,12 +6371,15 @@ export namespace Prisma {
   export type BookingSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     userId?: boolean
+    customerName?: boolean
+    customerPhone?: boolean
+    customerEmail?: boolean
     tripId?: boolean
     seatId?: boolean
     status?: boolean
     totalPrice?: boolean
     bookedAt?: boolean
-    user?: boolean | UserDefaultArgs<ExtArgs>
+    user?: boolean | Booking$userArgs<ExtArgs>
     trip?: boolean | TripDefaultArgs<ExtArgs>
     seat?: boolean | SeatDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["booking"]>
@@ -6210,12 +6387,15 @@ export namespace Prisma {
   export type BookingSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     userId?: boolean
+    customerName?: boolean
+    customerPhone?: boolean
+    customerEmail?: boolean
     tripId?: boolean
     seatId?: boolean
     status?: boolean
     totalPrice?: boolean
     bookedAt?: boolean
-    user?: boolean | UserDefaultArgs<ExtArgs>
+    user?: boolean | Booking$userArgs<ExtArgs>
     trip?: boolean | TripDefaultArgs<ExtArgs>
     seat?: boolean | SeatDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["booking"]>
@@ -6223,12 +6403,15 @@ export namespace Prisma {
   export type BookingSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     userId?: boolean
+    customerName?: boolean
+    customerPhone?: boolean
+    customerEmail?: boolean
     tripId?: boolean
     seatId?: boolean
     status?: boolean
     totalPrice?: boolean
     bookedAt?: boolean
-    user?: boolean | UserDefaultArgs<ExtArgs>
+    user?: boolean | Booking$userArgs<ExtArgs>
     trip?: boolean | TripDefaultArgs<ExtArgs>
     seat?: boolean | SeatDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["booking"]>
@@ -6236,6 +6419,9 @@ export namespace Prisma {
   export type BookingSelectScalar = {
     id?: boolean
     userId?: boolean
+    customerName?: boolean
+    customerPhone?: boolean
+    customerEmail?: boolean
     tripId?: boolean
     seatId?: boolean
     status?: boolean
@@ -6243,19 +6429,19 @@ export namespace Prisma {
     bookedAt?: boolean
   }
 
-  export type BookingOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userId" | "tripId" | "seatId" | "status" | "totalPrice" | "bookedAt", ExtArgs["result"]["booking"]>
+  export type BookingOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userId" | "customerName" | "customerPhone" | "customerEmail" | "tripId" | "seatId" | "status" | "totalPrice" | "bookedAt", ExtArgs["result"]["booking"]>
   export type BookingInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    user?: boolean | UserDefaultArgs<ExtArgs>
+    user?: boolean | Booking$userArgs<ExtArgs>
     trip?: boolean | TripDefaultArgs<ExtArgs>
     seat?: boolean | SeatDefaultArgs<ExtArgs>
   }
   export type BookingIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    user?: boolean | UserDefaultArgs<ExtArgs>
+    user?: boolean | Booking$userArgs<ExtArgs>
     trip?: boolean | TripDefaultArgs<ExtArgs>
     seat?: boolean | SeatDefaultArgs<ExtArgs>
   }
   export type BookingIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    user?: boolean | UserDefaultArgs<ExtArgs>
+    user?: boolean | Booking$userArgs<ExtArgs>
     trip?: boolean | TripDefaultArgs<ExtArgs>
     seat?: boolean | SeatDefaultArgs<ExtArgs>
   }
@@ -6263,13 +6449,16 @@ export namespace Prisma {
   export type $BookingPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "Booking"
     objects: {
-      user: Prisma.$UserPayload<ExtArgs>
+      user: Prisma.$UserPayload<ExtArgs> | null
       trip: Prisma.$TripPayload<ExtArgs>
       seat: Prisma.$SeatPayload<ExtArgs>
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
-      userId: string
+      userId: string | null
+      customerName: string
+      customerPhone: string
+      customerEmail: string | null
       tripId: string
       seatId: string
       status: $Enums.BookingStatus
@@ -6669,7 +6858,7 @@ export namespace Prisma {
    */
   export interface Prisma__BookingClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
-    user<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    user<T extends Booking$userArgs<ExtArgs> = {}>(args?: Subset<T, Booking$userArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     trip<T extends TripDefaultArgs<ExtArgs> = {}>(args?: Subset<T, TripDefaultArgs<ExtArgs>>): Prisma__TripClient<$Result.GetResult<Prisma.$TripPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     seat<T extends SeatDefaultArgs<ExtArgs> = {}>(args?: Subset<T, SeatDefaultArgs<ExtArgs>>): Prisma__SeatClient<$Result.GetResult<Prisma.$SeatPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     /**
@@ -6703,6 +6892,9 @@ export namespace Prisma {
   interface BookingFieldRefs {
     readonly id: FieldRef<"Booking", 'String'>
     readonly userId: FieldRef<"Booking", 'String'>
+    readonly customerName: FieldRef<"Booking", 'String'>
+    readonly customerPhone: FieldRef<"Booking", 'String'>
+    readonly customerEmail: FieldRef<"Booking", 'String'>
     readonly tripId: FieldRef<"Booking", 'String'>
     readonly seatId: FieldRef<"Booking", 'String'>
     readonly status: FieldRef<"Booking", 'BookingStatus'>
@@ -7109,6 +7301,25 @@ export namespace Prisma {
   }
 
   /**
+   * Booking.user
+   */
+  export type Booking$userArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the User
+     */
+    select?: UserSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the User
+     */
+    omit?: UserOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserInclude<ExtArgs> | null
+    where?: UserWhereInput
+  }
+
+  /**
    * Booking without action
    */
   export type BookingDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -7124,6 +7335,1171 @@ export namespace Prisma {
      * Choose, which related nodes to fetch as well
      */
     include?: BookingInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model Route
+   */
+
+  export type AggregateRoute = {
+    _count: RouteCountAggregateOutputType | null
+    _avg: RouteAvgAggregateOutputType | null
+    _sum: RouteSumAggregateOutputType | null
+    _min: RouteMinAggregateOutputType | null
+    _max: RouteMaxAggregateOutputType | null
+  }
+
+  export type RouteAvgAggregateOutputType = {
+    distanceKm: number | null
+    estimatedDurationMinutes: number | null
+  }
+
+  export type RouteSumAggregateOutputType = {
+    distanceKm: number | null
+    estimatedDurationMinutes: number | null
+  }
+
+  export type RouteMinAggregateOutputType = {
+    id: string | null
+    fromProvince: string | null
+    toProvince: string | null
+    distanceKm: number | null
+    estimatedDurationMinutes: number | null
+    description: string | null
+    isActive: boolean | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type RouteMaxAggregateOutputType = {
+    id: string | null
+    fromProvince: string | null
+    toProvince: string | null
+    distanceKm: number | null
+    estimatedDurationMinutes: number | null
+    description: string | null
+    isActive: boolean | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type RouteCountAggregateOutputType = {
+    id: number
+    fromProvince: number
+    toProvince: number
+    distanceKm: number
+    estimatedDurationMinutes: number
+    description: number
+    isActive: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type RouteAvgAggregateInputType = {
+    distanceKm?: true
+    estimatedDurationMinutes?: true
+  }
+
+  export type RouteSumAggregateInputType = {
+    distanceKm?: true
+    estimatedDurationMinutes?: true
+  }
+
+  export type RouteMinAggregateInputType = {
+    id?: true
+    fromProvince?: true
+    toProvince?: true
+    distanceKm?: true
+    estimatedDurationMinutes?: true
+    description?: true
+    isActive?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type RouteMaxAggregateInputType = {
+    id?: true
+    fromProvince?: true
+    toProvince?: true
+    distanceKm?: true
+    estimatedDurationMinutes?: true
+    description?: true
+    isActive?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type RouteCountAggregateInputType = {
+    id?: true
+    fromProvince?: true
+    toProvince?: true
+    distanceKm?: true
+    estimatedDurationMinutes?: true
+    description?: true
+    isActive?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type RouteAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Route to aggregate.
+     */
+    where?: RouteWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Routes to fetch.
+     */
+    orderBy?: RouteOrderByWithRelationInput | RouteOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: RouteWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Routes from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Routes.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned Routes
+    **/
+    _count?: true | RouteCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: RouteAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: RouteSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: RouteMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: RouteMaxAggregateInputType
+  }
+
+  export type GetRouteAggregateType<T extends RouteAggregateArgs> = {
+        [P in keyof T & keyof AggregateRoute]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateRoute[P]>
+      : GetScalarType<T[P], AggregateRoute[P]>
+  }
+
+
+
+
+  export type RouteGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: RouteWhereInput
+    orderBy?: RouteOrderByWithAggregationInput | RouteOrderByWithAggregationInput[]
+    by: RouteScalarFieldEnum[] | RouteScalarFieldEnum
+    having?: RouteScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: RouteCountAggregateInputType | true
+    _avg?: RouteAvgAggregateInputType
+    _sum?: RouteSumAggregateInputType
+    _min?: RouteMinAggregateInputType
+    _max?: RouteMaxAggregateInputType
+  }
+
+  export type RouteGroupByOutputType = {
+    id: string
+    fromProvince: string
+    toProvince: string
+    distanceKm: number
+    estimatedDurationMinutes: number
+    description: string | null
+    isActive: boolean
+    createdAt: Date
+    updatedAt: Date
+    _count: RouteCountAggregateOutputType | null
+    _avg: RouteAvgAggregateOutputType | null
+    _sum: RouteSumAggregateOutputType | null
+    _min: RouteMinAggregateOutputType | null
+    _max: RouteMaxAggregateOutputType | null
+  }
+
+  type GetRouteGroupByPayload<T extends RouteGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<RouteGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof RouteGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], RouteGroupByOutputType[P]>
+            : GetScalarType<T[P], RouteGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type RouteSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    fromProvince?: boolean
+    toProvince?: boolean
+    distanceKm?: boolean
+    estimatedDurationMinutes?: boolean
+    description?: boolean
+    isActive?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    trips?: boolean | Route$tripsArgs<ExtArgs>
+    _count?: boolean | RouteCountOutputTypeDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["route"]>
+
+  export type RouteSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    fromProvince?: boolean
+    toProvince?: boolean
+    distanceKm?: boolean
+    estimatedDurationMinutes?: boolean
+    description?: boolean
+    isActive?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }, ExtArgs["result"]["route"]>
+
+  export type RouteSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    fromProvince?: boolean
+    toProvince?: boolean
+    distanceKm?: boolean
+    estimatedDurationMinutes?: boolean
+    description?: boolean
+    isActive?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }, ExtArgs["result"]["route"]>
+
+  export type RouteSelectScalar = {
+    id?: boolean
+    fromProvince?: boolean
+    toProvince?: boolean
+    distanceKm?: boolean
+    estimatedDurationMinutes?: boolean
+    description?: boolean
+    isActive?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type RouteOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "fromProvince" | "toProvince" | "distanceKm" | "estimatedDurationMinutes" | "description" | "isActive" | "createdAt" | "updatedAt", ExtArgs["result"]["route"]>
+  export type RouteInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    trips?: boolean | Route$tripsArgs<ExtArgs>
+    _count?: boolean | RouteCountOutputTypeDefaultArgs<ExtArgs>
+  }
+  export type RouteIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
+  export type RouteIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
+
+  export type $RoutePayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "Route"
+    objects: {
+      trips: Prisma.$TripPayload<ExtArgs>[]
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      fromProvince: string
+      toProvince: string
+      distanceKm: number
+      estimatedDurationMinutes: number
+      description: string | null
+      isActive: boolean
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["route"]>
+    composites: {}
+  }
+
+  type RouteGetPayload<S extends boolean | null | undefined | RouteDefaultArgs> = $Result.GetResult<Prisma.$RoutePayload, S>
+
+  type RouteCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<RouteFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: RouteCountAggregateInputType | true
+    }
+
+  export interface RouteDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['Route'], meta: { name: 'Route' } }
+    /**
+     * Find zero or one Route that matches the filter.
+     * @param {RouteFindUniqueArgs} args - Arguments to find a Route
+     * @example
+     * // Get one Route
+     * const route = await prisma.route.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends RouteFindUniqueArgs>(args: SelectSubset<T, RouteFindUniqueArgs<ExtArgs>>): Prisma__RouteClient<$Result.GetResult<Prisma.$RoutePayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one Route that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {RouteFindUniqueOrThrowArgs} args - Arguments to find a Route
+     * @example
+     * // Get one Route
+     * const route = await prisma.route.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends RouteFindUniqueOrThrowArgs>(args: SelectSubset<T, RouteFindUniqueOrThrowArgs<ExtArgs>>): Prisma__RouteClient<$Result.GetResult<Prisma.$RoutePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Route that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {RouteFindFirstArgs} args - Arguments to find a Route
+     * @example
+     * // Get one Route
+     * const route = await prisma.route.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends RouteFindFirstArgs>(args?: SelectSubset<T, RouteFindFirstArgs<ExtArgs>>): Prisma__RouteClient<$Result.GetResult<Prisma.$RoutePayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Route that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {RouteFindFirstOrThrowArgs} args - Arguments to find a Route
+     * @example
+     * // Get one Route
+     * const route = await prisma.route.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends RouteFindFirstOrThrowArgs>(args?: SelectSubset<T, RouteFindFirstOrThrowArgs<ExtArgs>>): Prisma__RouteClient<$Result.GetResult<Prisma.$RoutePayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more Routes that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {RouteFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all Routes
+     * const routes = await prisma.route.findMany()
+     * 
+     * // Get first 10 Routes
+     * const routes = await prisma.route.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const routeWithIdOnly = await prisma.route.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends RouteFindManyArgs>(args?: SelectSubset<T, RouteFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$RoutePayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a Route.
+     * @param {RouteCreateArgs} args - Arguments to create a Route.
+     * @example
+     * // Create one Route
+     * const Route = await prisma.route.create({
+     *   data: {
+     *     // ... data to create a Route
+     *   }
+     * })
+     * 
+     */
+    create<T extends RouteCreateArgs>(args: SelectSubset<T, RouteCreateArgs<ExtArgs>>): Prisma__RouteClient<$Result.GetResult<Prisma.$RoutePayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many Routes.
+     * @param {RouteCreateManyArgs} args - Arguments to create many Routes.
+     * @example
+     * // Create many Routes
+     * const route = await prisma.route.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends RouteCreateManyArgs>(args?: SelectSubset<T, RouteCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many Routes and returns the data saved in the database.
+     * @param {RouteCreateManyAndReturnArgs} args - Arguments to create many Routes.
+     * @example
+     * // Create many Routes
+     * const route = await prisma.route.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many Routes and only return the `id`
+     * const routeWithIdOnly = await prisma.route.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends RouteCreateManyAndReturnArgs>(args?: SelectSubset<T, RouteCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$RoutePayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a Route.
+     * @param {RouteDeleteArgs} args - Arguments to delete one Route.
+     * @example
+     * // Delete one Route
+     * const Route = await prisma.route.delete({
+     *   where: {
+     *     // ... filter to delete one Route
+     *   }
+     * })
+     * 
+     */
+    delete<T extends RouteDeleteArgs>(args: SelectSubset<T, RouteDeleteArgs<ExtArgs>>): Prisma__RouteClient<$Result.GetResult<Prisma.$RoutePayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one Route.
+     * @param {RouteUpdateArgs} args - Arguments to update one Route.
+     * @example
+     * // Update one Route
+     * const route = await prisma.route.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends RouteUpdateArgs>(args: SelectSubset<T, RouteUpdateArgs<ExtArgs>>): Prisma__RouteClient<$Result.GetResult<Prisma.$RoutePayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more Routes.
+     * @param {RouteDeleteManyArgs} args - Arguments to filter Routes to delete.
+     * @example
+     * // Delete a few Routes
+     * const { count } = await prisma.route.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends RouteDeleteManyArgs>(args?: SelectSubset<T, RouteDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Routes.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {RouteUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many Routes
+     * const route = await prisma.route.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends RouteUpdateManyArgs>(args: SelectSubset<T, RouteUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Routes and returns the data updated in the database.
+     * @param {RouteUpdateManyAndReturnArgs} args - Arguments to update many Routes.
+     * @example
+     * // Update many Routes
+     * const route = await prisma.route.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more Routes and only return the `id`
+     * const routeWithIdOnly = await prisma.route.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends RouteUpdateManyAndReturnArgs>(args: SelectSubset<T, RouteUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$RoutePayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one Route.
+     * @param {RouteUpsertArgs} args - Arguments to update or create a Route.
+     * @example
+     * // Update or create a Route
+     * const route = await prisma.route.upsert({
+     *   create: {
+     *     // ... data to create a Route
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the Route we want to update
+     *   }
+     * })
+     */
+    upsert<T extends RouteUpsertArgs>(args: SelectSubset<T, RouteUpsertArgs<ExtArgs>>): Prisma__RouteClient<$Result.GetResult<Prisma.$RoutePayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of Routes.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {RouteCountArgs} args - Arguments to filter Routes to count.
+     * @example
+     * // Count the number of Routes
+     * const count = await prisma.route.count({
+     *   where: {
+     *     // ... the filter for the Routes we want to count
+     *   }
+     * })
+    **/
+    count<T extends RouteCountArgs>(
+      args?: Subset<T, RouteCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], RouteCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a Route.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {RouteAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends RouteAggregateArgs>(args: Subset<T, RouteAggregateArgs>): Prisma.PrismaPromise<GetRouteAggregateType<T>>
+
+    /**
+     * Group by Route.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {RouteGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends RouteGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: RouteGroupByArgs['orderBy'] }
+        : { orderBy?: RouteGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, RouteGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetRouteGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the Route model
+   */
+  readonly fields: RouteFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for Route.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__RouteClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    trips<T extends Route$tripsArgs<ExtArgs> = {}>(args?: Subset<T, Route$tripsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TripPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the Route model
+   */
+  interface RouteFieldRefs {
+    readonly id: FieldRef<"Route", 'String'>
+    readonly fromProvince: FieldRef<"Route", 'String'>
+    readonly toProvince: FieldRef<"Route", 'String'>
+    readonly distanceKm: FieldRef<"Route", 'Int'>
+    readonly estimatedDurationMinutes: FieldRef<"Route", 'Int'>
+    readonly description: FieldRef<"Route", 'String'>
+    readonly isActive: FieldRef<"Route", 'Boolean'>
+    readonly createdAt: FieldRef<"Route", 'DateTime'>
+    readonly updatedAt: FieldRef<"Route", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * Route findUnique
+   */
+  export type RouteFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Route
+     */
+    select?: RouteSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Route
+     */
+    omit?: RouteOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RouteInclude<ExtArgs> | null
+    /**
+     * Filter, which Route to fetch.
+     */
+    where: RouteWhereUniqueInput
+  }
+
+  /**
+   * Route findUniqueOrThrow
+   */
+  export type RouteFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Route
+     */
+    select?: RouteSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Route
+     */
+    omit?: RouteOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RouteInclude<ExtArgs> | null
+    /**
+     * Filter, which Route to fetch.
+     */
+    where: RouteWhereUniqueInput
+  }
+
+  /**
+   * Route findFirst
+   */
+  export type RouteFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Route
+     */
+    select?: RouteSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Route
+     */
+    omit?: RouteOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RouteInclude<ExtArgs> | null
+    /**
+     * Filter, which Route to fetch.
+     */
+    where?: RouteWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Routes to fetch.
+     */
+    orderBy?: RouteOrderByWithRelationInput | RouteOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Routes.
+     */
+    cursor?: RouteWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Routes from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Routes.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Routes.
+     */
+    distinct?: RouteScalarFieldEnum | RouteScalarFieldEnum[]
+  }
+
+  /**
+   * Route findFirstOrThrow
+   */
+  export type RouteFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Route
+     */
+    select?: RouteSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Route
+     */
+    omit?: RouteOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RouteInclude<ExtArgs> | null
+    /**
+     * Filter, which Route to fetch.
+     */
+    where?: RouteWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Routes to fetch.
+     */
+    orderBy?: RouteOrderByWithRelationInput | RouteOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Routes.
+     */
+    cursor?: RouteWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Routes from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Routes.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Routes.
+     */
+    distinct?: RouteScalarFieldEnum | RouteScalarFieldEnum[]
+  }
+
+  /**
+   * Route findMany
+   */
+  export type RouteFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Route
+     */
+    select?: RouteSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Route
+     */
+    omit?: RouteOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RouteInclude<ExtArgs> | null
+    /**
+     * Filter, which Routes to fetch.
+     */
+    where?: RouteWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Routes to fetch.
+     */
+    orderBy?: RouteOrderByWithRelationInput | RouteOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing Routes.
+     */
+    cursor?: RouteWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Routes from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Routes.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Routes.
+     */
+    distinct?: RouteScalarFieldEnum | RouteScalarFieldEnum[]
+  }
+
+  /**
+   * Route create
+   */
+  export type RouteCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Route
+     */
+    select?: RouteSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Route
+     */
+    omit?: RouteOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RouteInclude<ExtArgs> | null
+    /**
+     * The data needed to create a Route.
+     */
+    data: XOR<RouteCreateInput, RouteUncheckedCreateInput>
+  }
+
+  /**
+   * Route createMany
+   */
+  export type RouteCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many Routes.
+     */
+    data: RouteCreateManyInput | RouteCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * Route createManyAndReturn
+   */
+  export type RouteCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Route
+     */
+    select?: RouteSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Route
+     */
+    omit?: RouteOmit<ExtArgs> | null
+    /**
+     * The data used to create many Routes.
+     */
+    data: RouteCreateManyInput | RouteCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * Route update
+   */
+  export type RouteUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Route
+     */
+    select?: RouteSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Route
+     */
+    omit?: RouteOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RouteInclude<ExtArgs> | null
+    /**
+     * The data needed to update a Route.
+     */
+    data: XOR<RouteUpdateInput, RouteUncheckedUpdateInput>
+    /**
+     * Choose, which Route to update.
+     */
+    where: RouteWhereUniqueInput
+  }
+
+  /**
+   * Route updateMany
+   */
+  export type RouteUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update Routes.
+     */
+    data: XOR<RouteUpdateManyMutationInput, RouteUncheckedUpdateManyInput>
+    /**
+     * Filter which Routes to update
+     */
+    where?: RouteWhereInput
+    /**
+     * Limit how many Routes to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * Route updateManyAndReturn
+   */
+  export type RouteUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Route
+     */
+    select?: RouteSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Route
+     */
+    omit?: RouteOmit<ExtArgs> | null
+    /**
+     * The data used to update Routes.
+     */
+    data: XOR<RouteUpdateManyMutationInput, RouteUncheckedUpdateManyInput>
+    /**
+     * Filter which Routes to update
+     */
+    where?: RouteWhereInput
+    /**
+     * Limit how many Routes to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * Route upsert
+   */
+  export type RouteUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Route
+     */
+    select?: RouteSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Route
+     */
+    omit?: RouteOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RouteInclude<ExtArgs> | null
+    /**
+     * The filter to search for the Route to update in case it exists.
+     */
+    where: RouteWhereUniqueInput
+    /**
+     * In case the Route found by the `where` argument doesn't exist, create a new Route with this data.
+     */
+    create: XOR<RouteCreateInput, RouteUncheckedCreateInput>
+    /**
+     * In case the Route was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<RouteUpdateInput, RouteUncheckedUpdateInput>
+  }
+
+  /**
+   * Route delete
+   */
+  export type RouteDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Route
+     */
+    select?: RouteSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Route
+     */
+    omit?: RouteOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RouteInclude<ExtArgs> | null
+    /**
+     * Filter which Route to delete.
+     */
+    where: RouteWhereUniqueInput
+  }
+
+  /**
+   * Route deleteMany
+   */
+  export type RouteDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Routes to delete
+     */
+    where?: RouteWhereInput
+    /**
+     * Limit how many Routes to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * Route.trips
+   */
+  export type Route$tripsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Trip
+     */
+    select?: TripSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Trip
+     */
+    omit?: TripOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TripInclude<ExtArgs> | null
+    where?: TripWhereInput
+    orderBy?: TripOrderByWithRelationInput | TripOrderByWithRelationInput[]
+    cursor?: TripWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: TripScalarFieldEnum | TripScalarFieldEnum[]
+  }
+
+  /**
+   * Route without action
+   */
+  export type RouteDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Route
+     */
+    select?: RouteSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Route
+     */
+    omit?: RouteOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RouteInclude<ExtArgs> | null
   }
 
 
@@ -7177,7 +8553,8 @@ export namespace Prisma {
     arrivalTime: 'arrivalTime',
     priceVnd: 'priceVnd',
     totalSeats: 'totalSeats',
-    busType: 'busType'
+    busType: 'busType',
+    routeId: 'routeId'
   };
 
   export type TripScalarFieldEnum = (typeof TripScalarFieldEnum)[keyof typeof TripScalarFieldEnum]
@@ -7196,6 +8573,9 @@ export namespace Prisma {
   export const BookingScalarFieldEnum: {
     id: 'id',
     userId: 'userId',
+    customerName: 'customerName',
+    customerPhone: 'customerPhone',
+    customerEmail: 'customerEmail',
     tripId: 'tripId',
     seatId: 'seatId',
     status: 'status',
@@ -7204,6 +8584,21 @@ export namespace Prisma {
   };
 
   export type BookingScalarFieldEnum = (typeof BookingScalarFieldEnum)[keyof typeof BookingScalarFieldEnum]
+
+
+  export const RouteScalarFieldEnum: {
+    id: 'id',
+    fromProvince: 'fromProvince',
+    toProvince: 'toProvince',
+    distanceKm: 'distanceKm',
+    estimatedDurationMinutes: 'estimatedDurationMinutes',
+    description: 'description',
+    isActive: 'isActive',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type RouteScalarFieldEnum = (typeof RouteScalarFieldEnum)[keyof typeof RouteScalarFieldEnum]
 
 
   export const SortOrder: {
@@ -7330,6 +8725,13 @@ export namespace Prisma {
    * Reference to a field of type 'BookingStatus[]'
    */
   export type ListEnumBookingStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'BookingStatus[]'>
+    
+
+
+  /**
+   * Reference to a field of type 'Boolean'
+   */
+  export type BooleanFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Boolean'>
     
 
 
@@ -7507,6 +8909,8 @@ export namespace Prisma {
     priceVnd?: IntFilter<"Trip"> | number
     totalSeats?: IntFilter<"Trip"> | number
     busType?: EnumBusTypeFilter<"Trip"> | $Enums.BusType
+    routeId?: UuidFilter<"Trip"> | string
+    route?: XOR<RouteScalarRelationFilter, RouteWhereInput>
     seats?: SeatListRelationFilter
     bookings?: BookingListRelationFilter
   }
@@ -7521,6 +8925,8 @@ export namespace Prisma {
     priceVnd?: SortOrder
     totalSeats?: SortOrder
     busType?: SortOrder
+    routeId?: SortOrder
+    route?: RouteOrderByWithRelationInput
     seats?: SeatOrderByRelationAggregateInput
     bookings?: BookingOrderByRelationAggregateInput
   }
@@ -7538,6 +8944,8 @@ export namespace Prisma {
     priceVnd?: IntFilter<"Trip"> | number
     totalSeats?: IntFilter<"Trip"> | number
     busType?: EnumBusTypeFilter<"Trip"> | $Enums.BusType
+    routeId?: UuidFilter<"Trip"> | string
+    route?: XOR<RouteScalarRelationFilter, RouteWhereInput>
     seats?: SeatListRelationFilter
     bookings?: BookingListRelationFilter
   }, "id">
@@ -7552,6 +8960,7 @@ export namespace Prisma {
     priceVnd?: SortOrder
     totalSeats?: SortOrder
     busType?: SortOrder
+    routeId?: SortOrder
     _count?: TripCountOrderByAggregateInput
     _avg?: TripAvgOrderByAggregateInput
     _max?: TripMaxOrderByAggregateInput
@@ -7572,6 +8981,7 @@ export namespace Prisma {
     priceVnd?: IntWithAggregatesFilter<"Trip"> | number
     totalSeats?: IntWithAggregatesFilter<"Trip"> | number
     busType?: EnumBusTypeWithAggregatesFilter<"Trip"> | $Enums.BusType
+    routeId?: UuidWithAggregatesFilter<"Trip"> | string
   }
 
   export type SeatWhereInput = {
@@ -7633,20 +9043,26 @@ export namespace Prisma {
     OR?: BookingWhereInput[]
     NOT?: BookingWhereInput | BookingWhereInput[]
     id?: UuidFilter<"Booking"> | string
-    userId?: UuidFilter<"Booking"> | string
+    userId?: UuidNullableFilter<"Booking"> | string | null
+    customerName?: StringFilter<"Booking"> | string
+    customerPhone?: StringFilter<"Booking"> | string
+    customerEmail?: StringNullableFilter<"Booking"> | string | null
     tripId?: UuidFilter<"Booking"> | string
     seatId?: UuidFilter<"Booking"> | string
     status?: EnumBookingStatusFilter<"Booking"> | $Enums.BookingStatus
     totalPrice?: IntFilter<"Booking"> | number
     bookedAt?: DateTimeFilter<"Booking"> | Date | string
-    user?: XOR<UserScalarRelationFilter, UserWhereInput>
+    user?: XOR<UserNullableScalarRelationFilter, UserWhereInput> | null
     trip?: XOR<TripScalarRelationFilter, TripWhereInput>
     seat?: XOR<SeatScalarRelationFilter, SeatWhereInput>
   }
 
   export type BookingOrderByWithRelationInput = {
     id?: SortOrder
-    userId?: SortOrder
+    userId?: SortOrderInput | SortOrder
+    customerName?: SortOrder
+    customerPhone?: SortOrder
+    customerEmail?: SortOrderInput | SortOrder
     tripId?: SortOrder
     seatId?: SortOrder
     status?: SortOrder
@@ -7662,20 +9078,26 @@ export namespace Prisma {
     AND?: BookingWhereInput | BookingWhereInput[]
     OR?: BookingWhereInput[]
     NOT?: BookingWhereInput | BookingWhereInput[]
-    userId?: UuidFilter<"Booking"> | string
+    userId?: UuidNullableFilter<"Booking"> | string | null
+    customerName?: StringFilter<"Booking"> | string
+    customerPhone?: StringFilter<"Booking"> | string
+    customerEmail?: StringNullableFilter<"Booking"> | string | null
     tripId?: UuidFilter<"Booking"> | string
     seatId?: UuidFilter<"Booking"> | string
     status?: EnumBookingStatusFilter<"Booking"> | $Enums.BookingStatus
     totalPrice?: IntFilter<"Booking"> | number
     bookedAt?: DateTimeFilter<"Booking"> | Date | string
-    user?: XOR<UserScalarRelationFilter, UserWhereInput>
+    user?: XOR<UserNullableScalarRelationFilter, UserWhereInput> | null
     trip?: XOR<TripScalarRelationFilter, TripWhereInput>
     seat?: XOR<SeatScalarRelationFilter, SeatWhereInput>
   }, "id">
 
   export type BookingOrderByWithAggregationInput = {
     id?: SortOrder
-    userId?: SortOrder
+    userId?: SortOrderInput | SortOrder
+    customerName?: SortOrder
+    customerPhone?: SortOrder
+    customerEmail?: SortOrderInput | SortOrder
     tripId?: SortOrder
     seatId?: SortOrder
     status?: SortOrder
@@ -7693,12 +9115,92 @@ export namespace Prisma {
     OR?: BookingScalarWhereWithAggregatesInput[]
     NOT?: BookingScalarWhereWithAggregatesInput | BookingScalarWhereWithAggregatesInput[]
     id?: UuidWithAggregatesFilter<"Booking"> | string
-    userId?: UuidWithAggregatesFilter<"Booking"> | string
+    userId?: UuidNullableWithAggregatesFilter<"Booking"> | string | null
+    customerName?: StringWithAggregatesFilter<"Booking"> | string
+    customerPhone?: StringWithAggregatesFilter<"Booking"> | string
+    customerEmail?: StringNullableWithAggregatesFilter<"Booking"> | string | null
     tripId?: UuidWithAggregatesFilter<"Booking"> | string
     seatId?: UuidWithAggregatesFilter<"Booking"> | string
     status?: EnumBookingStatusWithAggregatesFilter<"Booking"> | $Enums.BookingStatus
     totalPrice?: IntWithAggregatesFilter<"Booking"> | number
     bookedAt?: DateTimeWithAggregatesFilter<"Booking"> | Date | string
+  }
+
+  export type RouteWhereInput = {
+    AND?: RouteWhereInput | RouteWhereInput[]
+    OR?: RouteWhereInput[]
+    NOT?: RouteWhereInput | RouteWhereInput[]
+    id?: UuidFilter<"Route"> | string
+    fromProvince?: StringFilter<"Route"> | string
+    toProvince?: StringFilter<"Route"> | string
+    distanceKm?: IntFilter<"Route"> | number
+    estimatedDurationMinutes?: IntFilter<"Route"> | number
+    description?: StringNullableFilter<"Route"> | string | null
+    isActive?: BoolFilter<"Route"> | boolean
+    createdAt?: DateTimeFilter<"Route"> | Date | string
+    updatedAt?: DateTimeFilter<"Route"> | Date | string
+    trips?: TripListRelationFilter
+  }
+
+  export type RouteOrderByWithRelationInput = {
+    id?: SortOrder
+    fromProvince?: SortOrder
+    toProvince?: SortOrder
+    distanceKm?: SortOrder
+    estimatedDurationMinutes?: SortOrder
+    description?: SortOrderInput | SortOrder
+    isActive?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    trips?: TripOrderByRelationAggregateInput
+  }
+
+  export type RouteWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: RouteWhereInput | RouteWhereInput[]
+    OR?: RouteWhereInput[]
+    NOT?: RouteWhereInput | RouteWhereInput[]
+    fromProvince?: StringFilter<"Route"> | string
+    toProvince?: StringFilter<"Route"> | string
+    distanceKm?: IntFilter<"Route"> | number
+    estimatedDurationMinutes?: IntFilter<"Route"> | number
+    description?: StringNullableFilter<"Route"> | string | null
+    isActive?: BoolFilter<"Route"> | boolean
+    createdAt?: DateTimeFilter<"Route"> | Date | string
+    updatedAt?: DateTimeFilter<"Route"> | Date | string
+    trips?: TripListRelationFilter
+  }, "id">
+
+  export type RouteOrderByWithAggregationInput = {
+    id?: SortOrder
+    fromProvince?: SortOrder
+    toProvince?: SortOrder
+    distanceKm?: SortOrder
+    estimatedDurationMinutes?: SortOrder
+    description?: SortOrderInput | SortOrder
+    isActive?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: RouteCountOrderByAggregateInput
+    _avg?: RouteAvgOrderByAggregateInput
+    _max?: RouteMaxOrderByAggregateInput
+    _min?: RouteMinOrderByAggregateInput
+    _sum?: RouteSumOrderByAggregateInput
+  }
+
+  export type RouteScalarWhereWithAggregatesInput = {
+    AND?: RouteScalarWhereWithAggregatesInput | RouteScalarWhereWithAggregatesInput[]
+    OR?: RouteScalarWhereWithAggregatesInput[]
+    NOT?: RouteScalarWhereWithAggregatesInput | RouteScalarWhereWithAggregatesInput[]
+    id?: UuidWithAggregatesFilter<"Route"> | string
+    fromProvince?: StringWithAggregatesFilter<"Route"> | string
+    toProvince?: StringWithAggregatesFilter<"Route"> | string
+    distanceKm?: IntWithAggregatesFilter<"Route"> | number
+    estimatedDurationMinutes?: IntWithAggregatesFilter<"Route"> | number
+    description?: StringNullableWithAggregatesFilter<"Route"> | string | null
+    isActive?: BoolWithAggregatesFilter<"Route"> | boolean
+    createdAt?: DateTimeWithAggregatesFilter<"Route"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"Route"> | Date | string
   }
 
   export type UserCreateInput = {
@@ -7868,6 +9370,7 @@ export namespace Prisma {
     priceVnd: number
     totalSeats: number
     busType: $Enums.BusType
+    route: RouteCreateNestedOneWithoutTripsInput
     seats?: SeatCreateNestedManyWithoutTripInput
     bookings?: BookingCreateNestedManyWithoutTripInput
   }
@@ -7882,6 +9385,7 @@ export namespace Prisma {
     priceVnd: number
     totalSeats: number
     busType: $Enums.BusType
+    routeId: string
     seats?: SeatUncheckedCreateNestedManyWithoutTripInput
     bookings?: BookingUncheckedCreateNestedManyWithoutTripInput
   }
@@ -7896,6 +9400,7 @@ export namespace Prisma {
     priceVnd?: IntFieldUpdateOperationsInput | number
     totalSeats?: IntFieldUpdateOperationsInput | number
     busType?: EnumBusTypeFieldUpdateOperationsInput | $Enums.BusType
+    route?: RouteUpdateOneRequiredWithoutTripsNestedInput
     seats?: SeatUpdateManyWithoutTripNestedInput
     bookings?: BookingUpdateManyWithoutTripNestedInput
   }
@@ -7910,6 +9415,7 @@ export namespace Prisma {
     priceVnd?: IntFieldUpdateOperationsInput | number
     totalSeats?: IntFieldUpdateOperationsInput | number
     busType?: EnumBusTypeFieldUpdateOperationsInput | $Enums.BusType
+    routeId?: StringFieldUpdateOperationsInput | string
     seats?: SeatUncheckedUpdateManyWithoutTripNestedInput
     bookings?: BookingUncheckedUpdateManyWithoutTripNestedInput
   }
@@ -7924,6 +9430,7 @@ export namespace Prisma {
     priceVnd: number
     totalSeats: number
     busType: $Enums.BusType
+    routeId: string
   }
 
   export type TripUpdateManyMutationInput = {
@@ -7948,6 +9455,7 @@ export namespace Prisma {
     priceVnd?: IntFieldUpdateOperationsInput | number
     totalSeats?: IntFieldUpdateOperationsInput | number
     busType?: EnumBusTypeFieldUpdateOperationsInput | $Enums.BusType
+    routeId?: StringFieldUpdateOperationsInput | string
   }
 
   export type SeatCreateInput = {
@@ -8004,17 +9512,23 @@ export namespace Prisma {
 
   export type BookingCreateInput = {
     id?: string
+    customerName: string
+    customerPhone: string
+    customerEmail?: string | null
     status?: $Enums.BookingStatus
     totalPrice: number
     bookedAt?: Date | string
-    user: UserCreateNestedOneWithoutBookingsInput
+    user?: UserCreateNestedOneWithoutBookingsInput
     trip: TripCreateNestedOneWithoutBookingsInput
     seat: SeatCreateNestedOneWithoutBookingsInput
   }
 
   export type BookingUncheckedCreateInput = {
     id?: string
-    userId: string
+    userId?: string | null
+    customerName: string
+    customerPhone: string
+    customerEmail?: string | null
     tripId: string
     seatId: string
     status?: $Enums.BookingStatus
@@ -8024,17 +9538,23 @@ export namespace Prisma {
 
   export type BookingUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
+    customerName?: StringFieldUpdateOperationsInput | string
+    customerPhone?: StringFieldUpdateOperationsInput | string
+    customerEmail?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumBookingStatusFieldUpdateOperationsInput | $Enums.BookingStatus
     totalPrice?: IntFieldUpdateOperationsInput | number
     bookedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    user?: UserUpdateOneRequiredWithoutBookingsNestedInput
+    user?: UserUpdateOneWithoutBookingsNestedInput
     trip?: TripUpdateOneRequiredWithoutBookingsNestedInput
     seat?: SeatUpdateOneRequiredWithoutBookingsNestedInput
   }
 
   export type BookingUncheckedUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
-    userId?: StringFieldUpdateOperationsInput | string
+    userId?: NullableStringFieldUpdateOperationsInput | string | null
+    customerName?: StringFieldUpdateOperationsInput | string
+    customerPhone?: StringFieldUpdateOperationsInput | string
+    customerEmail?: NullableStringFieldUpdateOperationsInput | string | null
     tripId?: StringFieldUpdateOperationsInput | string
     seatId?: StringFieldUpdateOperationsInput | string
     status?: EnumBookingStatusFieldUpdateOperationsInput | $Enums.BookingStatus
@@ -8044,7 +9564,10 @@ export namespace Prisma {
 
   export type BookingCreateManyInput = {
     id?: string
-    userId: string
+    userId?: string | null
+    customerName: string
+    customerPhone: string
+    customerEmail?: string | null
     tripId: string
     seatId: string
     status?: $Enums.BookingStatus
@@ -8054,6 +9577,9 @@ export namespace Prisma {
 
   export type BookingUpdateManyMutationInput = {
     id?: StringFieldUpdateOperationsInput | string
+    customerName?: StringFieldUpdateOperationsInput | string
+    customerPhone?: StringFieldUpdateOperationsInput | string
+    customerEmail?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumBookingStatusFieldUpdateOperationsInput | $Enums.BookingStatus
     totalPrice?: IntFieldUpdateOperationsInput | number
     bookedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -8061,12 +9587,103 @@ export namespace Prisma {
 
   export type BookingUncheckedUpdateManyInput = {
     id?: StringFieldUpdateOperationsInput | string
-    userId?: StringFieldUpdateOperationsInput | string
+    userId?: NullableStringFieldUpdateOperationsInput | string | null
+    customerName?: StringFieldUpdateOperationsInput | string
+    customerPhone?: StringFieldUpdateOperationsInput | string
+    customerEmail?: NullableStringFieldUpdateOperationsInput | string | null
     tripId?: StringFieldUpdateOperationsInput | string
     seatId?: StringFieldUpdateOperationsInput | string
     status?: EnumBookingStatusFieldUpdateOperationsInput | $Enums.BookingStatus
     totalPrice?: IntFieldUpdateOperationsInput | number
     bookedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type RouteCreateInput = {
+    id?: string
+    fromProvince: string
+    toProvince: string
+    distanceKm: number
+    estimatedDurationMinutes: number
+    description?: string | null
+    isActive?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    trips?: TripCreateNestedManyWithoutRouteInput
+  }
+
+  export type RouteUncheckedCreateInput = {
+    id?: string
+    fromProvince: string
+    toProvince: string
+    distanceKm: number
+    estimatedDurationMinutes: number
+    description?: string | null
+    isActive?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    trips?: TripUncheckedCreateNestedManyWithoutRouteInput
+  }
+
+  export type RouteUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    fromProvince?: StringFieldUpdateOperationsInput | string
+    toProvince?: StringFieldUpdateOperationsInput | string
+    distanceKm?: IntFieldUpdateOperationsInput | number
+    estimatedDurationMinutes?: IntFieldUpdateOperationsInput | number
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    trips?: TripUpdateManyWithoutRouteNestedInput
+  }
+
+  export type RouteUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    fromProvince?: StringFieldUpdateOperationsInput | string
+    toProvince?: StringFieldUpdateOperationsInput | string
+    distanceKm?: IntFieldUpdateOperationsInput | number
+    estimatedDurationMinutes?: IntFieldUpdateOperationsInput | number
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    trips?: TripUncheckedUpdateManyWithoutRouteNestedInput
+  }
+
+  export type RouteCreateManyInput = {
+    id?: string
+    fromProvince: string
+    toProvince: string
+    distanceKm: number
+    estimatedDurationMinutes: number
+    description?: string | null
+    isActive?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type RouteUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    fromProvince?: StringFieldUpdateOperationsInput | string
+    toProvince?: StringFieldUpdateOperationsInput | string
+    distanceKm?: IntFieldUpdateOperationsInput | number
+    estimatedDurationMinutes?: IntFieldUpdateOperationsInput | number
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type RouteUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    fromProvince?: StringFieldUpdateOperationsInput | string
+    toProvince?: StringFieldUpdateOperationsInput | string
+    distanceKm?: IntFieldUpdateOperationsInput | number
+    estimatedDurationMinutes?: IntFieldUpdateOperationsInput | number
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type UuidFilter<$PrismaModel = never> = {
@@ -8339,6 +9956,11 @@ export namespace Prisma {
     not?: NestedEnumBusTypeFilter<$PrismaModel> | $Enums.BusType
   }
 
+  export type RouteScalarRelationFilter = {
+    is?: RouteWhereInput
+    isNot?: RouteWhereInput
+  }
+
   export type SeatListRelationFilter = {
     every?: SeatWhereInput
     some?: SeatWhereInput
@@ -8359,6 +9981,7 @@ export namespace Prisma {
     priceVnd?: SortOrder
     totalSeats?: SortOrder
     busType?: SortOrder
+    routeId?: SortOrder
   }
 
   export type TripAvgOrderByAggregateInput = {
@@ -8376,6 +9999,7 @@ export namespace Prisma {
     priceVnd?: SortOrder
     totalSeats?: SortOrder
     busType?: SortOrder
+    routeId?: SortOrder
   }
 
   export type TripMinOrderByAggregateInput = {
@@ -8388,6 +10012,7 @@ export namespace Prisma {
     priceVnd?: SortOrder
     totalSeats?: SortOrder
     busType?: SortOrder
+    routeId?: SortOrder
   }
 
   export type TripSumOrderByAggregateInput = {
@@ -8469,11 +10094,31 @@ export namespace Prisma {
     _max?: NestedEnumSeatStatusFilter<$PrismaModel>
   }
 
+  export type StringNullableFilter<$PrismaModel = never> = {
+    equals?: string | StringFieldRefInput<$PrismaModel> | null
+    in?: string[] | ListStringFieldRefInput<$PrismaModel> | null
+    notIn?: string[] | ListStringFieldRefInput<$PrismaModel> | null
+    lt?: string | StringFieldRefInput<$PrismaModel>
+    lte?: string | StringFieldRefInput<$PrismaModel>
+    gt?: string | StringFieldRefInput<$PrismaModel>
+    gte?: string | StringFieldRefInput<$PrismaModel>
+    contains?: string | StringFieldRefInput<$PrismaModel>
+    startsWith?: string | StringFieldRefInput<$PrismaModel>
+    endsWith?: string | StringFieldRefInput<$PrismaModel>
+    mode?: QueryMode
+    not?: NestedStringNullableFilter<$PrismaModel> | string | null
+  }
+
   export type EnumBookingStatusFilter<$PrismaModel = never> = {
     equals?: $Enums.BookingStatus | EnumBookingStatusFieldRefInput<$PrismaModel>
     in?: $Enums.BookingStatus[] | ListEnumBookingStatusFieldRefInput<$PrismaModel>
     notIn?: $Enums.BookingStatus[] | ListEnumBookingStatusFieldRefInput<$PrismaModel>
     not?: NestedEnumBookingStatusFilter<$PrismaModel> | $Enums.BookingStatus
+  }
+
+  export type UserNullableScalarRelationFilter = {
+    is?: UserWhereInput | null
+    isNot?: UserWhereInput | null
   }
 
   export type SeatScalarRelationFilter = {
@@ -8484,6 +10129,9 @@ export namespace Prisma {
   export type BookingCountOrderByAggregateInput = {
     id?: SortOrder
     userId?: SortOrder
+    customerName?: SortOrder
+    customerPhone?: SortOrder
+    customerEmail?: SortOrder
     tripId?: SortOrder
     seatId?: SortOrder
     status?: SortOrder
@@ -8498,6 +10146,9 @@ export namespace Prisma {
   export type BookingMaxOrderByAggregateInput = {
     id?: SortOrder
     userId?: SortOrder
+    customerName?: SortOrder
+    customerPhone?: SortOrder
+    customerEmail?: SortOrder
     tripId?: SortOrder
     seatId?: SortOrder
     status?: SortOrder
@@ -8508,6 +10159,9 @@ export namespace Prisma {
   export type BookingMinOrderByAggregateInput = {
     id?: SortOrder
     userId?: SortOrder
+    customerName?: SortOrder
+    customerPhone?: SortOrder
+    customerEmail?: SortOrder
     tripId?: SortOrder
     seatId?: SortOrder
     status?: SortOrder
@@ -8519,6 +10173,24 @@ export namespace Prisma {
     totalPrice?: SortOrder
   }
 
+  export type StringNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: string | StringFieldRefInput<$PrismaModel> | null
+    in?: string[] | ListStringFieldRefInput<$PrismaModel> | null
+    notIn?: string[] | ListStringFieldRefInput<$PrismaModel> | null
+    lt?: string | StringFieldRefInput<$PrismaModel>
+    lte?: string | StringFieldRefInput<$PrismaModel>
+    gt?: string | StringFieldRefInput<$PrismaModel>
+    gte?: string | StringFieldRefInput<$PrismaModel>
+    contains?: string | StringFieldRefInput<$PrismaModel>
+    startsWith?: string | StringFieldRefInput<$PrismaModel>
+    endsWith?: string | StringFieldRefInput<$PrismaModel>
+    mode?: QueryMode
+    not?: NestedStringNullableWithAggregatesFilter<$PrismaModel> | string | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedStringNullableFilter<$PrismaModel>
+    _max?: NestedStringNullableFilter<$PrismaModel>
+  }
+
   export type EnumBookingStatusWithAggregatesFilter<$PrismaModel = never> = {
     equals?: $Enums.BookingStatus | EnumBookingStatusFieldRefInput<$PrismaModel>
     in?: $Enums.BookingStatus[] | ListEnumBookingStatusFieldRefInput<$PrismaModel>
@@ -8527,6 +10199,75 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedEnumBookingStatusFilter<$PrismaModel>
     _max?: NestedEnumBookingStatusFilter<$PrismaModel>
+  }
+
+  export type BoolFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
+    not?: NestedBoolFilter<$PrismaModel> | boolean
+  }
+
+  export type TripListRelationFilter = {
+    every?: TripWhereInput
+    some?: TripWhereInput
+    none?: TripWhereInput
+  }
+
+  export type TripOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type RouteCountOrderByAggregateInput = {
+    id?: SortOrder
+    fromProvince?: SortOrder
+    toProvince?: SortOrder
+    distanceKm?: SortOrder
+    estimatedDurationMinutes?: SortOrder
+    description?: SortOrder
+    isActive?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type RouteAvgOrderByAggregateInput = {
+    distanceKm?: SortOrder
+    estimatedDurationMinutes?: SortOrder
+  }
+
+  export type RouteMaxOrderByAggregateInput = {
+    id?: SortOrder
+    fromProvince?: SortOrder
+    toProvince?: SortOrder
+    distanceKm?: SortOrder
+    estimatedDurationMinutes?: SortOrder
+    description?: SortOrder
+    isActive?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type RouteMinOrderByAggregateInput = {
+    id?: SortOrder
+    fromProvince?: SortOrder
+    toProvince?: SortOrder
+    distanceKm?: SortOrder
+    estimatedDurationMinutes?: SortOrder
+    description?: SortOrder
+    isActive?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type RouteSumOrderByAggregateInput = {
+    distanceKm?: SortOrder
+    estimatedDurationMinutes?: SortOrder
+  }
+
+  export type BoolWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
+    not?: NestedBoolWithAggregatesFilter<$PrismaModel> | boolean
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedBoolFilter<$PrismaModel>
+    _max?: NestedBoolFilter<$PrismaModel>
   }
 
   export type RefreshTokenCreateNestedManyWithoutUserInput = {
@@ -8705,6 +10446,12 @@ export namespace Prisma {
     deleteMany?: RefreshTokenScalarWhereInput | RefreshTokenScalarWhereInput[]
   }
 
+  export type RouteCreateNestedOneWithoutTripsInput = {
+    create?: XOR<RouteCreateWithoutTripsInput, RouteUncheckedCreateWithoutTripsInput>
+    connectOrCreate?: RouteCreateOrConnectWithoutTripsInput
+    connect?: RouteWhereUniqueInput
+  }
+
   export type SeatCreateNestedManyWithoutTripInput = {
     create?: XOR<SeatCreateWithoutTripInput, SeatUncheckedCreateWithoutTripInput> | SeatCreateWithoutTripInput[] | SeatUncheckedCreateWithoutTripInput[]
     connectOrCreate?: SeatCreateOrConnectWithoutTripInput | SeatCreateOrConnectWithoutTripInput[]
@@ -8743,6 +10490,14 @@ export namespace Prisma {
 
   export type EnumBusTypeFieldUpdateOperationsInput = {
     set?: $Enums.BusType
+  }
+
+  export type RouteUpdateOneRequiredWithoutTripsNestedInput = {
+    create?: XOR<RouteCreateWithoutTripsInput, RouteUncheckedCreateWithoutTripsInput>
+    connectOrCreate?: RouteCreateOrConnectWithoutTripsInput
+    upsert?: RouteUpsertWithoutTripsInput
+    connect?: RouteWhereUniqueInput
+    update?: XOR<XOR<RouteUpdateToOneWithWhereWithoutTripsInput, RouteUpdateWithoutTripsInput>, RouteUncheckedUpdateWithoutTripsInput>
   }
 
   export type SeatUpdateManyWithoutTripNestedInput = {
@@ -8883,10 +10638,12 @@ export namespace Prisma {
     set?: $Enums.BookingStatus
   }
 
-  export type UserUpdateOneRequiredWithoutBookingsNestedInput = {
+  export type UserUpdateOneWithoutBookingsNestedInput = {
     create?: XOR<UserCreateWithoutBookingsInput, UserUncheckedCreateWithoutBookingsInput>
     connectOrCreate?: UserCreateOrConnectWithoutBookingsInput
     upsert?: UserUpsertWithoutBookingsInput
+    disconnect?: UserWhereInput | boolean
+    delete?: UserWhereInput | boolean
     connect?: UserWhereUniqueInput
     update?: XOR<XOR<UserUpdateToOneWithWhereWithoutBookingsInput, UserUpdateWithoutBookingsInput>, UserUncheckedUpdateWithoutBookingsInput>
   }
@@ -8905,6 +10662,52 @@ export namespace Prisma {
     upsert?: SeatUpsertWithoutBookingsInput
     connect?: SeatWhereUniqueInput
     update?: XOR<XOR<SeatUpdateToOneWithWhereWithoutBookingsInput, SeatUpdateWithoutBookingsInput>, SeatUncheckedUpdateWithoutBookingsInput>
+  }
+
+  export type TripCreateNestedManyWithoutRouteInput = {
+    create?: XOR<TripCreateWithoutRouteInput, TripUncheckedCreateWithoutRouteInput> | TripCreateWithoutRouteInput[] | TripUncheckedCreateWithoutRouteInput[]
+    connectOrCreate?: TripCreateOrConnectWithoutRouteInput | TripCreateOrConnectWithoutRouteInput[]
+    createMany?: TripCreateManyRouteInputEnvelope
+    connect?: TripWhereUniqueInput | TripWhereUniqueInput[]
+  }
+
+  export type TripUncheckedCreateNestedManyWithoutRouteInput = {
+    create?: XOR<TripCreateWithoutRouteInput, TripUncheckedCreateWithoutRouteInput> | TripCreateWithoutRouteInput[] | TripUncheckedCreateWithoutRouteInput[]
+    connectOrCreate?: TripCreateOrConnectWithoutRouteInput | TripCreateOrConnectWithoutRouteInput[]
+    createMany?: TripCreateManyRouteInputEnvelope
+    connect?: TripWhereUniqueInput | TripWhereUniqueInput[]
+  }
+
+  export type BoolFieldUpdateOperationsInput = {
+    set?: boolean
+  }
+
+  export type TripUpdateManyWithoutRouteNestedInput = {
+    create?: XOR<TripCreateWithoutRouteInput, TripUncheckedCreateWithoutRouteInput> | TripCreateWithoutRouteInput[] | TripUncheckedCreateWithoutRouteInput[]
+    connectOrCreate?: TripCreateOrConnectWithoutRouteInput | TripCreateOrConnectWithoutRouteInput[]
+    upsert?: TripUpsertWithWhereUniqueWithoutRouteInput | TripUpsertWithWhereUniqueWithoutRouteInput[]
+    createMany?: TripCreateManyRouteInputEnvelope
+    set?: TripWhereUniqueInput | TripWhereUniqueInput[]
+    disconnect?: TripWhereUniqueInput | TripWhereUniqueInput[]
+    delete?: TripWhereUniqueInput | TripWhereUniqueInput[]
+    connect?: TripWhereUniqueInput | TripWhereUniqueInput[]
+    update?: TripUpdateWithWhereUniqueWithoutRouteInput | TripUpdateWithWhereUniqueWithoutRouteInput[]
+    updateMany?: TripUpdateManyWithWhereWithoutRouteInput | TripUpdateManyWithWhereWithoutRouteInput[]
+    deleteMany?: TripScalarWhereInput | TripScalarWhereInput[]
+  }
+
+  export type TripUncheckedUpdateManyWithoutRouteNestedInput = {
+    create?: XOR<TripCreateWithoutRouteInput, TripUncheckedCreateWithoutRouteInput> | TripCreateWithoutRouteInput[] | TripUncheckedCreateWithoutRouteInput[]
+    connectOrCreate?: TripCreateOrConnectWithoutRouteInput | TripCreateOrConnectWithoutRouteInput[]
+    upsert?: TripUpsertWithWhereUniqueWithoutRouteInput | TripUpsertWithWhereUniqueWithoutRouteInput[]
+    createMany?: TripCreateManyRouteInputEnvelope
+    set?: TripWhereUniqueInput | TripWhereUniqueInput[]
+    disconnect?: TripWhereUniqueInput | TripWhereUniqueInput[]
+    delete?: TripWhereUniqueInput | TripWhereUniqueInput[]
+    connect?: TripWhereUniqueInput | TripWhereUniqueInput[]
+    update?: TripUpdateWithWhereUniqueWithoutRouteInput | TripUpdateWithWhereUniqueWithoutRouteInput[]
+    updateMany?: TripUpdateManyWithWhereWithoutRouteInput | TripUpdateManyWithWhereWithoutRouteInput[]
+    deleteMany?: TripScalarWhereInput | TripScalarWhereInput[]
   }
 
   export type NestedUuidFilter<$PrismaModel = never> = {
@@ -9159,6 +10962,23 @@ export namespace Prisma {
     not?: NestedEnumBookingStatusFilter<$PrismaModel> | $Enums.BookingStatus
   }
 
+  export type NestedStringNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: string | StringFieldRefInput<$PrismaModel> | null
+    in?: string[] | ListStringFieldRefInput<$PrismaModel> | null
+    notIn?: string[] | ListStringFieldRefInput<$PrismaModel> | null
+    lt?: string | StringFieldRefInput<$PrismaModel>
+    lte?: string | StringFieldRefInput<$PrismaModel>
+    gt?: string | StringFieldRefInput<$PrismaModel>
+    gte?: string | StringFieldRefInput<$PrismaModel>
+    contains?: string | StringFieldRefInput<$PrismaModel>
+    startsWith?: string | StringFieldRefInput<$PrismaModel>
+    endsWith?: string | StringFieldRefInput<$PrismaModel>
+    not?: NestedStringNullableWithAggregatesFilter<$PrismaModel> | string | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedStringNullableFilter<$PrismaModel>
+    _max?: NestedStringNullableFilter<$PrismaModel>
+  }
+
   export type NestedEnumBookingStatusWithAggregatesFilter<$PrismaModel = never> = {
     equals?: $Enums.BookingStatus | EnumBookingStatusFieldRefInput<$PrismaModel>
     in?: $Enums.BookingStatus[] | ListEnumBookingStatusFieldRefInput<$PrismaModel>
@@ -9167,6 +10987,19 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedEnumBookingStatusFilter<$PrismaModel>
     _max?: NestedEnumBookingStatusFilter<$PrismaModel>
+  }
+
+  export type NestedBoolFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
+    not?: NestedBoolFilter<$PrismaModel> | boolean
+  }
+
+  export type NestedBoolWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
+    not?: NestedBoolWithAggregatesFilter<$PrismaModel> | boolean
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedBoolFilter<$PrismaModel>
+    _max?: NestedBoolFilter<$PrismaModel>
   }
 
   export type RefreshTokenCreateWithoutUserInput = {
@@ -9201,6 +11034,9 @@ export namespace Prisma {
 
   export type BookingCreateWithoutUserInput = {
     id?: string
+    customerName: string
+    customerPhone: string
+    customerEmail?: string | null
     status?: $Enums.BookingStatus
     totalPrice: number
     bookedAt?: Date | string
@@ -9210,6 +11046,9 @@ export namespace Prisma {
 
   export type BookingUncheckedCreateWithoutUserInput = {
     id?: string
+    customerName: string
+    customerPhone: string
+    customerEmail?: string | null
     tripId: string
     seatId: string
     status?: $Enums.BookingStatus
@@ -9277,7 +11116,10 @@ export namespace Prisma {
     OR?: BookingScalarWhereInput[]
     NOT?: BookingScalarWhereInput | BookingScalarWhereInput[]
     id?: UuidFilter<"Booking"> | string
-    userId?: UuidFilter<"Booking"> | string
+    userId?: UuidNullableFilter<"Booking"> | string | null
+    customerName?: StringFilter<"Booking"> | string
+    customerPhone?: StringFilter<"Booking"> | string
+    customerEmail?: StringNullableFilter<"Booking"> | string | null
     tripId?: UuidFilter<"Booking"> | string
     seatId?: UuidFilter<"Booking"> | string
     status?: EnumBookingStatusFilter<"Booking"> | $Enums.BookingStatus
@@ -9451,6 +11293,35 @@ export namespace Prisma {
     data: XOR<RefreshTokenUpdateManyMutationInput, RefreshTokenUncheckedUpdateManyWithoutReplacedByInput>
   }
 
+  export type RouteCreateWithoutTripsInput = {
+    id?: string
+    fromProvince: string
+    toProvince: string
+    distanceKm: number
+    estimatedDurationMinutes: number
+    description?: string | null
+    isActive?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type RouteUncheckedCreateWithoutTripsInput = {
+    id?: string
+    fromProvince: string
+    toProvince: string
+    distanceKm: number
+    estimatedDurationMinutes: number
+    description?: string | null
+    isActive?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type RouteCreateOrConnectWithoutTripsInput = {
+    where: RouteWhereUniqueInput
+    create: XOR<RouteCreateWithoutTripsInput, RouteUncheckedCreateWithoutTripsInput>
+  }
+
   export type SeatCreateWithoutTripInput = {
     id?: string
     seatNumber: string
@@ -9477,16 +11348,22 @@ export namespace Prisma {
 
   export type BookingCreateWithoutTripInput = {
     id?: string
+    customerName: string
+    customerPhone: string
+    customerEmail?: string | null
     status?: $Enums.BookingStatus
     totalPrice: number
     bookedAt?: Date | string
-    user: UserCreateNestedOneWithoutBookingsInput
+    user?: UserCreateNestedOneWithoutBookingsInput
     seat: SeatCreateNestedOneWithoutBookingsInput
   }
 
   export type BookingUncheckedCreateWithoutTripInput = {
     id?: string
-    userId: string
+    userId?: string | null
+    customerName: string
+    customerPhone: string
+    customerEmail?: string | null
     seatId: string
     status?: $Enums.BookingStatus
     totalPrice: number
@@ -9501,6 +11378,41 @@ export namespace Prisma {
   export type BookingCreateManyTripInputEnvelope = {
     data: BookingCreateManyTripInput | BookingCreateManyTripInput[]
     skipDuplicates?: boolean
+  }
+
+  export type RouteUpsertWithoutTripsInput = {
+    update: XOR<RouteUpdateWithoutTripsInput, RouteUncheckedUpdateWithoutTripsInput>
+    create: XOR<RouteCreateWithoutTripsInput, RouteUncheckedCreateWithoutTripsInput>
+    where?: RouteWhereInput
+  }
+
+  export type RouteUpdateToOneWithWhereWithoutTripsInput = {
+    where?: RouteWhereInput
+    data: XOR<RouteUpdateWithoutTripsInput, RouteUncheckedUpdateWithoutTripsInput>
+  }
+
+  export type RouteUpdateWithoutTripsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    fromProvince?: StringFieldUpdateOperationsInput | string
+    toProvince?: StringFieldUpdateOperationsInput | string
+    distanceKm?: IntFieldUpdateOperationsInput | number
+    estimatedDurationMinutes?: IntFieldUpdateOperationsInput | number
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type RouteUncheckedUpdateWithoutTripsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    fromProvince?: StringFieldUpdateOperationsInput | string
+    toProvince?: StringFieldUpdateOperationsInput | string
+    distanceKm?: IntFieldUpdateOperationsInput | number
+    estimatedDurationMinutes?: IntFieldUpdateOperationsInput | number
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type SeatUpsertWithWhereUniqueWithoutTripInput = {
@@ -9555,6 +11467,7 @@ export namespace Prisma {
     priceVnd: number
     totalSeats: number
     busType: $Enums.BusType
+    route: RouteCreateNestedOneWithoutTripsInput
     bookings?: BookingCreateNestedManyWithoutTripInput
   }
 
@@ -9568,6 +11481,7 @@ export namespace Prisma {
     priceVnd: number
     totalSeats: number
     busType: $Enums.BusType
+    routeId: string
     bookings?: BookingUncheckedCreateNestedManyWithoutTripInput
   }
 
@@ -9578,16 +11492,22 @@ export namespace Prisma {
 
   export type BookingCreateWithoutSeatInput = {
     id?: string
+    customerName: string
+    customerPhone: string
+    customerEmail?: string | null
     status?: $Enums.BookingStatus
     totalPrice: number
     bookedAt?: Date | string
-    user: UserCreateNestedOneWithoutBookingsInput
+    user?: UserCreateNestedOneWithoutBookingsInput
     trip: TripCreateNestedOneWithoutBookingsInput
   }
 
   export type BookingUncheckedCreateWithoutSeatInput = {
     id?: string
-    userId: string
+    userId?: string | null
+    customerName: string
+    customerPhone: string
+    customerEmail?: string | null
     tripId: string
     status?: $Enums.BookingStatus
     totalPrice: number
@@ -9625,6 +11545,7 @@ export namespace Prisma {
     priceVnd?: IntFieldUpdateOperationsInput | number
     totalSeats?: IntFieldUpdateOperationsInput | number
     busType?: EnumBusTypeFieldUpdateOperationsInput | $Enums.BusType
+    route?: RouteUpdateOneRequiredWithoutTripsNestedInput
     bookings?: BookingUpdateManyWithoutTripNestedInput
   }
 
@@ -9638,6 +11559,7 @@ export namespace Prisma {
     priceVnd?: IntFieldUpdateOperationsInput | number
     totalSeats?: IntFieldUpdateOperationsInput | number
     busType?: EnumBusTypeFieldUpdateOperationsInput | $Enums.BusType
+    routeId?: StringFieldUpdateOperationsInput | string
     bookings?: BookingUncheckedUpdateManyWithoutTripNestedInput
   }
 
@@ -9696,6 +11618,7 @@ export namespace Prisma {
     priceVnd: number
     totalSeats: number
     busType: $Enums.BusType
+    route: RouteCreateNestedOneWithoutTripsInput
     seats?: SeatCreateNestedManyWithoutTripInput
   }
 
@@ -9709,6 +11632,7 @@ export namespace Prisma {
     priceVnd: number
     totalSeats: number
     busType: $Enums.BusType
+    routeId: string
     seats?: SeatUncheckedCreateNestedManyWithoutTripInput
   }
 
@@ -9792,6 +11716,7 @@ export namespace Prisma {
     priceVnd?: IntFieldUpdateOperationsInput | number
     totalSeats?: IntFieldUpdateOperationsInput | number
     busType?: EnumBusTypeFieldUpdateOperationsInput | $Enums.BusType
+    route?: RouteUpdateOneRequiredWithoutTripsNestedInput
     seats?: SeatUpdateManyWithoutTripNestedInput
   }
 
@@ -9805,6 +11730,7 @@ export namespace Prisma {
     priceVnd?: IntFieldUpdateOperationsInput | number
     totalSeats?: IntFieldUpdateOperationsInput | number
     busType?: EnumBusTypeFieldUpdateOperationsInput | $Enums.BusType
+    routeId?: StringFieldUpdateOperationsInput | string
     seats?: SeatUncheckedUpdateManyWithoutTripNestedInput
   }
 
@@ -9833,6 +11759,76 @@ export namespace Prisma {
     status?: EnumSeatStatusFieldUpdateOperationsInput | $Enums.SeatStatus
   }
 
+  export type TripCreateWithoutRouteInput = {
+    id?: string
+    operatorName: string
+    origin: string
+    destination: string
+    departureTime: Date | string
+    arrivalTime: Date | string
+    priceVnd: number
+    totalSeats: number
+    busType: $Enums.BusType
+    seats?: SeatCreateNestedManyWithoutTripInput
+    bookings?: BookingCreateNestedManyWithoutTripInput
+  }
+
+  export type TripUncheckedCreateWithoutRouteInput = {
+    id?: string
+    operatorName: string
+    origin: string
+    destination: string
+    departureTime: Date | string
+    arrivalTime: Date | string
+    priceVnd: number
+    totalSeats: number
+    busType: $Enums.BusType
+    seats?: SeatUncheckedCreateNestedManyWithoutTripInput
+    bookings?: BookingUncheckedCreateNestedManyWithoutTripInput
+  }
+
+  export type TripCreateOrConnectWithoutRouteInput = {
+    where: TripWhereUniqueInput
+    create: XOR<TripCreateWithoutRouteInput, TripUncheckedCreateWithoutRouteInput>
+  }
+
+  export type TripCreateManyRouteInputEnvelope = {
+    data: TripCreateManyRouteInput | TripCreateManyRouteInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type TripUpsertWithWhereUniqueWithoutRouteInput = {
+    where: TripWhereUniqueInput
+    update: XOR<TripUpdateWithoutRouteInput, TripUncheckedUpdateWithoutRouteInput>
+    create: XOR<TripCreateWithoutRouteInput, TripUncheckedCreateWithoutRouteInput>
+  }
+
+  export type TripUpdateWithWhereUniqueWithoutRouteInput = {
+    where: TripWhereUniqueInput
+    data: XOR<TripUpdateWithoutRouteInput, TripUncheckedUpdateWithoutRouteInput>
+  }
+
+  export type TripUpdateManyWithWhereWithoutRouteInput = {
+    where: TripScalarWhereInput
+    data: XOR<TripUpdateManyMutationInput, TripUncheckedUpdateManyWithoutRouteInput>
+  }
+
+  export type TripScalarWhereInput = {
+    AND?: TripScalarWhereInput | TripScalarWhereInput[]
+    OR?: TripScalarWhereInput[]
+    NOT?: TripScalarWhereInput | TripScalarWhereInput[]
+    id?: UuidFilter<"Trip"> | string
+    operatorName?: StringFilter<"Trip"> | string
+    origin?: StringFilter<"Trip"> | string
+    destination?: StringFilter<"Trip"> | string
+    departureTime?: DateTimeFilter<"Trip"> | Date | string
+    arrivalTime?: DateTimeFilter<"Trip"> | Date | string
+    priceVnd?: IntFilter<"Trip"> | number
+    totalSeats?: IntFilter<"Trip"> | number
+    busType?: EnumBusTypeFilter<"Trip"> | $Enums.BusType
+    routeId?: UuidFilter<"Trip"> | string
+  }
+
   export type RefreshTokenCreateManyUserInput = {
     id?: string
     tokenHash: string
@@ -9844,6 +11840,9 @@ export namespace Prisma {
 
   export type BookingCreateManyUserInput = {
     id?: string
+    customerName: string
+    customerPhone: string
+    customerEmail?: string | null
     tripId: string
     seatId: string
     status?: $Enums.BookingStatus
@@ -9882,6 +11881,9 @@ export namespace Prisma {
 
   export type BookingUpdateWithoutUserInput = {
     id?: StringFieldUpdateOperationsInput | string
+    customerName?: StringFieldUpdateOperationsInput | string
+    customerPhone?: StringFieldUpdateOperationsInput | string
+    customerEmail?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumBookingStatusFieldUpdateOperationsInput | $Enums.BookingStatus
     totalPrice?: IntFieldUpdateOperationsInput | number
     bookedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -9891,6 +11893,9 @@ export namespace Prisma {
 
   export type BookingUncheckedUpdateWithoutUserInput = {
     id?: StringFieldUpdateOperationsInput | string
+    customerName?: StringFieldUpdateOperationsInput | string
+    customerPhone?: StringFieldUpdateOperationsInput | string
+    customerEmail?: NullableStringFieldUpdateOperationsInput | string | null
     tripId?: StringFieldUpdateOperationsInput | string
     seatId?: StringFieldUpdateOperationsInput | string
     status?: EnumBookingStatusFieldUpdateOperationsInput | $Enums.BookingStatus
@@ -9900,6 +11905,9 @@ export namespace Prisma {
 
   export type BookingUncheckedUpdateManyWithoutUserInput = {
     id?: StringFieldUpdateOperationsInput | string
+    customerName?: StringFieldUpdateOperationsInput | string
+    customerPhone?: StringFieldUpdateOperationsInput | string
+    customerEmail?: NullableStringFieldUpdateOperationsInput | string | null
     tripId?: StringFieldUpdateOperationsInput | string
     seatId?: StringFieldUpdateOperationsInput | string
     status?: EnumBookingStatusFieldUpdateOperationsInput | $Enums.BookingStatus
@@ -9953,7 +11961,10 @@ export namespace Prisma {
 
   export type BookingCreateManyTripInput = {
     id?: string
-    userId: string
+    userId?: string | null
+    customerName: string
+    customerPhone: string
+    customerEmail?: string | null
     seatId: string
     status?: $Enums.BookingStatus
     totalPrice: number
@@ -9982,16 +11993,22 @@ export namespace Prisma {
 
   export type BookingUpdateWithoutTripInput = {
     id?: StringFieldUpdateOperationsInput | string
+    customerName?: StringFieldUpdateOperationsInput | string
+    customerPhone?: StringFieldUpdateOperationsInput | string
+    customerEmail?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumBookingStatusFieldUpdateOperationsInput | $Enums.BookingStatus
     totalPrice?: IntFieldUpdateOperationsInput | number
     bookedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    user?: UserUpdateOneRequiredWithoutBookingsNestedInput
+    user?: UserUpdateOneWithoutBookingsNestedInput
     seat?: SeatUpdateOneRequiredWithoutBookingsNestedInput
   }
 
   export type BookingUncheckedUpdateWithoutTripInput = {
     id?: StringFieldUpdateOperationsInput | string
-    userId?: StringFieldUpdateOperationsInput | string
+    userId?: NullableStringFieldUpdateOperationsInput | string | null
+    customerName?: StringFieldUpdateOperationsInput | string
+    customerPhone?: StringFieldUpdateOperationsInput | string
+    customerEmail?: NullableStringFieldUpdateOperationsInput | string | null
     seatId?: StringFieldUpdateOperationsInput | string
     status?: EnumBookingStatusFieldUpdateOperationsInput | $Enums.BookingStatus
     totalPrice?: IntFieldUpdateOperationsInput | number
@@ -10000,7 +12017,10 @@ export namespace Prisma {
 
   export type BookingUncheckedUpdateManyWithoutTripInput = {
     id?: StringFieldUpdateOperationsInput | string
-    userId?: StringFieldUpdateOperationsInput | string
+    userId?: NullableStringFieldUpdateOperationsInput | string | null
+    customerName?: StringFieldUpdateOperationsInput | string
+    customerPhone?: StringFieldUpdateOperationsInput | string
+    customerEmail?: NullableStringFieldUpdateOperationsInput | string | null
     seatId?: StringFieldUpdateOperationsInput | string
     status?: EnumBookingStatusFieldUpdateOperationsInput | $Enums.BookingStatus
     totalPrice?: IntFieldUpdateOperationsInput | number
@@ -10009,7 +12029,10 @@ export namespace Prisma {
 
   export type BookingCreateManySeatInput = {
     id?: string
-    userId: string
+    userId?: string | null
+    customerName: string
+    customerPhone: string
+    customerEmail?: string | null
     tripId: string
     status?: $Enums.BookingStatus
     totalPrice: number
@@ -10018,16 +12041,22 @@ export namespace Prisma {
 
   export type BookingUpdateWithoutSeatInput = {
     id?: StringFieldUpdateOperationsInput | string
+    customerName?: StringFieldUpdateOperationsInput | string
+    customerPhone?: StringFieldUpdateOperationsInput | string
+    customerEmail?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumBookingStatusFieldUpdateOperationsInput | $Enums.BookingStatus
     totalPrice?: IntFieldUpdateOperationsInput | number
     bookedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    user?: UserUpdateOneRequiredWithoutBookingsNestedInput
+    user?: UserUpdateOneWithoutBookingsNestedInput
     trip?: TripUpdateOneRequiredWithoutBookingsNestedInput
   }
 
   export type BookingUncheckedUpdateWithoutSeatInput = {
     id?: StringFieldUpdateOperationsInput | string
-    userId?: StringFieldUpdateOperationsInput | string
+    userId?: NullableStringFieldUpdateOperationsInput | string | null
+    customerName?: StringFieldUpdateOperationsInput | string
+    customerPhone?: StringFieldUpdateOperationsInput | string
+    customerEmail?: NullableStringFieldUpdateOperationsInput | string | null
     tripId?: StringFieldUpdateOperationsInput | string
     status?: EnumBookingStatusFieldUpdateOperationsInput | $Enums.BookingStatus
     totalPrice?: IntFieldUpdateOperationsInput | number
@@ -10036,11 +12065,66 @@ export namespace Prisma {
 
   export type BookingUncheckedUpdateManyWithoutSeatInput = {
     id?: StringFieldUpdateOperationsInput | string
-    userId?: StringFieldUpdateOperationsInput | string
+    userId?: NullableStringFieldUpdateOperationsInput | string | null
+    customerName?: StringFieldUpdateOperationsInput | string
+    customerPhone?: StringFieldUpdateOperationsInput | string
+    customerEmail?: NullableStringFieldUpdateOperationsInput | string | null
     tripId?: StringFieldUpdateOperationsInput | string
     status?: EnumBookingStatusFieldUpdateOperationsInput | $Enums.BookingStatus
     totalPrice?: IntFieldUpdateOperationsInput | number
     bookedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type TripCreateManyRouteInput = {
+    id?: string
+    operatorName: string
+    origin: string
+    destination: string
+    departureTime: Date | string
+    arrivalTime: Date | string
+    priceVnd: number
+    totalSeats: number
+    busType: $Enums.BusType
+  }
+
+  export type TripUpdateWithoutRouteInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    operatorName?: StringFieldUpdateOperationsInput | string
+    origin?: StringFieldUpdateOperationsInput | string
+    destination?: StringFieldUpdateOperationsInput | string
+    departureTime?: DateTimeFieldUpdateOperationsInput | Date | string
+    arrivalTime?: DateTimeFieldUpdateOperationsInput | Date | string
+    priceVnd?: IntFieldUpdateOperationsInput | number
+    totalSeats?: IntFieldUpdateOperationsInput | number
+    busType?: EnumBusTypeFieldUpdateOperationsInput | $Enums.BusType
+    seats?: SeatUpdateManyWithoutTripNestedInput
+    bookings?: BookingUpdateManyWithoutTripNestedInput
+  }
+
+  export type TripUncheckedUpdateWithoutRouteInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    operatorName?: StringFieldUpdateOperationsInput | string
+    origin?: StringFieldUpdateOperationsInput | string
+    destination?: StringFieldUpdateOperationsInput | string
+    departureTime?: DateTimeFieldUpdateOperationsInput | Date | string
+    arrivalTime?: DateTimeFieldUpdateOperationsInput | Date | string
+    priceVnd?: IntFieldUpdateOperationsInput | number
+    totalSeats?: IntFieldUpdateOperationsInput | number
+    busType?: EnumBusTypeFieldUpdateOperationsInput | $Enums.BusType
+    seats?: SeatUncheckedUpdateManyWithoutTripNestedInput
+    bookings?: BookingUncheckedUpdateManyWithoutTripNestedInput
+  }
+
+  export type TripUncheckedUpdateManyWithoutRouteInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    operatorName?: StringFieldUpdateOperationsInput | string
+    origin?: StringFieldUpdateOperationsInput | string
+    destination?: StringFieldUpdateOperationsInput | string
+    departureTime?: DateTimeFieldUpdateOperationsInput | Date | string
+    arrivalTime?: DateTimeFieldUpdateOperationsInput | Date | string
+    priceVnd?: IntFieldUpdateOperationsInput | number
+    totalSeats?: IntFieldUpdateOperationsInput | number
+    busType?: EnumBusTypeFieldUpdateOperationsInput | $Enums.BusType
   }
 
 
