@@ -3743,6 +3743,7 @@ export namespace Prisma {
     origin: string | null
     destination: string | null
     departureTime: Date | null
+    arrivalTime: Date | null
     priceVnd: number | null
     totalSeats: number | null
     busType: $Enums.BusType | null
@@ -3754,6 +3755,7 @@ export namespace Prisma {
     origin: string | null
     destination: string | null
     departureTime: Date | null
+    arrivalTime: Date | null
     priceVnd: number | null
     totalSeats: number | null
     busType: $Enums.BusType | null
@@ -3765,6 +3767,7 @@ export namespace Prisma {
     origin: number
     destination: number
     departureTime: number
+    arrivalTime: number
     priceVnd: number
     totalSeats: number
     busType: number
@@ -3788,6 +3791,7 @@ export namespace Prisma {
     origin?: true
     destination?: true
     departureTime?: true
+    arrivalTime?: true
     priceVnd?: true
     totalSeats?: true
     busType?: true
@@ -3799,6 +3803,7 @@ export namespace Prisma {
     origin?: true
     destination?: true
     departureTime?: true
+    arrivalTime?: true
     priceVnd?: true
     totalSeats?: true
     busType?: true
@@ -3810,6 +3815,7 @@ export namespace Prisma {
     origin?: true
     destination?: true
     departureTime?: true
+    arrivalTime?: true
     priceVnd?: true
     totalSeats?: true
     busType?: true
@@ -3908,6 +3914,7 @@ export namespace Prisma {
     origin: string
     destination: string
     departureTime: Date
+    arrivalTime: Date
     priceVnd: number
     totalSeats: number
     busType: $Enums.BusType
@@ -3938,6 +3945,7 @@ export namespace Prisma {
     origin?: boolean
     destination?: boolean
     departureTime?: boolean
+    arrivalTime?: boolean
     priceVnd?: boolean
     totalSeats?: boolean
     busType?: boolean
@@ -3952,6 +3960,7 @@ export namespace Prisma {
     origin?: boolean
     destination?: boolean
     departureTime?: boolean
+    arrivalTime?: boolean
     priceVnd?: boolean
     totalSeats?: boolean
     busType?: boolean
@@ -3963,6 +3972,7 @@ export namespace Prisma {
     origin?: boolean
     destination?: boolean
     departureTime?: boolean
+    arrivalTime?: boolean
     priceVnd?: boolean
     totalSeats?: boolean
     busType?: boolean
@@ -3974,12 +3984,13 @@ export namespace Prisma {
     origin?: boolean
     destination?: boolean
     departureTime?: boolean
+    arrivalTime?: boolean
     priceVnd?: boolean
     totalSeats?: boolean
     busType?: boolean
   }
 
-  export type TripOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "operatorName" | "origin" | "destination" | "departureTime" | "priceVnd" | "totalSeats" | "busType", ExtArgs["result"]["trip"]>
+  export type TripOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "operatorName" | "origin" | "destination" | "departureTime" | "arrivalTime" | "priceVnd" | "totalSeats" | "busType", ExtArgs["result"]["trip"]>
   export type TripInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     seats?: boolean | Trip$seatsArgs<ExtArgs>
     bookings?: boolean | Trip$bookingsArgs<ExtArgs>
@@ -4000,6 +4011,7 @@ export namespace Prisma {
       origin: string
       destination: string
       departureTime: Date
+      arrivalTime: Date
       priceVnd: number
       totalSeats: number
       busType: $Enums.BusType
@@ -4433,6 +4445,7 @@ export namespace Prisma {
     readonly origin: FieldRef<"Trip", 'String'>
     readonly destination: FieldRef<"Trip", 'String'>
     readonly departureTime: FieldRef<"Trip", 'DateTime'>
+    readonly arrivalTime: FieldRef<"Trip", 'DateTime'>
     readonly priceVnd: FieldRef<"Trip", 'Int'>
     readonly totalSeats: FieldRef<"Trip", 'Int'>
     readonly busType: FieldRef<"Trip", 'BusType'>
@@ -7161,6 +7174,7 @@ export namespace Prisma {
     origin: 'origin',
     destination: 'destination',
     departureTime: 'departureTime',
+    arrivalTime: 'arrivalTime',
     priceVnd: 'priceVnd',
     totalSeats: 'totalSeats',
     busType: 'busType'
@@ -7489,6 +7503,7 @@ export namespace Prisma {
     origin?: StringFilter<"Trip"> | string
     destination?: StringFilter<"Trip"> | string
     departureTime?: DateTimeFilter<"Trip"> | Date | string
+    arrivalTime?: DateTimeFilter<"Trip"> | Date | string
     priceVnd?: IntFilter<"Trip"> | number
     totalSeats?: IntFilter<"Trip"> | number
     busType?: EnumBusTypeFilter<"Trip"> | $Enums.BusType
@@ -7502,6 +7517,7 @@ export namespace Prisma {
     origin?: SortOrder
     destination?: SortOrder
     departureTime?: SortOrder
+    arrivalTime?: SortOrder
     priceVnd?: SortOrder
     totalSeats?: SortOrder
     busType?: SortOrder
@@ -7518,6 +7534,7 @@ export namespace Prisma {
     origin?: StringFilter<"Trip"> | string
     destination?: StringFilter<"Trip"> | string
     departureTime?: DateTimeFilter<"Trip"> | Date | string
+    arrivalTime?: DateTimeFilter<"Trip"> | Date | string
     priceVnd?: IntFilter<"Trip"> | number
     totalSeats?: IntFilter<"Trip"> | number
     busType?: EnumBusTypeFilter<"Trip"> | $Enums.BusType
@@ -7531,6 +7548,7 @@ export namespace Prisma {
     origin?: SortOrder
     destination?: SortOrder
     departureTime?: SortOrder
+    arrivalTime?: SortOrder
     priceVnd?: SortOrder
     totalSeats?: SortOrder
     busType?: SortOrder
@@ -7550,6 +7568,7 @@ export namespace Prisma {
     origin?: StringWithAggregatesFilter<"Trip"> | string
     destination?: StringWithAggregatesFilter<"Trip"> | string
     departureTime?: DateTimeWithAggregatesFilter<"Trip"> | Date | string
+    arrivalTime?: DateTimeWithAggregatesFilter<"Trip"> | Date | string
     priceVnd?: IntWithAggregatesFilter<"Trip"> | number
     totalSeats?: IntWithAggregatesFilter<"Trip"> | number
     busType?: EnumBusTypeWithAggregatesFilter<"Trip"> | $Enums.BusType
@@ -7845,6 +7864,7 @@ export namespace Prisma {
     origin: string
     destination: string
     departureTime: Date | string
+    arrivalTime: Date | string
     priceVnd: number
     totalSeats: number
     busType: $Enums.BusType
@@ -7858,6 +7878,7 @@ export namespace Prisma {
     origin: string
     destination: string
     departureTime: Date | string
+    arrivalTime: Date | string
     priceVnd: number
     totalSeats: number
     busType: $Enums.BusType
@@ -7871,6 +7892,7 @@ export namespace Prisma {
     origin?: StringFieldUpdateOperationsInput | string
     destination?: StringFieldUpdateOperationsInput | string
     departureTime?: DateTimeFieldUpdateOperationsInput | Date | string
+    arrivalTime?: DateTimeFieldUpdateOperationsInput | Date | string
     priceVnd?: IntFieldUpdateOperationsInput | number
     totalSeats?: IntFieldUpdateOperationsInput | number
     busType?: EnumBusTypeFieldUpdateOperationsInput | $Enums.BusType
@@ -7884,6 +7906,7 @@ export namespace Prisma {
     origin?: StringFieldUpdateOperationsInput | string
     destination?: StringFieldUpdateOperationsInput | string
     departureTime?: DateTimeFieldUpdateOperationsInput | Date | string
+    arrivalTime?: DateTimeFieldUpdateOperationsInput | Date | string
     priceVnd?: IntFieldUpdateOperationsInput | number
     totalSeats?: IntFieldUpdateOperationsInput | number
     busType?: EnumBusTypeFieldUpdateOperationsInput | $Enums.BusType
@@ -7897,6 +7920,7 @@ export namespace Prisma {
     origin: string
     destination: string
     departureTime: Date | string
+    arrivalTime: Date | string
     priceVnd: number
     totalSeats: number
     busType: $Enums.BusType
@@ -7908,6 +7932,7 @@ export namespace Prisma {
     origin?: StringFieldUpdateOperationsInput | string
     destination?: StringFieldUpdateOperationsInput | string
     departureTime?: DateTimeFieldUpdateOperationsInput | Date | string
+    arrivalTime?: DateTimeFieldUpdateOperationsInput | Date | string
     priceVnd?: IntFieldUpdateOperationsInput | number
     totalSeats?: IntFieldUpdateOperationsInput | number
     busType?: EnumBusTypeFieldUpdateOperationsInput | $Enums.BusType
@@ -7919,6 +7944,7 @@ export namespace Prisma {
     origin?: StringFieldUpdateOperationsInput | string
     destination?: StringFieldUpdateOperationsInput | string
     departureTime?: DateTimeFieldUpdateOperationsInput | Date | string
+    arrivalTime?: DateTimeFieldUpdateOperationsInput | Date | string
     priceVnd?: IntFieldUpdateOperationsInput | number
     totalSeats?: IntFieldUpdateOperationsInput | number
     busType?: EnumBusTypeFieldUpdateOperationsInput | $Enums.BusType
@@ -8329,6 +8355,7 @@ export namespace Prisma {
     origin?: SortOrder
     destination?: SortOrder
     departureTime?: SortOrder
+    arrivalTime?: SortOrder
     priceVnd?: SortOrder
     totalSeats?: SortOrder
     busType?: SortOrder
@@ -8345,6 +8372,7 @@ export namespace Prisma {
     origin?: SortOrder
     destination?: SortOrder
     departureTime?: SortOrder
+    arrivalTime?: SortOrder
     priceVnd?: SortOrder
     totalSeats?: SortOrder
     busType?: SortOrder
@@ -8356,6 +8384,7 @@ export namespace Prisma {
     origin?: SortOrder
     destination?: SortOrder
     departureTime?: SortOrder
+    arrivalTime?: SortOrder
     priceVnd?: SortOrder
     totalSeats?: SortOrder
     busType?: SortOrder
@@ -9522,6 +9551,7 @@ export namespace Prisma {
     origin: string
     destination: string
     departureTime: Date | string
+    arrivalTime: Date | string
     priceVnd: number
     totalSeats: number
     busType: $Enums.BusType
@@ -9534,6 +9564,7 @@ export namespace Prisma {
     origin: string
     destination: string
     departureTime: Date | string
+    arrivalTime: Date | string
     priceVnd: number
     totalSeats: number
     busType: $Enums.BusType
@@ -9590,6 +9621,7 @@ export namespace Prisma {
     origin?: StringFieldUpdateOperationsInput | string
     destination?: StringFieldUpdateOperationsInput | string
     departureTime?: DateTimeFieldUpdateOperationsInput | Date | string
+    arrivalTime?: DateTimeFieldUpdateOperationsInput | Date | string
     priceVnd?: IntFieldUpdateOperationsInput | number
     totalSeats?: IntFieldUpdateOperationsInput | number
     busType?: EnumBusTypeFieldUpdateOperationsInput | $Enums.BusType
@@ -9602,6 +9634,7 @@ export namespace Prisma {
     origin?: StringFieldUpdateOperationsInput | string
     destination?: StringFieldUpdateOperationsInput | string
     departureTime?: DateTimeFieldUpdateOperationsInput | Date | string
+    arrivalTime?: DateTimeFieldUpdateOperationsInput | Date | string
     priceVnd?: IntFieldUpdateOperationsInput | number
     totalSeats?: IntFieldUpdateOperationsInput | number
     busType?: EnumBusTypeFieldUpdateOperationsInput | $Enums.BusType
@@ -9659,6 +9692,7 @@ export namespace Prisma {
     origin: string
     destination: string
     departureTime: Date | string
+    arrivalTime: Date | string
     priceVnd: number
     totalSeats: number
     busType: $Enums.BusType
@@ -9671,6 +9705,7 @@ export namespace Prisma {
     origin: string
     destination: string
     departureTime: Date | string
+    arrivalTime: Date | string
     priceVnd: number
     totalSeats: number
     busType: $Enums.BusType
@@ -9753,6 +9788,7 @@ export namespace Prisma {
     origin?: StringFieldUpdateOperationsInput | string
     destination?: StringFieldUpdateOperationsInput | string
     departureTime?: DateTimeFieldUpdateOperationsInput | Date | string
+    arrivalTime?: DateTimeFieldUpdateOperationsInput | Date | string
     priceVnd?: IntFieldUpdateOperationsInput | number
     totalSeats?: IntFieldUpdateOperationsInput | number
     busType?: EnumBusTypeFieldUpdateOperationsInput | $Enums.BusType
@@ -9765,6 +9801,7 @@ export namespace Prisma {
     origin?: StringFieldUpdateOperationsInput | string
     destination?: StringFieldUpdateOperationsInput | string
     departureTime?: DateTimeFieldUpdateOperationsInput | Date | string
+    arrivalTime?: DateTimeFieldUpdateOperationsInput | Date | string
     priceVnd?: IntFieldUpdateOperationsInput | number
     totalSeats?: IntFieldUpdateOperationsInput | number
     busType?: EnumBusTypeFieldUpdateOperationsInput | $Enums.BusType

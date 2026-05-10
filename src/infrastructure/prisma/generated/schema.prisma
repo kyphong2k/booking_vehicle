@@ -59,6 +59,7 @@ model Trip {
   origin        String
   destination   String
   departureTime DateTime @map("departure_time") @db.Timestamptz(6)
+  arrivalTime   DateTime @map("arrival_time") @db.Timestamptz(6)
   priceVnd      Int      @map("price")
   totalSeats    Int      @map("total_seats")
   busType       BusType  @map("bus_type")

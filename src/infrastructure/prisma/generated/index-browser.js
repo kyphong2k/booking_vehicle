@@ -147,6 +147,7 @@ exports.Prisma.TripScalarFieldEnum = {
   origin: 'origin',
   destination: 'destination',
   departureTime: 'departureTime',
+  arrivalTime: 'arrivalTime',
   priceVnd: 'priceVnd',
   totalSeats: 'totalSeats',
   busType: 'busType'
