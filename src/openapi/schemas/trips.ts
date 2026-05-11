@@ -1,0 +1,75 @@
+export const tripsOpenApiSchemas = {
+  TripDto: {
+    type: 'object',
+    required: [
+      'id',
+      'operatorName',
+      'origin',
+      'destination',
+      'departureTime',
+      'arrivalTime',
+      'priceVnd',
+      'totalSeats',
+      'busType',
+    ],
+    properties: {
+      id: { type: 'string', format: 'uuid' },
+      operatorName: { type: 'string' },
+      origin: { type: 'string' },
+      destination: { type: 'string' },
+      departureTime: { type: 'string', format: 'date-time' },
+      arrivalTime: { type: 'string', format: 'date-time' },
+      priceVnd: { type: 'integer', minimum: 0 },
+      totalSeats: { type: 'integer', minimum: 1 },
+      busType: { type: 'string', enum: ['SEATER', 'SLEEPER', 'LIMOUSINE'] },
+    },
+  },
+  CreateTripBody: {
+    type: 'object',
+    required: [
+      'operatorName',
+      'origin',
+      'destination',
+      'departureTime',
+      'arrivalTime',
+      'priceVnd',
+      'totalSeats',
+      'busType',
+      'routeId',
+    ],
+    properties: {
+      operatorName: { type: 'string', example: 'Phuong Trang' },
+      origin: { type: 'string', example: 'HCM' },
+      destination: { type: 'string', example: 'Da Lat' },
+      departureTime: { type: 'string', format: 'date-time', example: '2026-06-01T08:00:00Z' },
+      arrivalTime: { type: 'string', format: 'date-time', example: '2026-06-01T12:00:00Z' },
+      priceVnd: { type: 'integer', minimum: 0, example: 350000 },
+      totalSeats: { type: 'integer', minimum: 1, maximum: 100, example: 40 },
+      busType: { type: 'string', enum: ['SEATER', 'SLEEPER', 'LIMOUSINE'], example: 'SLEEPER' },
+      routeId: { type: 'string', format: 'uuid' },
+    },
+  },
+  ApiSuccessTrip: {
+    type: 'object',
+    required: ['success', 'data'],
+    properties: {
+      success: { type: 'boolean', const: true },
+      data: { $ref: '#/components/schemas/TripDto' },
+    },
+  },
+  ApiSuccessTripList: {
+    type: 'object',
+    required: ['success', 'data', 'meta'],
+    properties: {
+      success: { type: 'boolean', const: true },
+      data: { type: 'array', items: { $ref: '#/components/schemas/TripDto' } },
+      meta: {
+        type: 'object',
+        required: ['pagination'],
+        properties: {
+          pagination: { $ref: '#/components/schemas/PaginationMeta' },
+        },
+      },
+    },
+  },
+} as const;

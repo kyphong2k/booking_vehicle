@@ -7,6 +7,8 @@ export const tripsRouter = Router();
  * @openapi
  * /trips:
  *   get:
+ *     tags:
+ *       - Trips
  *     summary: List trips
  *     parameters:
  *       - in: query
@@ -24,6 +26,10 @@ export const tripsRouter = Router();
  *     responses:
  *       200:
  *         description: OK
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/ApiSuccessTripList'
  */
 tripsRouter.get('/', listTrips);
 
@@ -31,6 +37,8 @@ tripsRouter.get('/', listTrips);
  * @openapi
  * /trips/{id}:
  *   get:
+ *     tags:
+ *       - Trips
  *     summary: Get trip by id
  *     parameters:
  *       - in: path
@@ -40,6 +48,10 @@ tripsRouter.get('/', listTrips);
  *     responses:
  *       200:
  *         description: OK
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/ApiSuccessTrip'
  *       404:
  *         description: Trip not found
  */
@@ -49,28 +61,21 @@ tripsRouter.get('/:id', getTripById);
  * @openapi
  * /trips:
  *   post:
+ *     tags:
+ *       - Trips
  *     summary: Create trip
  *     requestBody:
  *       required: true
  *       content:
  *         application/json:
  *           schema:
- *             type: object
- *             required: [operatorName, origin, destination, departureTime, priceVnd, totalSeats, busType]
- *             properties:
- *               operatorName: { type: string, example: "Phuong Trang" }
- *               origin: { type: string, example: "HCM" }
- *               destination: { type: string, example: "Da Lat" }
- *               departureTime: { type: string, format: date-time, example: "2026-06-01T08:00:00Z" }
- *               arrivalTime: { type: string, format: date-time, example: "2026-06-01T12:00:00Z" }
- *               priceVnd: { type: integer, example: 350000 }
- *               totalSeats: { type: integer, example: 40 }
- *               busType:
- *                 type: string
- *                 enum: [SEATER, SLEEPER, LIMOUSINE]
- *                 example: SLEEPER
+ *             $ref: '#/components/schemas/CreateTripBody'
  *     responses:
  *       201:
  *         description: Created
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/ApiSuccessTrip'
  */
 tripsRouter.post('/', createTrip);

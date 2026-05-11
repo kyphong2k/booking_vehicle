@@ -7,6 +7,8 @@ export const healthRouter = Router();
  * @openapi
  * /health:
  *   get:
+ *     tags:
+ *       - Health
  *     summary: Health check
  *     responses:
  *       200:

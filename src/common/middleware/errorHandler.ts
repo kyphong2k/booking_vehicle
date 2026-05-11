@@ -2,9 +2,14 @@ import type { ErrorRequestHandler } from 'express';
 import { StatusCodes } from 'http-status-codes';
 import { ZodError } from 'zod';
 import { AppError } from '@/common/errors/AppError';
+import { getEnv } from '@/config/env';
+import { logger } from '@/infrastructure/logger/pino';
 
-export const errorHandler: ErrorRequestHandler = (err, _req, res, _next) => {
+export const errorHandler: ErrorRequestHandler = (err, req, res, _next) => {
   const fallbackStatus = StatusCodes.INTERNAL_SERVER_ERROR;
+  const env = getEnv();
+  const requestId = typeof req.requestId === 'string' ? req.requestId : undefined;
+  const requestMeta = requestId ? { requestId } : {};
 
   if (err instanceof ZodError) {
     return res.status(StatusCodes.BAD_REQUEST).json({
@@ -13,21 +18,32 @@ export const errorHandler: ErrorRequestHandler = (err, _req, res, _next) => {
         code: 'VALIDATION_ERROR',
         message: 'Validation error',
         details: err.flatten(),
+        ...requestMeta,
       },
     });
   }
 
   if (err instanceof AppError) {
-    return res.status(err.statusCode).json({
-      success: false,
-      error: { code: err.code, message: err.message, details: err.details },
-    });
+    const errorBody: Record<string, unknown> = {
+      code: err.code,
+      message: err.message,
+      ...requestMeta,
+    };
+    if (err.details !== undefined) {
+      errorBody.details = err.details;
+    }
+    return res.status(err.statusCode).json({ success: false, error: errorBody });
   }
 
-  const message = err instanceof Error ? err.message : 'Unexpected error';
+  logger.error({ err, requestId }, 'Unhandled error');
+
+  const exposeMessage = env.NODE_ENV !== 'production';
+  const message =
+    exposeMessage && err instanceof Error ? err.message : 'An unexpected error occurred';
+
   return res.status(fallbackStatus).json({
     success: false,
-    error: { code: 'INTERNAL_ERROR', message },
+    error: { code: 'INTERNAL_ERROR', message, ...requestMeta },
   });
 };
 

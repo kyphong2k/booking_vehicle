@@ -16,6 +16,19 @@ const envSchema = z.object({
     .union([z.literal('true'), z.literal('false')])
     .transform((v) => v === 'true')
     .default('true'),
+
+  /** Comma-separated browser origins allowed for CORS. Empty / unset mirrors any Origin (reflection). Lock this down in production. */
+  CORS_ORIGINS: z
+    .string()
+    .optional()
+    .transform((v) =>
+      v
+        ? v
+            .split(',')
+            .map((o) => o.trim())
+            .filter((o) => o.length > 0)
+        : [],
+    ),
 });
 
 export type Env = z.infer<typeof envSchema>;

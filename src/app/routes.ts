@@ -2,9 +2,10 @@ import type { Express } from 'express';
 import swaggerUi from 'swagger-ui-express';
 import swaggerJSDoc from 'swagger-jsdoc';
 import { getEnv } from '@/config/env';
+import { swaggerDefinition } from '@/openapi/swaggerDefinition';
 import { healthRouter } from '@/modules/health/route';
 import { tripsRouter } from '@/modules/trip/route';
-import { routesRouter } from '@/modules/route/route';
+import { routesRouter } from '@/modules/trip-route/route';
 
 export function registerRoutes(app: Express) {
   const env = getEnv();
@@ -15,12 +16,19 @@ export function registerRoutes(app: Express) {
 
   if (env.SWAGGER_ENABLED) {
     const spec = swaggerJSDoc({
-      definition: {
-        openapi: '3.1.0',
-        info: { title: 'booking-vehicle-api', version: '0.1.0' },
-      },
+      definition: { ...swaggerDefinition },
       apis: ['src/modules/**/route.ts'],
     });
-    app.use('/docs', swaggerUi.serve, swaggerUi.setup(spec));
+    app.use(
+      '/docs',
+      swaggerUi.serve,
+      swaggerUi.setup(spec, {
+        swaggerOptions: {
+          docExpansion: 'none',
+          tagsSorter: 'alpha',
+          operationsSorter: 'alpha',
+        },
+      }),
+    );
   }
 }
