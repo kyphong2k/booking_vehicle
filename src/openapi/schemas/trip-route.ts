@@ -23,6 +23,16 @@ export const routesOpenApiSchemas = {
       updatedAt: { type: 'string', format: 'date-time' },
     },
   },
+  CreateRouteBody: {
+    type: 'object',
+    required: ['fromProvince', 'toProvince', 'distanceKm', 'estimatedDurationMinutes'],
+    properties: {
+      fromProvince: { type: 'string' },
+      toProvince: { type: 'string' },
+      distanceKm: { type: 'integer', minimum: 5 },
+      estimatedDurationMinutes: { type: 'integer', minimum: 10 },
+    },
+  },
   ApiSuccessRoute: {
     type: 'object',
     required: ['success', 'data'],

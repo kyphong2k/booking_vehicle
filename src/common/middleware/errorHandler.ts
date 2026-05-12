@@ -2,37 +2,30 @@ import type { ErrorRequestHandler } from 'express';
 import { StatusCodes } from 'http-status-codes';
 import { ZodError } from 'zod';
 import { AppError } from '@/common/errors/AppError';
+import { formatZodError } from '@/common/errors/httpErrors';
+import { sendError, type ApiErrorBody } from '@/common/utils/response';
 import { getEnv } from '@/config/env';
 import { logger } from '@/infrastructure/logger/pino';
 
 export const errorHandler: ErrorRequestHandler = (err, req, res, _next) => {
-  const fallbackStatus = StatusCodes.INTERNAL_SERVER_ERROR;
   const env = getEnv();
   const requestId = typeof req.requestId === 'string' ? req.requestId : undefined;
-  const requestMeta = requestId ? { requestId } : {};
 
   if (err instanceof ZodError) {
-    return res.status(StatusCodes.BAD_REQUEST).json({
-      success: false,
-      error: {
-        code: 'VALIDATION_ERROR',
-        message: 'Validation error',
-        details: err.flatten(),
-        ...requestMeta,
-      },
-    });
+    const body: ApiErrorBody = {
+      code: 'VALIDATION_ERROR',
+      message: 'Validation failed',
+      details: formatZodError(err),
+    };
+    return sendError(res, StatusCodes.BAD_REQUEST, body);
   }
 
   if (err instanceof AppError) {
-    const errorBody: Record<string, unknown> = {
-      code: err.code,
-      message: err.message,
-      ...requestMeta,
-    };
+    const body: ApiErrorBody = { code: err.code, message: err.message };
     if (err.details !== undefined) {
-      errorBody.details = err.details;
+      body.details = err.details;
     }
-    return res.status(err.statusCode).json({ success: false, error: errorBody });
+    return sendError(res, err.statusCode, body);
   }
 
   logger.error({ err, requestId }, 'Unhandled error');
@@ -41,9 +34,8 @@ export const errorHandler: ErrorRequestHandler = (err, req, res, _next) => {
   const message =
     exposeMessage && err instanceof Error ? err.message : 'An unexpected error occurred';
 
-  return res.status(fallbackStatus).json({
-    success: false,
-    error: { code: 'INTERNAL_ERROR', message, ...requestMeta },
+  return sendError(res, StatusCodes.INTERNAL_SERVER_ERROR, {
+    code: 'INTERNAL_ERROR',
+    message,
   });
 };
-

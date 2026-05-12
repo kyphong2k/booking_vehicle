@@ -20,6 +20,9 @@ export const createTripBodySchema = z.object({
   totalSeats: z.coerce.number().int().min(1).max(100),
   busType: busTypeSchema,
   routeId: z.string().uuid(),
+  isActive: z.boolean().default(true),
+  createdAt: z.coerce.date().default(new Date()),
+  updatedAt: z.coerce.date().default(new Date()),
 });
 
 export type ListTripsQuery = z.infer<typeof listTripsQuerySchema>;
