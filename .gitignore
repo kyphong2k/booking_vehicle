@@ -7,3 +7,5 @@ prisma/dev.db
 coverage
 .DS_Store
 *.log
+.cursor
+AGENTS.md
